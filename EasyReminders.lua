@@ -3,17 +3,21 @@ EasyReminders = _G.LibStub("AceAddon-3.0"):NewAddon("EasyReminders", "AceConsole
 EasyReminders.sessionDB = _G.LibStub("AceDB-3.0"):New("EasyRemindersDB")
 EasyReminders.AceGUI = _G.LibStub("AceGUI-3.0")
 
+local L = LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
+
+EasyReminders.MainWindow = nil
 
 function EasyReminders:OnInitialize()
     EasyReminders:RegisterChatCommand("er", "OpenGUI")
     EasyReminders:RegisterChatCommand("easyreminders", "OpenGUI")
+    EasyReminders.MainWindow = EasyReminders.UI.MainWindow:CreateMainWindow()
 end
 
-function EasyReminders:OpenGU()
+function EasyReminders:OpenGUI(msg)
     if msg == "ping" then
-        EasyReminders:Print("Pong!")
+        EasyReminders:Print(L["Pong!"])
     else
-        EasyReminders:Print("Hello There!")
+        EasyReminders.MainWindow:Show()
     end
 end
 
