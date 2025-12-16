@@ -16,4 +16,11 @@ function PotionsTab:Create(container)
   button:SetText(L["Add Potion Reminder"])
   button:SetWidth(200)
   container:AddChild(button)
+
+  local listFrame =  EasyReminders.AceGUI:Create("Frame")
+  listFrame:SetFullWidth(true)
+  listFrame:SetHeight(300)
+  container:AddChild(listFrame)
+  
+  local scrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(listFrame.frame)
 end
