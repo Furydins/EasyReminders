@@ -32,7 +32,7 @@ local function SelectGroup(container, event, group)
 end
 
 function MainWindow:CreateMainWindow()
-    local mainFrame = EasyReminders.AceGUI:Create("Frame")
+    local mainFrame = EasyReminders.AceGUI:Create("Window")
     mainFrame:SetWidth(800)
     mainFrame:SetHeight(600)
     mainFrame:SetTitle(L["Easy Reminders"])

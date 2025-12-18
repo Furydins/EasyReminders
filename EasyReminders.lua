@@ -7,6 +7,8 @@ local L = LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 EasyReminders.MainWindow = nil
 
+EasyReminders.Font = "Fonts\\FRIZQT__.TTF"
+
 function EasyReminders:OnInitialize()
     EasyReminders:RegisterChatCommand("er", "OpenGUI")
     EasyReminders:RegisterChatCommand("easyreminders", "OpenGUI")
