@@ -2,6 +2,7 @@ EasyReminders.UI = EasyReminders.UI or {}
 EasyReminders.UI.PotionsTab = EasyReminders.UI.PotionsTab or {}
 
 local PotionsTab = EasyReminders.UI.PotionsTab
+local dataCache = {}
 
 local L = LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
@@ -49,51 +50,84 @@ function PotionsTab:Create(container)
 
   for key, data in pairs(EasyReminders.Data.Consumables)  do
 
-
     local itemName = C_Item.GetItemNameByID(data.itemID)
     local itemIcon = C_Item.GetItemIconByID(data.itemID)
     local spellInfo = C_Spell.GetSpellInfo(data.buffID)
 
-    if itemName and itemIcon and spellInfo then
-      ---
-      local potionName = EasyReminders.AceGUI:Create("Label")
-      potionName:SetText(itemName)
-      potionName:SetFont(EasyReminders.Font, 12, "")
-      potionName:SetWidth(250)
-      potionName:SetImage(itemIcon)
-      potionName:SetImageSize(16,16)
-      scrollBox:AddChild(potionName)
+    ---
+    local potionName = EasyReminders.AceGUI:Create("Label")
+    potionName:SetText(itemName or "Loading...")
+    potionName:SetFont(EasyReminders.Font, 12, "")
+    potionName:SetWidth(250)
+    potionName:SetImage(itemIcon)
+    potionName:SetImageSize(16,16)
+    scrollBox:AddChild(potionName)
 
-      --
-      local buffName = EasyReminders.AceGUI:Create("Label")
-      buffName:SetText(spellInfo.name)
-      buffName:SetFont(EasyReminders.Font, 12, "")
-      buffName:SetWidth(250)
-      buffName:SetImage(spellInfo.iconID)
-      buffName:SetImageSize(16,16)
-      scrollBox:AddChild(buffName)
+    --
+    local buffName = EasyReminders.AceGUI:Create("Label")
+    buffName:SetText((spellInfo and spellInfo.name) or "Loading...")
+    buffName:SetFont(EasyReminders.Font, 12, "")
+    buffName:SetWidth(250)
+    buffName:SetImage((spellInfo and spellInfo.iconID) or nil)
+    buffName:SetImageSize(16,16)
+    scrollBox:AddChild(buffName)
 
-      local raid = EasyReminders.AceGUI:Create("CheckBox")
-      raid:SetType("checkbox")
-      raid:SetValue(false)
-      raid:SetWidth(75)
-      scrollBox:AddChild(raid)
+    dataCache[data.itemID] = {data.buffID, itemName, itemIcon, spellInfo, potionName, buffName}
 
-      local dungeon = EasyReminders.AceGUI:Create("CheckBox")
-      dungeon:SetType("checkbox")
-      dungeon:SetValue(false)
-      dungeon:SetWidth(75)
-      scrollBox:AddChild(dungeon)
+    local raid = EasyReminders.AceGUI:Create("CheckBox")
+    raid:SetType("checkbox")
+    raid:SetValue(false)
+    raid:SetWidth(75)
+    raid:SetValue((EasyReminders.charDB.potions[data.itemID] and EasyReminders.charDB.potions[data.itemID].raid) or false)
+    scrollBox:AddChild(raid)
+    raid:SetCallback("OnValueChanged", function(_,_,value)
+      EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
+      EasyReminders.charDB.potions[data.itemID].raid = value
+    end)
 
-      local outside = EasyReminders.AceGUI:Create("CheckBox")
-      outside:SetType("checkbox")
-      outside:SetValue(false)
-      outside:SetWidth(75)
-      scrollBox:AddChild(outside)
-    else
-      EasyReminders.Print("Missing data for itemID:", data.itemID, "name: ", itemName, "icon:", itemIcon, "buff:", spellInfo)
-    end
+    local dungeon = EasyReminders.AceGUI:Create("CheckBox")
+    dungeon:SetType("checkbox")
+    dungeon:SetValue(false)
+    dungeon:SetWidth(75)
+    dungeon:SetValue((EasyReminders.charDB.potions[data.itemID] and EasyReminders.charDB.potions[data.itemID].dungeon) or false)
+    dungeon:SetCallback("OnValueChanged", function(_,_,value)
+      EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
+      EasyReminders.charDB.potions[data.itemID].dungeon = value
+    end)
+    scrollBox:AddChild(dungeon)
+
+    local outside = EasyReminders.AceGUI:Create("CheckBox")
+    outside:SetType("checkbox")
+    outside:SetValue(false)
+    outside:SetWidth(75)
+    outside:SetValue((EasyReminders.charDB.potions[data.itemID] and EasyReminders.charDB.potions[data.itemID].outside) or false)
+    outside:SetCallback("OnValueChanged", function(_,_,value)
+      EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
+      EasyReminders.charDB.potions[data.itemID].outside = value
+    end)
+    scrollBox:AddChild(outside)
+
   end
 end
+
+function PotionsTab:RefreshData()
+  for itemID, data in pairs(dataCache) do
+    local itemName = data[2] or C_Item.GetItemNameByID(itemID)
+    local itemIcon = data[3] or C_Item.GetItemIconByID(itemID)
+    local spellInfo = data[4] or C_Spell.GetSpellInfo(itemID)
+    local potionName = data[5]
+    local buffName = data[6]
+
+    potionName:SetText(itemName or "Loading...")
+    potionName:SetImage(itemIcon)
+
+    buffName:SetText((spellInfo and spellInfo.name) or "Loading...")
+    buffName:SetImage((spellInfo and spellInfo.iconID) or nil)
+
+    dataCache[itemID] = {data[1], itemName, itemIcon, spellInfo, potionName, buffName}
+  end
+end
+
+
 
 

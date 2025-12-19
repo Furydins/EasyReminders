@@ -6,7 +6,7 @@ local OptionsTab = EasyReminders.UI.OptionsTab
 local L = LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 -- function that draws the widgets for the first tab
-function PotionsTab:Create(container)
+function OptionsTab:Create(container)
   local desc = EasyReminders.AceGUI:Create("Label")
   desc:SetText(L["Options"])
   desc:SetFullWidth(true)

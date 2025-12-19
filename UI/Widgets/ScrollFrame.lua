@@ -18,26 +18,7 @@ function ScrollFrame:Create(parent)
 	scroll = AceGUI:Create("ScrollFrame")
 	scroll:SetLayout("Flow")
 	scrollcontainer:AddChild(scroll)
-
-	-- Some fake test data
-
-	--local myData = {
-    --PlayerName = "Ghost",
-    --PlayerClass = "Priest"
-	--}
-
-	--for i=1,20 do
-
-	--	local button = EasyReminders.AceGUI:Create("Button")
-	--	button:SetText(myData.PlayerName .. tostring(i))
-	--	button:SetFullWidth(true)
-	--	scroll:AddChild(button)
-	--	button:SetCallback("OnClick", function(this)
---				EasyReminders:Print(myData.PlayerName .. ": " .. tostring(i) .. " clicked!")
-	--		end)
-
-	--end
-
+	
 	return scroll
 
 end

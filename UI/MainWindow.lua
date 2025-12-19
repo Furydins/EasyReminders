@@ -24,9 +24,9 @@ local function SelectGroup(container, event, group)
    container:ReleaseChildren()
    if group == "tab1" then
       EasyReminders.UI.PotionsTab:Create(container)
+    --elseif group == "tab2" then
+    --  EasyReminders.UI.BuffsTab:Create(container)
     elseif group == "tab2" then
-      EasyReminders.UI.BuffsTab:Create(container)
-    elseif group == "tab3" then
       EasyReminders.UI.OptionsTab:Create(container)
    end
 end
@@ -38,6 +38,7 @@ function MainWindow:CreateMainWindow()
     mainFrame:SetTitle(L["Easy Reminders"])
     mainFrame:SetLayout("Fill")
     mainFrame:EnableResize(false)
+    mainFrame:Hide()
 
     setCloseOnEscPress(mainFrame)
 
@@ -45,7 +46,7 @@ function MainWindow:CreateMainWindow()
     local tab = EasyReminders.AceGUI:Create("TabGroup")
     tab:SetLayout("Flow")
     -- Setup which tabs to show
-    tab:SetTabs({{text=L["Consumables"], value="tab1"}, {text=L["Raid Buffs"], value="tab2"}, {text=L["Options"], value="tab3"}})
+    tab:SetTabs({{text=L["Consumables"], value="tab1"}, {text=L["Options"], value="tab2"}})
     -- Register callback
     tab:SetCallback("OnGroupSelected", SelectGroup)
     -- Set initial Tab (this will fire the OnGroupSelected callback)
@@ -53,8 +54,13 @@ function MainWindow:CreateMainWindow()
 
     -- add to the frame container
     mainFrame:AddChild(tab)
+    
 
     return mainFrame
 
+end
+
+function MainWindow:RefreshData()
+  EasyReminders.UI.PotionsTab:RefreshData()
 end
 

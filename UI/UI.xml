@@ -3,6 +3,6 @@
 
     <Include file="Widgets\Widgets.xml"/>
     <Script file="PotionsTab.lua"/>
-    <Script file="BuffsTab.lua"/>
+    <Script file="OptionsTab.lua"/>
     <Script file="MainWindow.lua"/>
 </Ui>
