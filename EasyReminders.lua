@@ -12,10 +12,8 @@ EasyReminders.Font = "Fonts\\FRIZQT__.TTF"
 function EasyReminders:OnInitialize()
 
      -- Initialise Database
-    EasyReminders.sessionDB = _G.LibStub("AceDB-3.0"):New("EasyRemindersDB")
-    EasyReminders.charDB = EasyReminders.sessionDB.char
-    EasyReminders.globalDB = EasyReminders.sessionDB.global
-
+    EasyReminders.globalDB = _G.LibStub("AceDB-3.0"):New("EasyRemindersDB").global
+    EasyReminders.charDB = _G.LibStub("AceDB-3.0"):New("EasyRemindersCharDB").char
 
     EasyReminders.charDB.potions = EasyReminders.charDB.potions or {}
     EasyReminders.globalDB.potionsCache = EasyReminders.globalDB.potionsCache or {}

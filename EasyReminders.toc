@@ -4,6 +4,7 @@
 ## Author: FurydinWow
 ## Version: 0.1
 ## SavedVariables: EasyRemindersDB
+## SavedVariablesPerCharacter: EasyRemindersCharDB
 ## Category: Buffs & Debuffs
 ## Category-deDE: Buffs & Debuffs
 ## Category-esES: Beneficios y Perjuicios
