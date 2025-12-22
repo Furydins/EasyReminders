@@ -32,6 +32,7 @@ Localization\Locales.xml
 EasyReminders.lua
 UI\Ui.xml
 Data\Data.xml
+ConsumableCheck.lua
 
 
 

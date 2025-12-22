@@ -83,6 +83,8 @@ function PotionsTab:Create(container)
     raid:SetCallback("OnValueChanged", function(_,_,value)
       EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
       EasyReminders.charDB.potions[data.itemID].raid = value
+      EasyReminders.ConsumableCheck:BuildTrackingList()
+      EasyReminders.ConsumableCheck:CheckBuffs()
     end)
 
     local dungeon = EasyReminders.AceGUI:Create("CheckBox")
@@ -93,6 +95,8 @@ function PotionsTab:Create(container)
     dungeon:SetCallback("OnValueChanged", function(_,_,value)
       EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
       EasyReminders.charDB.potions[data.itemID].dungeon = value
+      EasyReminders.ConsumableCheck:BuildTrackingList()
+      EasyReminders.ConsumableCheck:CheckBuffs()
     end)
     scrollBox:AddChild(dungeon)
 
@@ -104,6 +108,8 @@ function PotionsTab:Create(container)
     outside:SetCallback("OnValueChanged", function(_,_,value)
       EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
       EasyReminders.charDB.potions[data.itemID].outside = value
+      EasyReminders.ConsumableCheck:BuildTrackingList()
+      EasyReminders.ConsumableCheck:CheckBuffs()
     end)
     scrollBox:AddChild(outside)
 
