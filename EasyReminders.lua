@@ -6,8 +6,11 @@ EasyReminders.AceGUI = _G.LibStub("AceGUI-3.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 EasyReminders.MainWindow = nil
-
 EasyReminders.Font = "Fonts\\FRIZQT__.TTF"
+
+EasyReminders.NotificationWindow = nil
+
+EasyReminders.DataCache = {}
 
 function EasyReminders:OnInitialize()
 
@@ -28,6 +31,8 @@ function EasyReminders:OnInitialize()
     EasyReminders.ConsumableCheck:BuildTrackingList()
 
     EasyReminders:CreateTimer()
+    
+    EasyReminders.UI.NotificationWindow:CreateNotificationWindow()
 
 end
 
@@ -65,10 +70,18 @@ function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
 end
 
 -- TO DO
--- Create tracker and test
--- add tracker UI
+-- Custom items
+-- add actual items!
 -- Add Minimap button
 -- Addon compartment
+-- icon
+-- PvP option
+-- Test bags
+-- Test secrets
+-- Anchor
+-- Visual customization
+-- Localizations
+-- Sorting
 -- v1 ready!!!
 -- Add raid buffs tab
 -- Add personal buffs tab

@@ -1,13 +1,18 @@
 EasyReminders.UI = EasyReminders.UI or {}
-EasyReminders.UI.PotionsTab = EasyReminders.UI.PotionsTab or {}
+EasyReminders.UI.ConsumablesTab = EasyReminders.UI.ConsumablesTab or {}
 
-local PotionsTab = EasyReminders.UI.PotionsTab
-local dataCache = {}
+local ConsumablesTab = EasyReminders.UI.ConsumablesTab
+local dataCache = EasyReminders.DataCache
 
 local L = LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 -- function that draws the widgets for the first tab
-function PotionsTab:Create(container)
+function ConsumablesTab:Create(mainFrame, container)
+
+  local addItemButton = EasyReminders.AceGUI:Create("Button")
+  container:AddChild(addItemButton)
+  addItemButton:SetText("Add Item")
+  addItemButton:SetCallback("OnClick", function(widget) EasyReminders.UI.ConsumablesDialog:Create(mainFrame) end)
 
   local titleContainer = EasyReminders.AceGUI:Create("SimpleGroup")
   titleContainer:SetFullWidth(true)
@@ -73,6 +78,12 @@ function PotionsTab:Create(container)
     scrollBox:AddChild(buffName)
 
     dataCache[data.itemID] = {data.buffID, itemName, itemIcon, spellInfo, potionName, buffName}
+    if data.otherIds then
+      for key, otherID in pairs(data.otherIds) do
+        EasyReminders:Print("Populating.." .. key, otherID)
+        dataCache[otherID] = {data.buffID, itemName, C_Item.GetItemIconByID(otherID), spellInfo, potionName, buffName}
+      end
+    end
 
     local raid = EasyReminders.AceGUI:Create("CheckBox")
     raid:SetType("checkbox")
@@ -116,7 +127,7 @@ function PotionsTab:Create(container)
   end
 end
 
-function PotionsTab:RefreshData()
+function ConsumablesTab:RefreshData()
   for itemID, data in pairs(dataCache) do
     local itemName = data[2] or C_Item.GetItemNameByID(itemID)
     local itemIcon = data[3] or C_Item.GetItemIconByID(itemID)

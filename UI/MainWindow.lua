@@ -5,6 +5,8 @@ local MainWindow = EasyReminders.UI.MainWindow
 
 local L = LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
+local mainFrame
+
 
 local function setCloseOnEscPress(window)
    local oldCloseSpecialWindows = CloseSpecialWindows
@@ -23,7 +25,7 @@ end
 local function SelectGroup(container, event, group)
    container:ReleaseChildren()
    if group == "tab1" then
-      EasyReminders.UI.PotionsTab:Create(container)
+      EasyReminders.UI.ConsumablesTab:Create(mainFrame, container)
     --elseif group == "tab2" then
     --  EasyReminders.UI.BuffsTab:Create(container)
     elseif group == "tab2" then
@@ -32,12 +34,13 @@ local function SelectGroup(container, event, group)
 end
 
 function MainWindow:CreateMainWindow()
-    local mainFrame = EasyReminders.AceGUI:Create("Window")
+    mainFrame = EasyReminders.AceGUI:Create("Window")
     mainFrame:SetWidth(800)
     mainFrame:SetHeight(600)
     mainFrame:SetTitle(L["Easy Reminders"])
     mainFrame:SetLayout("Fill")
     mainFrame:EnableResize(false)
+    mainFrame.frame:SetFrameStrata("HIGH")
     mainFrame:Hide()
 
     setCloseOnEscPress(mainFrame)
@@ -61,6 +64,6 @@ function MainWindow:CreateMainWindow()
 end
 
 function MainWindow:RefreshData()
-  EasyReminders.UI.PotionsTab:RefreshData()
+  EasyReminders.UI.ConsumablesTab:RefreshData()
 end
 

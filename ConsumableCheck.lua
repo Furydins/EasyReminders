@@ -3,8 +3,8 @@ EasyReminders.ConsumableCheck = EasyReminders.ConsumableCheck or {}
 local ConsumableCheck = EasyReminders.ConsumableCheck
 
 local TrackingList = {}
-
 local bagContentsCache = {}
+local missingBuffs = {}
 
 --   dataCache[data.itemID] = {data.buffID, itemName, itemIcon, spellInfo, potionName, buffName}
 
@@ -15,24 +15,31 @@ function ConsumableCheck:BuildTrackingList()
     TrackingList.raid = TrackingList.raid or {}
 
   for index, data in pairs(EasyReminders.Data.Consumables) do
-    local itemID = data.itemID
+
+    local itemIDs
+    if data.otherIds then
+      itemIDs = data.otherIds
+      table.insert(itemIDs, data.itemID)
+    else
+      itemIDs = { data.itemID }
+    end
     local buffID = data.buffID
 
     if EasyReminders.charDB.potions[data.itemID] then
         if EasyReminders.charDB.potions[data.itemID].outside then
-          TrackingList.outside[itemID] = buffID
+          TrackingList.outside[buffID] = itemIDs
         else
-            TrackingList.outside[itemID] = nil
+            TrackingList.outside[buffID] = nil
         end
         if EasyReminders.charDB.potions[data.itemID].dungeon then
-          TrackingList.dungeon[itemID] = buffID
+          TrackingList.dungeon[buffID] = itemIDs
         else
-            TrackingList.dungeon[itemID] = nil
+            TrackingList.dungeon[buffID] = nil
         end
         if EasyReminders.charDB.potions[data.itemID].raid then
-          TrackingList.raid[itemID] = buffID
+          TrackingList.raid[buffID] = itemIDs
         else
-            TrackingList.raid[itemID] = nil     
+            TrackingList.raid[buffID] = nil     
         end
     end
   end
@@ -41,6 +48,7 @@ end
 function ConsumableCheck:CheckBuffs()
 
   EasyReminders.Print("Checking buffs...")
+  local missingBuffs = {}
   local trackingList = nil
 
   inInstance, instanceType = _G.IsInInstance()
@@ -65,18 +73,23 @@ function ConsumableCheck:CheckBuffs()
             foundbuffs[spellID] = true 
         end
      end)
-     for itemID, buffID in pairs(trackingList) do
+     for buffID, itemIDs in pairs(trackingList) do
         EasyReminders.Print("Checking for buff ID: " .. buffID .. " " .. tostring(foundbuffs[buffID]))
         
         if not foundbuffs[buffID] then
+          for i, itemID in pairs(itemIDs) do
             if bagContentsCache[itemID] then
                 EasyReminders.Print("You have the consumable for buff ID: " .. buffID .. ".." .. itemID)
+                missingBuffs[buffID] = itemID
+                break
             else
                 EasyReminders.Print("You are missing the consumable for buff ID: " .. buffID .. ".." .. itemID)
             end
+          end
         end     
     end
   end
+  EasyReminders.UI.NotificationWindow:UpdateNotifications(missingBuffs)
 end
 
 function ConsumableCheck:GetBagItems()

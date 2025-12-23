@@ -2,7 +2,9 @@
 ..\FrameXML\UI.xsd">
 
     <Include file="Widgets\Widgets.xml"/>
-    <Script file="PotionsTab.lua"/>
+    <Script file="ConsumablesTab.lua"/>
     <Script file="OptionsTab.lua"/>
     <Script file="MainWindow.lua"/>
+    <Script file="NotificationWindow.lua"/>
+    <Script file="ConsumablesDialog.lua"/>
 </Ui>
