@@ -5,9 +5,11 @@ local ConsumablesDialog = EasyReminders.UI.ConsumablesDialog
 
 local L = LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
+local dialogFrame
 local itemID, itemName, itemIcon
 local spellID, spellName, spellIcon
 local additionalItems, statusText
+local spellNameText
 
 local function setCloseOnEscPress(window)
    local oldCloseSpecialWindows = CloseSpecialWindows
@@ -19,6 +21,39 @@ local function setCloseOnEscPress(window)
 
 		return oldCloseSpecialWindows()
 	end
+end
+
+function ConsumablesDialog:FindSpellByID()
+  EasyReminders:Print("Searching...")
+  local text = spellID:GetText()
+  local id = tonumber(text)
+  local name, icon
+  if id then
+
+    local spellInfo = C_Spell.GetSpellInfo(id)
+
+
+    if not spellInfo or not spellInfo.name then
+      name = "Not found"
+    else
+      name = spellInfo.name
+    end
+
+    spellName:SetText(name)
+    spellNameText = name
+
+    if spellInfo then 
+      spellName:SetImage(spellInfo.iconID)
+    else
+      spellName:SetImage(nil)
+    end
+  else
+      spellID:SetText("invalid!")
+      spellName:SetText("")
+      spellName:SetImage(nil)
+      spellNameText = nil
+  end
+
 end
 
 --local itemID = tonumber(strmatch(itemLink, "item:(%d+):"))
@@ -43,6 +78,12 @@ function ConsumablesDialog:FindItemByName()
       icon = C_Item.GetItemIconByID(id)
     end 
 
+    local _,itemSpell = C_Item.GetItemSpell(id)
+    if itemSpell then
+      spellID:SetText(itemSpell)
+      ConsumablesDialog:FindSpellByID()
+    end
+
     itemID:SetText(id)
     itemIcon:SetImage(icon)
   else
@@ -58,6 +99,7 @@ function ConsumablesDialog:FindItemByID()
       if id then
         local name = C_Item.GetItemNameByID(id)
         local icon = C_Item.GetItemIconByID(id)
+        local _, itemSpell = C_Item.GetItemSpell(id)
 
         if not name then
           name = C_Item.GetItemNameByID(id)
@@ -73,42 +115,16 @@ function ConsumablesDialog:FindItemByID()
         if icon then 
           itemIcon:SetImage(icon)
         end
+
+        if itemSpell then
+          spellID:SetText(itemSpell)
+          ConsumablesDialog:FindSpellByID()
+        end
       else
          itemID:SetText("invalid!")
          itemName:SetText("")
          itemIcon:SetImage(nil)
       end
-
-end
-
-function ConsumablesDialog:FindSpellByID()
-  EasyReminders:Print("Searching...")
-  local text = spellID:GetText()
-  local id = tonumber(text)
-  local name, icon
-  if id then
-
-    local spellInfo = C_Spell.GetSpellInfo(id)
-
-
-    if not spellInfo or not spellInfo.name then
-      name = "Not found"
-    else
-      name = spellInfo.name
-    end
-
-    spellName:SetText(name)
-
-    if spellInfo then 
-      spellName:SetImage(spellInfo.iconID)
-    else
-      spellName:SetImage(nil)
-    end
-  else
-      spellID:SetText("invalid!")
-      spellName:SetText("")
-      spellName:SetImage(nil)
-  end
 
 end
 
@@ -136,38 +152,69 @@ local function validateItems()
   end
 end
 
+local function validateID(id)
+  if not tonumber(id) then
+    EasyReminders:Print("Invalid: ", num)
+    return false
+  else
+    return true
+  end
+end
+
+local function split(s, delimiter)
+    result = {};
+    for match in (s..delimiter):gmatch("(.-)"..delimiter) do
+        table.insert(result, tonumber(match));
+    end
+    return result;
+end
+
 function ConsumablesDialog:AddReminder()
 
+  EasyReminders:Print("ItemIDBox:", itemID)
+  EasyReminders:Print("ItemID:", itemID:GetText())
+  EasyReminders:Print("ItemName Box: ", itemName)
+  EasyReminders:Print("ItemName:", itemName:GetText())
 
-  if not validateId(itemID.GetText()) or not itemName.GetText() or not itemIcon.GetImage() then
-    stausText = "Invalid Item"
+  if not validateID(itemID:GetText()) or not itemName:GetText() then
+    statusText:SetText("Invalid Item")
     return
   end
 
-  if not validateId(spellID.GetText()) or not spellName.GetText() or not spellIcon.GetImage() then
-    statusText = "Invalid Spell"
+  if not validateID(spellID:GetText()) or not spellNameText then
+    statusText:SetText("Invalid Spell")
     return
   end
 
-  if not validateNumbers() then
-    statusText = "Invalid Additonal Items"
+  if additionalItems:GetText() and string.len(additionalItems:GetText()) > 0 and not validateItems() then
+    statusText:SetText("Invalid Additonal Items")
     return
   end
 
-  local reminderData = {["itemID"] = itemID.GetText(), ["buffID"] = spellID.GetText()}
+  local reminderData = {["itemID"] = tonumber(itemID:GetText()), ["buffID"] = tonumber(spellID:GetText())}
 
-  if additionalItems.GetText() and additionalItems.getText().len() > 0 then
-    reminderData["otherIds"] = additionalItems.GetText()
+  if additionalItems:GetText() and string.len(additionalItems:GetText()) > 0 then
+    EasyReminders:Print("Addiitonal Items: ", additionalItems:GetText())
+    reminderData["otherIds"] = split(additionalItems:GetText(), ",")
+
   end
 
-  -- TODO: add to a list of custom consumables
-  -- TODO: Add them to the main dialog tab
-  -- TODO: Don't think the checker needs any helo!
+  EasyReminders:Print("Pre size...", #EasyReminders.globalDB.customConsumables)
+  EasyReminders:Print("Insert...", reminderData.itemID)
+  EasyReminders.globalDB.customConsumables[reminderData.itemID] = reminderData
+  EasyReminders:Print("Post size...", #EasyReminders.globalDB.customConsumables)
+  EasyReminders.ConsumableCache[reminderData.itemID] = reminderData
+  EasyReminders.charDB.potions[reminderData.itemID] = nil
+
+  EasyReminders.UI.ConsumablesTab:RebuildScrollBox()
+
+  statusText:SetText("Success!")
+  dialogFrame:Hide()
 
 end
 
 function ConsumablesDialog:Create(mainFrame)
-    local dialogFrame = EasyReminders.AceGUI:Create("Window")
+    dialogFrame = EasyReminders.AceGUI:Create("Window")
     dialogFrame:SetWidth(600)
     dialogFrame:SetHeight(240)
     dialogFrame:SetTitle(L["Add Consumable"])

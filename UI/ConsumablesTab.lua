@@ -51,9 +51,17 @@ function ConsumablesTab:Create(mainFrame, container)
   titleContainer:AddChild(outsideTitle)
 
   
-  local scrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)
+  ConsumablesTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)
 
-  for key, data in pairs(EasyReminders.Data.Consumables)  do
+  ConsumablesTab:RebuildScrollBox()
+
+end
+
+function ConsumablesTab:RebuildScrollBox()
+  local scrollBox = ConsumablesTab.ScrollBox
+  scrollBox:ReleaseChildren()
+
+  for key, data in pairs(EasyReminders.ConsumableCache)  do
 
     local itemName = C_Item.GetItemNameByID(data.itemID)
     local itemIcon = C_Item.GetItemIconByID(data.itemID)

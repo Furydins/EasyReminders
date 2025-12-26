@@ -14,15 +14,15 @@ function ConsumableCheck:BuildTrackingList()
     TrackingList.dungeon = TrackingList.dungeon or {}
     TrackingList.raid = TrackingList.raid or {}
 
-  for index, data in pairs(EasyReminders.Data.Consumables) do
+  for index, data in pairs(EasyReminders.ConsumableCache) do
 
-    local itemIDs
+    local itemIDs = {}
     if data.otherIds then
-      itemIDs = data.otherIds
-      table.insert(itemIDs, data.itemID)
-    else
-      itemIDs = { data.itemID }
+      for k,v in pairs(data.otherIds) do
+        table.insert(itemIDs, v)
+      end
     end
+    table.insert(itemIDs, data.itemID)
     local buffID = data.buffID
 
     if EasyReminders.charDB.potions[data.itemID] then
@@ -78,7 +78,7 @@ function ConsumableCheck:CheckBuffs()
         
         if not foundbuffs[buffID] then
           for i, itemID in pairs(itemIDs) do
-            if bagContentsCache[itemID] then
+            if bagContentsCache[itemID] ~= nil then
                 EasyReminders.Print("You have the consumable for buff ID: " .. buffID .. ".." .. itemID)
                 missingBuffs[buffID] = itemID
                 break
@@ -110,4 +110,8 @@ function ConsumableCheck:GetBagItems()
             end
         end
     end
+end
+
+function ConsumableCheck:GetBagCache()
+  return bagContentsCache
 end

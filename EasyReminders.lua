@@ -11,6 +11,7 @@ EasyReminders.Font = "Fonts\\FRIZQT__.TTF"
 EasyReminders.NotificationWindow = nil
 
 EasyReminders.DataCache = {}
+EasyReminders.ConsumableCache = {}
 
 function EasyReminders:OnInitialize()
 
@@ -19,11 +20,13 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB = _G.LibStub("AceDB-3.0"):New("EasyRemindersCharDB").char
 
     EasyReminders.charDB.potions = EasyReminders.charDB.potions or {}
-    EasyReminders.globalDB.potionsCache = EasyReminders.globalDB.potionsCache or {}
+    EasyReminders.globalDB.customConsumables = EasyReminders.globalDB.customConsumables or {}
+
 
     EasyReminders:RegisterChatCommand("er", "OpenGUI")
     EasyReminders:RegisterChatCommand("easyreminders", "OpenGUI")
 
+    EasyReminders.ConsumableCache = EasyReminders:ConcatenateTables(EasyReminders.Data.Consumables, EasyReminders.globalDB.customConsumables)
     EasyReminders.MainWindow = EasyReminders.UI.MainWindow:CreateMainWindow()
 
     EasyReminders:RegisterEvents()
@@ -33,12 +36,21 @@ function EasyReminders:OnInitialize()
     EasyReminders:CreateTimer()
     
     EasyReminders.UI.NotificationWindow:CreateNotificationWindow()
+    
 
 end
 
 function EasyReminders:OpenGUI(msg)
-    EasyReminders.UI.MainWindow:RefreshData()
-    EasyReminders.MainWindow:Show()
+    if msg and string.len(msg) > 0 then
+        for k,v in pairs(EasyReminders.ConsumableCheck:GetBagCache()) do
+            EasyReminders:Print( "Item..", k, v)
+        end
+        local bagCache = EasyReminders.ConsumableCheck:GetBagCache()
+        EasyReminders:Print("In bag: ", msg, bagCache[msg])
+    else
+        EasyReminders.UI.MainWindow:RefreshData()
+        EasyReminders.MainWindow:Show()
+    end
 end
 
 function EasyReminders:CreateTimer()
@@ -69,8 +81,22 @@ function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
     end
 end
 
+function EasyReminders:ConcatenateTables(table1, table2)
+    local outputTable = {}
+
+    for k, data in pairs(table1) do
+        outputTable[k] = data
+    end
+    
+    for k, data in pairs(table2) do
+        outputTable[k] = data
+    end
+    return outputTable
+end
+
 -- TO DO
 -- Custom items
+-- Delete button for custom items
 -- add actual items!
 -- Add Minimap button
 -- Addon compartment
