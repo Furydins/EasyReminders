@@ -198,6 +198,7 @@ function ConsumablesDialog:AddReminder()
     reminderData["otherIds"] = split(additionalItems:GetText(), ",")
 
   end
+  reminderData["canDelete"] = true
 
   EasyReminders:Print("Pre size...", #EasyReminders.globalDB.customConsumables)
   EasyReminders:Print("Insert...", reminderData.itemID)

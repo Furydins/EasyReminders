@@ -1,6 +1,8 @@
 EasyReminders = _G.LibStub("AceAddon-3.0"):NewAddon("EasyReminders", "AceConsole-3.0")
 
 EasyReminders.AceGUI = _G.LibStub("AceGUI-3.0")
+EasyReminders.AceConfig = _G.LibStub("AceConfig-3.0")
+EasyReminders.AceConfigDialog = _G.LibStub("AceConfigDialog-3.0")
 
 
 local L = LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
@@ -36,7 +38,36 @@ function EasyReminders:OnInitialize()
     EasyReminders:CreateTimer()
     
     EasyReminders.UI.NotificationWindow:CreateNotificationWindow()
+
+    -- Set Up the minimap icon
+
+    EasyReminders.LDB = LibStub("LibDataBroker-1.1"):NewDataObject("EasyReminders", {
+        type = "data source",
+        text = "EasyReminders",
+        icon = "Interface\\Icons\\Spell_holy_borrowedtime",
+        OnClick = function(self, button)
+            if button == "LeftButton" then
+             EasyReminders:OpenGUI()
+            elseif button == "RightButton" then
+                EasyReminders:Print("Options" .. EasyReminders.optionsPage)
+                _G.Settings.OpenToCategory( EasyReminders.optionsPage)
+            end 
+        end,
+        OnTooltipShow = function(tooltip)
+            tooltip:SetText("EasyReminders")
+            tooltip:AddLine("Left click to setup reminders", 1, 1, 1)
+            tooltip:AddLine("Right click for settings", 1, 1, 1)
+            tooltip:Show()
+        end
+    })
     
+    EasyReminders.MinimapIcon= LibStub("LibDBIcon-1.0")
+
+    EasyReminders.MinimapIcon:Register("EasyReminders", EasyReminders.LDB, EasyReminders.globalDB.minimap)
+
+    EasyReminders.AceConfig:RegisterOptionsTable("EasyReminders", EasyReminders.UI.Options:GetOptions())
+    local _, id = EasyReminders.AceConfigDialog:AddToBlizOptions("EasyReminders", "EasyReminders")
+    EasyReminders.optionsPage = id or "EasyReminders"
 
 end
 
@@ -95,13 +126,14 @@ function EasyReminders:ConcatenateTables(table1, table2)
 end
 
 -- TO DO
--- Custom items
--- Delete button for custom items
--- add actual items!
 -- Add Minimap button
 -- Addon compartment
 -- icon
+-- Test Combat
+-- Test Raid (If I can)
+-- Test Dungeon (If I can)
 -- PvP option
+-- Delve Option
 -- Test bags
 -- Test secrets
 -- Anchor

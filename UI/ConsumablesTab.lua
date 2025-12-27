@@ -37,17 +37,17 @@ function ConsumablesTab:Create(mainFrame, container)
 
   local raidTitle = EasyReminders.AceGUI:Create("Label")
   raidTitle:SetText("Raid")
-  raidTitle:SetWidth(75)
+  raidTitle:SetWidth(60)
   titleContainer:AddChild(raidTitle)
 
   local dungeonTitle = EasyReminders.AceGUI:Create("Label")
   dungeonTitle:SetText("Dungeon")
-  dungeonTitle:SetWidth(75)
+  dungeonTitle:SetWidth(60)
   titleContainer:AddChild(dungeonTitle)
 
   local outsideTitle = EasyReminders.AceGUI:Create("Label")
   outsideTitle:SetText("Outside")
-  outsideTitle:SetWidth(75)
+  outsideTitle:SetWidth(60)
   titleContainer:AddChild(outsideTitle)
 
   
@@ -96,7 +96,7 @@ function ConsumablesTab:RebuildScrollBox()
     local raid = EasyReminders.AceGUI:Create("CheckBox")
     raid:SetType("checkbox")
     raid:SetValue(false)
-    raid:SetWidth(75)
+    raid:SetWidth(60)
     raid:SetValue((EasyReminders.charDB.potions[data.itemID] and EasyReminders.charDB.potions[data.itemID].raid) or false)
     scrollBox:AddChild(raid)
     raid:SetCallback("OnValueChanged", function(_,_,value)
@@ -109,7 +109,7 @@ function ConsumablesTab:RebuildScrollBox()
     local dungeon = EasyReminders.AceGUI:Create("CheckBox")
     dungeon:SetType("checkbox")
     dungeon:SetValue(false)
-    dungeon:SetWidth(75)
+    dungeon:SetWidth(60)
     dungeon:SetValue((EasyReminders.charDB.potions[data.itemID] and EasyReminders.charDB.potions[data.itemID].dungeon) or false)
     dungeon:SetCallback("OnValueChanged", function(_,_,value)
       EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
@@ -122,7 +122,7 @@ function ConsumablesTab:RebuildScrollBox()
     local outside = EasyReminders.AceGUI:Create("CheckBox")
     outside:SetType("checkbox")
     outside:SetValue(false)
-    outside:SetWidth(75)
+    outside:SetWidth(60)
     outside:SetValue((EasyReminders.charDB.potions[data.itemID] and EasyReminders.charDB.potions[data.itemID].outside) or false)
     outside:SetCallback("OnValueChanged", function(_,_,value)
       EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
@@ -131,6 +131,18 @@ function ConsumablesTab:RebuildScrollBox()
       EasyReminders.ConsumableCheck:CheckBuffs()
     end)
     scrollBox:AddChild(outside)
+
+    if data["canDelete"] then 
+
+      local delete = EasyReminders.AceGUI:Create("Icon")
+      delete:SetImage("Interface\\AddOns\\WoWPro\\Textures\\Delete")
+      delete:SetImageSize(16,16)
+      delete:SetWidth(20)
+      delete:SetCallback("OnClick", function()
+        ConsumablesTab:RemoveConfirm(data.itemID, itemName)
+      end)
+      scrollBox:AddChild(delete)
+    end
 
   end
 end
@@ -151,6 +163,62 @@ function ConsumablesTab:RefreshData()
 
     dataCache[itemID] = {data[1], itemName, itemIcon, spellInfo, potionName, buffName}
   end
+end
+
+function ConsumablesTab:RemoveConfirm(itemID, itemName)
+    local dialogFrame = EasyReminders.AceGUI:Create("Window")
+    dialogFrame:SetWidth(220)
+    dialogFrame:SetHeight(100)
+    dialogFrame:SetTitle("Confirm Removal")
+    dialogFrame:SetLayout("Flow")
+    dialogFrame:EnableResize(false)
+    dialogFrame.frame:SetFrameStrata("DIALOG")
+    dialogFrame.frame:Raise()
+
+    local text =  EasyReminders.AceGUI:Create("Label")
+    text:SetText(string.format("Are you sure you want to remove %s?", itemName))
+    dialogFrame:AddChild(text)
+
+    local yes=EasyReminders.AceGUI:Create("Button")
+    dialogFrame:AddChild(yes)
+    yes:SetText("Yes")
+    yes:SetWidth(90)
+    yes:SetCallback("OnClick", function(widget) 
+      ConsumablesTab:RemoveReminder(itemID) 
+      dialogFrame:Hide()
+    end)
+
+    local no=EasyReminders.AceGUI:Create("Button")
+    dialogFrame:AddChild(no)
+    no:SetWidth(90)
+    no:SetText("No")
+    no:SetCallback("OnClick", function(widget) 
+      dialogFrame:Hide()
+    end)
+
+
+end
+
+function ConsumablesTab:RemoveReminder(itemID)
+
+  -- Confirmation Dialog
+  EasyReminders:Print("ItemID:", itemID)
+
+  EasyReminders.globalDB.customConsumables[itemID] = nil
+  EasyReminders.charDB.potions[itemID] = nil
+
+  if EasyReminders.Data.Consumables[itemID] then
+    EasyReminders:Print("Found in default List", itemID)
+    EasyReminders.ConsumableCache[itemID] = EasyReminders.Data.Consumables[itemID]
+  else
+    EasyReminders:Print("Not found in default List", itemID)
+    EasyReminders.ConsumableCache[itemID] = nil
+  end
+
+  EasyReminders.ConsumableCheck:BuildTrackingList()
+  EasyReminders.ConsumableCheck:CheckBuffs()
+  ConsumablesTab:RebuildScrollBox()
+ 
 end
 
 

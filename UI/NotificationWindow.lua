@@ -23,7 +23,6 @@ function NotificationWindow:UpdateNotifications(missingBuffs)
     EasyReminders.UI.ConsumablesTab:RefreshData()
     
     for buffID, itemID in pairs(missingBuffs) do
-        EasyReminders:Print("Displaying buff:" .. buffID .. "::", itemID)
         itemData = EasyReminders.DataCache[itemID]
 
         local icon = EasyReminders.AceGUI:Create("Label")
