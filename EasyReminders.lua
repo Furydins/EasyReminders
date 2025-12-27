@@ -126,9 +126,7 @@ function EasyReminders:ConcatenateTables(table1, table2)
 end
 
 -- TO DO
--- Add Minimap button
 -- Addon compartment
--- icon
 -- Test Combat
 -- Test Raid (If I can)
 -- Test Dungeon (If I can)
