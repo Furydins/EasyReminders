@@ -26,9 +26,7 @@ function ConsumableCheck:BuildTrackingList()
     local buffID = data.buffID
 
     if EasyReminders.charDB.potions[data.itemID] then
-        EasyReminders:Print("Adding Tracker for" .. data.itemID)
         if EasyReminders.charDB.potions[data.itemID].outside then
-          EasyReminders:Print("Adding Outdoor Tracker for" .. buffID)
           TrackingList.outside[buffID] = itemIDs
         end
         if EasyReminders.charDB.potions[data.itemID].dungeon then
@@ -50,15 +48,19 @@ function ConsumableCheck:CheckBuffs()
 
   if inInstance and instanceType == "raid" then
     trackingList = TrackingList.raid
-  elseif inInstance and instanceType == "dungeon" then
+  elseif inInstance and instanceType == "party" then
     trackingList = TrackingList.dungeon
   elseif not inInstance then
     trackingList = TrackingList.outside
   else
+     EasyReminders:Print("ERROR...", inInstance, instanceType)
+     EasyReminders.UI.NotificationWindow:UpdateNotifications(missingBuffs)
     return
   end
 
-  if trackingList then
+  -- check if we can scan auras
+
+  if trackingList and not InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() then
      local foundbuffs = {}
 
      AuraUtil.ForEachAura("player", "HELPFUL", nil, function(_, _, _, _, _, _, _, _, _, spellID)
@@ -67,7 +69,6 @@ function ConsumableCheck:CheckBuffs()
         end
      end)
      for buffID, itemIDs in pairs(trackingList) do
-        EasyReminders:Print("Tracking...", buffID, itemIDs)
         
         if not foundbuffs[buffID] then
           for i, itemID in pairs(itemIDs) do
@@ -84,13 +85,11 @@ function ConsumableCheck:CheckBuffs()
 end
 
 function ConsumableCheck:GetBagItems()
-    EasyReminders.Print("Getting bag items...")
     bagContentsCache = {}
       -- Loop through player bags (0 is backpack, 1-4 are additional bags, 5 reagent bag)
     for bag = 0, 5 do
         -- Check if the bag exists/is accessible
         if C_Container.GetBagName(bag) then
-            EasyReminders.Print("Checking bag: " .. C_Container.GetBagName(bag))
             -- Loop through all slots in the current bag
             for slot = 1, C_Container.GetContainerNumSlots(bag) do
                 -- Get the item link for the current slot

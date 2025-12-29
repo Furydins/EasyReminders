@@ -49,7 +49,6 @@ function EasyReminders:OnInitialize()
             if button == "LeftButton" then
              EasyReminders:OpenGUI()
             elseif button == "RightButton" then
-                EasyReminders:Print("Options" .. EasyReminders.optionsPage)
                 _G.Settings.OpenToCategory( EasyReminders.optionsPage)
             end 
         end,
@@ -73,19 +72,18 @@ end
 
 function EasyReminders:OpenGUI(msg)
     if msg and string.len(msg) > 0 then
-        for k,v in pairs(EasyReminders.ConsumableCheck:GetBagCache()) do
-            EasyReminders:Print( "Item..", k, v)
-        end
         local bagCache = EasyReminders.ConsumableCheck:GetBagCache()
-        EasyReminders:Print("In bag: ", msg, bagCache[msg])
     else
         EasyReminders.UI.MainWindow:RefreshData()
         EasyReminders.MainWindow:Show()
     end
 end
 
+function EasyReminders_OpenGUI()
+    EasyReminders:OpenGUI()
+end
+
 function EasyReminders:CreateTimer()
-    EasyReminders.Print("Creating update timer...")
      EasyReminders.UpdateTimer = _G.C_Timer.NewTicker(10, function() EasyReminders.ConsumableCheck:CheckBuffs() end)
 end
 
@@ -126,14 +124,10 @@ function EasyReminders:ConcatenateTables(table1, table2)
 end
 
 -- TO DO
--- Addon compartment
--- Test Combat
 -- Test Raid (If I can)
--- Test Dungeon (If I can)
 -- PvP option
 -- Delve Option
 -- Test bags
--- Test secrets
 -- Anchor
 -- Visual customization
 -- Localizations

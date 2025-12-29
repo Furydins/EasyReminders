@@ -24,7 +24,6 @@ local function setCloseOnEscPress(window)
 end
 
 function ConsumablesDialog:FindSpellByID()
-  EasyReminders:Print("Searching...")
   local text = spellID:GetText()
   local id = tonumber(text)
   local name, icon
@@ -62,7 +61,6 @@ function ConsumablesDialog:FindItemByName()
 
   local name = itemName:GetText()
   local itemLink, id, icon
-  EasyReminders:Print("Searching..." .. name)
   if name then
     _, itemLink = C_Item.GetItemInfo(name)
 
@@ -93,7 +91,6 @@ function ConsumablesDialog:FindItemByName()
 end
 
 function ConsumablesDialog:FindItemByID()
-  EasyReminders:Print("Searching...")
   local text = itemID:GetText()
     local id = tonumber(text)
       if id then
@@ -131,7 +128,6 @@ end
 local function validateItems()
   local str = additionalItems:GetText()
   if str == "" then
-    EasyReminders:Print("No additional items entered.")
     return
   end
   local valid = true
@@ -143,10 +139,8 @@ local function validateItems()
     end
   end
   if valid then
-    EasyReminders:Print("Additional items are valid.")
     return true
   else
-    EasyReminders:Print("Invalid input: must be comma-separated numbers.")
     additionalItems:SetText("invalid!")
     return false
   end
@@ -154,7 +148,6 @@ end
 
 local function validateID(id)
   if not tonumber(id) then
-    EasyReminders:Print("Invalid: ", num)
     return false
   else
     return true
@@ -170,11 +163,6 @@ local function split(s, delimiter)
 end
 
 function ConsumablesDialog:AddReminder()
-
-  EasyReminders:Print("ItemIDBox:", itemID)
-  EasyReminders:Print("ItemID:", itemID:GetText())
-  EasyReminders:Print("ItemName Box: ", itemName)
-  EasyReminders:Print("ItemName:", itemName:GetText())
 
   if not validateID(itemID:GetText()) or not itemName:GetText() then
     statusText:SetText("Invalid Item")
@@ -194,16 +182,12 @@ function ConsumablesDialog:AddReminder()
   local reminderData = {["itemID"] = tonumber(itemID:GetText()), ["buffID"] = tonumber(spellID:GetText())}
 
   if additionalItems:GetText() and string.len(additionalItems:GetText()) > 0 then
-    EasyReminders:Print("Addiitonal Items: ", additionalItems:GetText())
     reminderData["otherIds"] = split(additionalItems:GetText(), ",")
 
   end
   reminderData["canDelete"] = true
 
-  EasyReminders:Print("Pre size...", #EasyReminders.globalDB.customConsumables)
-  EasyReminders:Print("Insert...", reminderData.itemID)
   EasyReminders.globalDB.customConsumables[reminderData.itemID] = reminderData
-  EasyReminders:Print("Post size...", #EasyReminders.globalDB.customConsumables)
   EasyReminders.ConsumableCache[reminderData.itemID] = reminderData
   EasyReminders.charDB.potions[reminderData.itemID] = nil
 

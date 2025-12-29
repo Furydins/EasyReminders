@@ -88,7 +88,6 @@ function ConsumablesTab:RebuildScrollBox()
     dataCache[data.itemID] = {data.buffID, itemName, itemIcon, spellInfo, potionName, buffName}
     if data.otherIds then
       for key, otherID in pairs(data.otherIds) do
-        EasyReminders:Print("Populating.." .. key, otherID)
         dataCache[otherID] = {data.buffID, itemName, C_Item.GetItemIconByID(otherID), spellInfo, potionName, buffName}
       end
     end
@@ -202,16 +201,13 @@ end
 function ConsumablesTab:RemoveReminder(itemID)
 
   -- Confirmation Dialog
-  EasyReminders:Print("ItemID:", itemID)
 
   EasyReminders.globalDB.customConsumables[itemID] = nil
   EasyReminders.charDB.potions[itemID] = nil
 
   if EasyReminders.Data.Consumables[itemID] then
-    EasyReminders:Print("Found in default List", itemID)
     EasyReminders.ConsumableCache[itemID] = EasyReminders.Data.Consumables[itemID]
   else
-    EasyReminders:Print("Not found in default List", itemID)
     EasyReminders.ConsumableCache[itemID] = nil
   end
 

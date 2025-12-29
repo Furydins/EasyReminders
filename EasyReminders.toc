@@ -5,6 +5,8 @@
 ## Version: 0.1
 ## SavedVariables: EasyRemindersDB
 ## SavedVariablesPerCharacter: EasyRemindersCharDB
+## AddonCompartmentFunc: EasyReminders_OpenGUI
+## IconTexture: Interface\Icons\Spell_holy_borrowedtime
 ## Category: Buffs & Debuffs
 ## Category-deDE: Buffs & Debuffs
 ## Category-esES: Beneficios y Perjuicios
