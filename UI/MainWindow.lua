@@ -26,8 +26,8 @@ local function SelectGroup(container, event, group)
    container:ReleaseChildren()
    if group == "tab1" then
       EasyReminders.UI.ConsumablesTab:Create(mainFrame, container)
-    --elseif group == "tab2" then
-    --  EasyReminders.UI.BuffsTab:Create(container)
+  elseif group == "tab2" then
+    EasyReminders.UI.WellFedTab:Create(container)
     --elseif group == "tab2" then
     --  EasyReminders.UI.OptionsTab:Create(container)
    end
@@ -49,7 +49,7 @@ function MainWindow:CreateMainWindow()
     local tab = EasyReminders.AceGUI:Create("TabGroup")
     tab:SetLayout("Flow")
     -- Setup which tabs to show
-    tab:SetTabs({{text=L["Consumables"], value="tab1"}})
+    tab:SetTabs({{text=L["Consumables"], value="tab1"}, {text=L["Well Fed"], value="tab2"}})
     -- Register callback
     tab:SetCallback("OnGroupSelected", SelectGroup)
     -- Set initial Tab (this will fire the OnGroupSelected callback)
@@ -65,5 +65,6 @@ end
 
 function MainWindow:RefreshData()
   EasyReminders.UI.ConsumablesTab:RefreshData()
+  EasyReminders.UI.WellFedTab:RefreshData()
 end
 

@@ -14,6 +14,7 @@ EasyReminders.NotificationWindow = nil
 
 EasyReminders.DataCache = {}
 EasyReminders.ConsumableCache = {}
+EasyReminders.FoodCache = {}
 
 function EasyReminders:OnInitialize()
 
@@ -23,12 +24,15 @@ function EasyReminders:OnInitialize()
 
     EasyReminders.charDB.potions = EasyReminders.charDB.potions or {}
     EasyReminders.globalDB.customConsumables = EasyReminders.globalDB.customConsumables or {}
+    EasyReminders.globalDB.customFood = EasyReminders.globalDB.customFood or {}
 
 
     EasyReminders:RegisterChatCommand("er", "OpenGUI")
     EasyReminders:RegisterChatCommand("easyreminders", "OpenGUI")
 
     EasyReminders.ConsumableCache = EasyReminders:ConcatenateTables(EasyReminders.Data.Consumables, EasyReminders.globalDB.customConsumables)
+    EasyReminders.FoodCache = EasyReminders:ConcatenateTables(EasyReminders.Data.Food, EasyReminders.globalDB.customFood)
+    
     EasyReminders.MainWindow = EasyReminders.UI.MainWindow:CreateMainWindow()
 
     EasyReminders:RegisterEvents()
@@ -122,3 +126,21 @@ function EasyReminders:ConcatenateTables(table1, table2)
     end
     return outputTable
 end
+
+--- For food:
+-- Dialog
+-- Static date
+-- Config store
+-- tracker
+-- Custom Food
+
+-- TO DO
+-- Test Raid (If I can)
+-- v1 ready!!!
+-- Add food tab!
+-- Add raid buffs tab
+-- Add personal buffs tab
+-- Add profiles
+-- Add holidays trackers
+-- Add calenar reminders
+-- Add restock reminders
