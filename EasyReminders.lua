@@ -5,7 +5,7 @@ EasyReminders.AceConfig = _G.LibStub("AceConfig-3.0")
 EasyReminders.AceConfigDialog = _G.LibStub("AceConfigDialog-3.0")
 
 
-local L = LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
+local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 EasyReminders.MainWindow = nil
 EasyReminders.Font = "Fonts\\FRIZQT__.TTF"
@@ -41,7 +41,7 @@ function EasyReminders:OnInitialize()
 
     -- Set Up the minimap icon
 
-    EasyReminders.LDB = LibStub("LibDataBroker-1.1"):NewDataObject("EasyReminders", {
+    EasyReminders.LDB = _G.LibStub("LibDataBroker-1.1"):NewDataObject("EasyReminders", {
         type = "data source",
         text = "EasyReminders",
         icon = "Interface\\Icons\\Spell_holy_borrowedtime",
@@ -53,14 +53,14 @@ function EasyReminders:OnInitialize()
             end 
         end,
         OnTooltipShow = function(tooltip)
-            tooltip:SetText("EasyReminders")
-            tooltip:AddLine("Left click to setup reminders", 1, 1, 1)
-            tooltip:AddLine("Right click for settings", 1, 1, 1)
+            tooltip:SetText(L["Easy Reminders"])
+            tooltip:AddLine(L["Left click to setup reminders"], 1, 1, 1)
+            tooltip:AddLine(L["Right click for settings"], 1, 1, 1)
             tooltip:Show()
         end
     })
     
-    EasyReminders.MinimapIcon= LibStub("LibDBIcon-1.0")
+    EasyReminders.MinimapIcon= _G.LibStub("LibDBIcon-1.0")
 
     EasyReminders.MinimapIcon:Register("EasyReminders", EasyReminders.LDB, EasyReminders.globalDB.minimap)
 
@@ -71,7 +71,7 @@ function EasyReminders:OnInitialize()
 end
 
 function EasyReminders:OpenGUI(msg)
-    if msg and string.len(msg) > 0 then
+    if msg and _G.string.len(msg) > 0 then
         local bagCache = EasyReminders.ConsumableCheck:GetBagCache()
     else
         EasyReminders.UI.MainWindow:RefreshData()
@@ -101,9 +101,9 @@ function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
             EasyReminders.ConsumableCheck:GetBagItems()
         end
         EasyReminders.ConsumableCheck:CheckBuffs()
-    elseif "UNIT_INVENTORY_CHANGED" == event and not issecretvalue(arg1) and "player" == arg1 then
+    elseif "UNIT_INVENTORY_CHANGED" == event and not _G.issecretvalue(arg1) and "player" == arg1 then
         EasyReminders.ConsumableCheck:GetBagItems()
-    elseif "UNIT_AURA" == event and not issecretvalue(arg1) and "player" == arg1 then
+    elseif "UNIT_AURA" == event and not _G.issecretvalue(arg1) and "player" == arg1 then
         EasyReminders.ConsumableCheck:CheckBuffs()
     elseif "PLAYER_REGEN_ENABLED" == event then
         EasyReminders.ConsumableCheck:CheckBuffs()
@@ -122,20 +122,3 @@ function EasyReminders:ConcatenateTables(table1, table2)
     end
     return outputTable
 end
-
--- TO DO
--- Test Raid (If I can)
--- PvP option
--- Delve Option
--- Test bags
--- Anchor
--- Visual customization
--- Localizations
--- Sorting
--- v1 ready!!!
--- Add raid buffs tab
--- Add personal buffs tab
--- Add profiles
--- Add holidays trackers
--- Add calenar reminders
--- Add restock reminders

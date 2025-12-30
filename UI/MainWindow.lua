@@ -3,7 +3,7 @@ EasyReminders.UI.MainWindow = EasyReminders.UI.MainWindow or {}
 
 local MainWindow = EasyReminders.UI.MainWindow
 
-local L = LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
+local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 local mainFrame
 

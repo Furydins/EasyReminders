@@ -13,6 +13,8 @@ function ConsumableCheck:BuildTrackingList()
   TrackingList.outside = {}
   TrackingList.dungeon = {}
   TrackingList.raid = {}
+  TrackingList.pvp = {}
+  TrackingList.delve = {}
 
   for index, data in pairs(EasyReminders.ConsumableCache) do
 
@@ -35,6 +37,12 @@ function ConsumableCheck:BuildTrackingList()
         if EasyReminders.charDB.potions[data.itemID].raid then
           TrackingList.raid[buffID] = itemIDs
         end
+        if EasyReminders.charDB.potions[data.itemID].pvp then
+          TrackingList.pvp[buffID] = itemIDs
+        end
+        if EasyReminders.charDB.potions[data.itemID].delve then
+          TrackingList.delve[buffID] = itemIDs
+        end
     end
   end
 end
@@ -46,25 +54,26 @@ function ConsumableCheck:CheckBuffs()
 
   inInstance, instanceType = _G.IsInInstance()
 
-  if inInstance and instanceType == "raid" then
+  if inInstance and "raid" == instanceType then
     trackingList = TrackingList.raid
-  elseif inInstance and instanceType == "party" then
+  elseif inInstance and "party" == instanceType then 
     trackingList = TrackingList.dungeon
-  elseif not inInstance then
-    trackingList = TrackingList.outside
+  elseif inInstance and "pvp" == instanceType then 
+    trackingList = TrackingList.pvp
+  elseif inInstance and "scenario" == instanceType  then
+    trackingList = TrackingList.delve
   else
-     EasyReminders:Print("ERROR...", inInstance, instanceType)
-     EasyReminders.UI.NotificationWindow:UpdateNotifications(missingBuffs)
-    return
+    trackingList = TrackingList.outside
   end
 
   -- check if we can scan auras
 
-  if trackingList and not InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() then
+  if trackingList and not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
+      and not C_PvP.IsMatchActive() and not C_Secrets.ShouldAurasBeSecret() then
      local foundbuffs = {}
 
-     AuraUtil.ForEachAura("player", "HELPFUL", nil, function(_, _, _, _, _, _, _, _, _, spellID)
-        if not issecretvalue(spellID) then
+     _G.AuraUtil.ForEachAura("player", "HELPFUL", nil, function(_, _, _, _, _, _, _, _, _, spellID)
+        if not _G.issecretvalue(spellID) then
             foundbuffs[spellID] = true 
         end
      end)

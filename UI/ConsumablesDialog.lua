@@ -3,7 +3,7 @@ EasyReminders.UI.ConsumablesDialog = EasyReminders.UI.ConsumablesDialog or {}
 
 local ConsumablesDialog = EasyReminders.UI.ConsumablesDialog
 
-local L = LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
+local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 local dialogFrame
 local itemID, itemName, itemIcon

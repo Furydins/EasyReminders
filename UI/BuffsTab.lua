@@ -3,7 +3,7 @@ EasyReminders.UI.BuffsTab = EasyReminders.UI.BuffsTab or {}
 
 local BuffsTab = EasyReminders.UI.BuffsTab
 
-local L = LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
+local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 -- function that draws the widgets for the first tab
 function BuffsTab:Create(container)
