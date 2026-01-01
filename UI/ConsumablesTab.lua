@@ -2,7 +2,6 @@ EasyReminders.UI = EasyReminders.UI or {}
 EasyReminders.UI.ConsumablesTab = EasyReminders.UI.ConsumablesTab or {}
 
 local ConsumablesTab = EasyReminders.UI.ConsumablesTab
-local dataCache = EasyReminders.DataCache
 
 local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
@@ -95,10 +94,11 @@ function ConsumablesTab:RebuildScrollBox()
     buffName:SetImageSize(16,16)
     scrollBox:AddChild(buffName)
 
-    dataCache[data.itemID] = {data.buffID, itemName, itemIcon, spellInfo, potionName, buffName}
+    EasyReminders:Print("medlding with potion data")
+    EasyReminders:AddData(data.itemID, itemName, itemIcon, spellInfo, potionName, buffName, nil)
     if data.otherIds then
       for key, otherID in pairs(data.otherIds) do
-        dataCache[otherID] = {data.buffID, itemName, C_Item.GetItemIconByID(otherID), spellInfo, potionName, buffName}
+        EasyReminders:AddData(otherID, itemName, C_Item.GetItemIconByID(otherID), spellInfo, potionName, buffName, nil)
       end
     end
 
@@ -112,7 +112,7 @@ function ConsumablesTab:RebuildScrollBox()
       EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
       EasyReminders.charDB.potions[data.itemID].raid = value
       EasyReminders.ConsumableCheck:BuildTrackingList()
-      EasyReminders.ConsumableCheck:CheckBuffs()
+      EasyReminders:CheckBuffs()
     end)
 
     local dungeon = EasyReminders.AceGUI:Create("CheckBox")
@@ -124,7 +124,7 @@ function ConsumablesTab:RebuildScrollBox()
       EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
       EasyReminders.charDB.potions[data.itemID].dungeon = value
       EasyReminders.ConsumableCheck:BuildTrackingList()
-      EasyReminders.ConsumableCheck:CheckBuffs()
+      EasyReminders:CheckBuffs()
     end)
     scrollBox:AddChild(dungeon)
 
@@ -137,7 +137,7 @@ function ConsumablesTab:RebuildScrollBox()
       EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
       EasyReminders.charDB.potions[data.itemID].pvp = value
       EasyReminders.ConsumableCheck:BuildTrackingList()
-      EasyReminders.ConsumableCheck:CheckBuffs()
+      EasyReminders:CheckBuffs()
     end)
     scrollBox:AddChild(pvp)
 
@@ -150,7 +150,7 @@ function ConsumablesTab:RebuildScrollBox()
       EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
       EasyReminders.charDB.potions[data.itemID].delve = value
       EasyReminders.ConsumableCheck:BuildTrackingList()
-      EasyReminders.ConsumableCheck:CheckBuffs()
+      EasyReminders:CheckBuffs()
     end)
     scrollBox:AddChild(delve)
 
@@ -163,7 +163,7 @@ function ConsumablesTab:RebuildScrollBox()
       EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
       EasyReminders.charDB.potions[data.itemID].outside = value
       EasyReminders.ConsumableCheck:BuildTrackingList()
-      EasyReminders.ConsumableCheck:CheckBuffs()
+      EasyReminders:CheckBuffs()
     end)
     scrollBox:AddChild(outside)
 
@@ -179,24 +179,6 @@ function ConsumablesTab:RebuildScrollBox()
       scrollBox:AddChild(delete)
     end
 
-  end
-end
-
-function ConsumablesTab:RefreshData()
-  for itemID, data in pairs(dataCache) do
-    local itemName = data[2] or C_Item.GetItemNameByID(itemID)
-    local itemIcon = data[3] or C_Item.GetItemIconByID(itemID)
-    local spellInfo = data[4] or C_Spell.GetSpellInfo(itemID)
-    local potionName = data[5]
-    local buffName = data[6]
-
-    potionName:SetText(itemName or L["Loading..."])
-    potionName:SetImage(itemIcon)
-
-    buffName:SetText((spellInfo and spellInfo.name) or L["Loading..."])
-    buffName:SetImage((spellInfo and spellInfo.iconID) or nil)
-
-    dataCache[itemID] = {data[1], itemName, itemIcon, spellInfo, potionName, buffName}
   end
 end
 
@@ -248,11 +230,10 @@ function ConsumablesTab:RemoveReminder(itemID)
   end
 
   EasyReminders.ConsumableCheck:BuildTrackingList()
-  EasyReminders.ConsumableCheck:CheckBuffs()
+  EasyReminders:CheckBuffs()
   ConsumablesTab:RebuildScrollBox()
  
 end
-
 
 
 

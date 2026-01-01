@@ -46,7 +46,7 @@ function Options:GetOptions()
                   then optionsdb.anchor = false
                   else optionsdb.anchor = true 
                   end
-                  EasyReminders.ConsumableCheck:CheckBuffs()
+                  EasyReminders:CheckBuffs()
                 end,
           },
           lock = {
@@ -60,7 +60,7 @@ function Options:GetOptions()
                   then optionsdb.lock = false
                   else optionsdb.lock = true 
                   end
-                  EasyReminders.ConsumableCheck:CheckBuffs()
+                  EasyReminders:CheckBuffs()
                 end,
           },
         },

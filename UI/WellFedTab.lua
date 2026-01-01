@@ -2,12 +2,13 @@ EasyReminders.UI = EasyReminders.UI or {}
 EasyReminders.UI.WellFedTab = EasyReminders.UI.WellFedTab or {}
 
 local WellFedTab = EasyReminders.UI.WellFedTab
-local dataCache = EasyReminders.DataCache
 
 local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 -- function that draws the widgets for the first tab
 function WellFedTab:Create(mainFrame, container)
+
+  EasyReminders:Print("messing with tab")
 
   local addItemButton = EasyReminders.AceGUI:Create("Button")
   container:AddChild(addItemButton)
@@ -78,13 +79,8 @@ function WellFedTab:RebuildScrollBox()
     foodName:SetImageSize(16,16)
     scrollBox:AddChild(foodName)
 
-
-    dataCache[data.itemID] = {data.buffID, itemName, itemIcon, nill, potionName, nill}
-    if data.otherIds then
-      for key, otherID in pairs(data.otherIds) do
-        dataCache[otherID] = {data.buffID, itemName, C_Item.GetItemIconByID(otherID), nill, potionName, nill}
-      end
-    end
+    EasyReminders:Print("adding data for ", data.itemID, foodName)
+    EasyReminders:AddData(data.itemID, itemName, itemIcon, nil, nil, nil, foodName)
 
     local raid = EasyReminders.AceGUI:Create("CheckBox")
     raid:SetType("checkbox")
@@ -95,8 +91,8 @@ function WellFedTab:RebuildScrollBox()
     raid:SetCallback("OnValueChanged", function(_,_,value)
       EasyReminders.charDB.food[data.itemID] = EasyReminders.charDB.food[data.itemID] or {}
       EasyReminders.charDB.food[data.itemID].raid = value
-      EasyReminders.FoodCheck:BuildTrackingList()
-      EasyReminders.FoodCheck:CheckBuffs()
+      EasyReminders.WellFedCheck:BuildTrackingList()
+      EasyReminders:CheckBuffs()
     end)
 
     local dungeon = EasyReminders.AceGUI:Create("CheckBox")
@@ -107,8 +103,8 @@ function WellFedTab:RebuildScrollBox()
     dungeon:SetCallback("OnValueChanged", function(_,_,value)
       EasyReminders.charDB.food[data.itemID] = EasyReminders.charDB.food[data.itemID] or {}
       EasyReminders.charDB.food[data.itemID].dungeon = value
-      EasyReminders.FoodCheck:BuildTrackingList()
-      EasyReminders.FoodCheck:CheckBuffs()
+      EasyReminders.WellFedCheck:BuildTrackingList()
+      EasyReminders:CheckBuffs()
     end)
     scrollBox:AddChild(dungeon)
 
@@ -120,8 +116,8 @@ function WellFedTab:RebuildScrollBox()
     pvp:SetCallback("OnValueChanged", function(_,_,value)
       EasyReminders.charDB.food[data.itemID] = EasyReminders.charDB.food[data.itemID] or {}
       EasyReminders.charDB.food[data.itemID].pvp = value
-      EasyReminders.FoodCheck:BuildTrackingList()
-      EasyReminders.FoodCheck:CheckBuffs()
+      EasyReminders.WellFedCheck:BuildTrackingList()
+      EasyReminders:CheckBuffs()
     end)
     scrollBox:AddChild(pvp)
 
@@ -133,8 +129,8 @@ function WellFedTab:RebuildScrollBox()
     delve:SetCallback("OnValueChanged", function(_,_,value)
       EasyReminders.charDB.food[data.itemID] = EasyReminders.charDB.food[data.itemID] or {}
       EasyReminders.charDB.food[data.itemID].delve = value
-      EasyReminders.FoodCheck:BuildTrackingList()
-      EasyReminders.FoodCheck:CheckBuffs()
+      EasyReminders.WellFedCheck:BuildTrackingList()
+      EasyReminders:CheckBuffs()
     end)
     scrollBox:AddChild(delve)
 
@@ -146,8 +142,8 @@ function WellFedTab:RebuildScrollBox()
     outside:SetCallback("OnValueChanged", function(_,_,value)
       EasyReminders.charDB.food[data.itemID] = EasyReminders.charDB.food[data.itemID] or {}
       EasyReminders.charDB.food[data.itemID].outside = value
-      EasyReminders.FoodCheck:BuildTrackingList()
-      EasyReminders.FoodCheck:CheckBuffs()
+      EasyReminders.WellFedCheck:BuildTrackingList()
+      EasyReminders:CheckBuffs()
     end)
     scrollBox:AddChild(outside)
 
@@ -163,22 +159,6 @@ function WellFedTab:RebuildScrollBox()
       scrollBox:AddChild(delete)
     end
 
-  end
-end
-
-function WellFedTab:RefreshData()
-  for itemID, data in pairs(dataCache) do
-    local itemName = data[2] or C_Item.GetItemNameByID(itemID)
-    local itemIcon = data[3] or C_Item.GetItemIconByID(itemID)
-    local foodNameName = data[5]
-
-    foodName:SetText(itemName or L["Loading..."])
-    foodName:SetImage(itemIcon)
-
-    buffName:SetText((spellInfo and spellInfo.name) or L["Loading..."])
-    buffName:SetImage((spellInfo and spellInfo.iconID) or nil)
-
-    dataCache[itemID] = {data[1], itemName, itemIcon, nil, foodName, nil}
   end
 end
 
@@ -228,11 +208,13 @@ function WellFedTab:RemoveReminder(itemID)
     EasyReminders.FoodCache[itemID] = nil
   end
 
-  EasyReminders.FoodCheck:BuildTrackingList()
-  EasyReminders.FoodCheck:CheckBuffs()
+  EasyReminders.WellFedCheck:BuildTrackingList()
+  EasyReminders:CheckBuffs()
   WellFedTab:RebuildScrollBox()
  
 end
+
+
 
 
 

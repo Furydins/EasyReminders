@@ -27,7 +27,7 @@ local function SelectGroup(container, event, group)
    if group == "tab1" then
       EasyReminders.UI.ConsumablesTab:Create(mainFrame, container)
   elseif group == "tab2" then
-    EasyReminders.UI.WellFedTab:Create(container)
+    EasyReminders.UI.WellFedTab:Create(mainFrame, container)
     --elseif group == "tab2" then
     --  EasyReminders.UI.OptionsTab:Create(container)
    end
@@ -61,10 +61,5 @@ function MainWindow:CreateMainWindow()
 
     return mainFrame
 
-end
-
-function MainWindow:RefreshData()
-  EasyReminders.UI.ConsumablesTab:RefreshData()
-  EasyReminders.UI.WellFedTab:RefreshData()
 end
 
