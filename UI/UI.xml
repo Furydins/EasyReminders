@@ -4,6 +4,7 @@
     <Include file="Widgets\Widgets.xml"/>
     <Script file="ConsumablesTab.lua"/>
     <Script file="WellFedTab.lua"/>
+    <Script file="RaidBuffTab.lua"/>
     <Script file="Options.lua"/>
     <Script file="MainWindow.lua"/>
     <Script file="NotificationWindow.lua"/>

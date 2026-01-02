@@ -24,6 +24,8 @@ function EasyReminders:OnInitialize()
 
     EasyReminders.charDB.potions = EasyReminders.charDB.potions or {}
     EasyReminders.charDB.food = EasyReminders.charDB.food or {}
+    EasyReminders.charDB.raidBuff = EasyReminders.charDB.raidBuff or {}
+
     EasyReminders.globalDB.customConsumables = EasyReminders.globalDB.customConsumables or {}
     EasyReminders.globalDB.customFood = EasyReminders.globalDB.customFood or {}
 
@@ -162,3 +164,17 @@ function EasyReminders:ConcatenateTables(table1, table2)
     return outputTable
 end
 
+-- For Raid buffs
+-- Add Personal tracker
+-- Add group tracker (if I can)
+
+-- TO DO
+-- Test Raid (If I can)
+-- v1 ready!!!
+-- Add raid buffs tab
+-- Add personal buffs tab
+-- Add Import/Export
+-- Add profiles
+-- Add holidays trackers
+-- Add calenar reminders
+-- Add restock reminders
