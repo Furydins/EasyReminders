@@ -1,17 +1,17 @@
 EasyReminders.UI = EasyReminders.UI or {}
-EasyReminders.UI.ConsumablesTab = EasyReminders.UI.ConsumablesTab or {}
+EasyReminders.UI.WellFedTab = EasyReminders.UI.WellFedTab or {}
 
-local ConsumablesTab = EasyReminders.UI.ConsumablesTab
+local WellFedTab = EasyReminders.UI.WellFedTab
 
 local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 -- function that draws the widgets for the first tab
-function ConsumablesTab:Create(mainFrame, container)
+function WellFedTab:Create(mainFrame, container)
 
   local addItemButton = EasyReminders.AceGUI:Create("Button")
   container:AddChild(addItemButton)
   addItemButton:SetText(L["Add Item"])
-  addItemButton:SetCallback("OnClick", function(widget) EasyReminders.UI.ConsumablesDialog:Create(mainFrame) end)
+  addItemButton:SetCallback("OnClick", function(widget) EasyReminders.UI.WellFedDialog:Create(mainFrame) end)
 
   local titleContainer = EasyReminders.AceGUI:Create("SimpleGroup")
   titleContainer:SetFullWidth(true)
@@ -23,16 +23,10 @@ function ConsumablesTab:Create(mainFrame, container)
   spacer:SetWidth(10)
   titleContainer:AddChild(spacer)
 
-  local potionTitle = EasyReminders.AceGUI:Create("Label")
-  potionTitle:SetText(L["Item"])
-  potionTitle:SetWidth(220)
-  titleContainer:AddChild(potionTitle)
-
-  --
-  local buffTitle = EasyReminders.AceGUI:Create("Label")
-  buffTitle:SetText(L["Tracked Buff"])
-  buffTitle:SetWidth(220)
-  titleContainer:AddChild(buffTitle)
+  local foodTitle = EasyReminders.AceGUI:Create("Label")
+  foodTitle:SetText(L["Item"])
+  foodTitle:SetWidth(440)
+  titleContainer:AddChild(foodTitle)
 
   local raidTitle = EasyReminders.AceGUI:Create("Label")
   raidTitle:SetText(L["Raid"])
@@ -59,58 +53,42 @@ function ConsumablesTab:Create(mainFrame, container)
   outsideTitle:SetWidth(50)
   titleContainer:AddChild(outsideTitle)
 
-  
-  ConsumablesTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)
+  WellFedTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)
 
-  ConsumablesTab:RebuildScrollBox()
+  WellFedTab:RebuildScrollBox()
 
 end
 
-function ConsumablesTab:RebuildScrollBox()
-  local scrollBox = ConsumablesTab.ScrollBox
+function WellFedTab:RebuildScrollBox()
+  local scrollBox = WellFedTab.ScrollBox
   scrollBox:ReleaseChildren()
 
-  for key, data in pairs(EasyReminders.ConsumableCache)  do
+  for key, data in pairs(EasyReminders.FoodCache)  do
 
     local itemName = C_Item.GetItemNameByID(data.itemID)
     local itemIcon = C_Item.GetItemIconByID(data.itemID)
-    local spellInfo = C_Spell.GetSpellInfo(data.buffID)
 
     ---
-    local potionName = EasyReminders.AceGUI:Create("Label")
-    potionName:SetText(itemName or L["Loading..."])
-    potionName:SetFont(EasyReminders.Font, 12, "")
-    potionName:SetWidth(220)
-    potionName:SetImage(itemIcon)
-    potionName:SetImageSize(16,16)
-    scrollBox:AddChild(potionName)
+    local foodName = EasyReminders.AceGUI:Create("Label")
+    foodName:SetText(itemName or L["Loading..."])
+    foodName:SetFont(EasyReminders.Font, 12, "")
+    foodName:SetWidth(440)
+    foodName:SetImage(itemIcon)
+    foodName:SetImageSize(16,16)
+    scrollBox:AddChild(foodName)
 
-    --
-    local buffName = EasyReminders.AceGUI:Create("Label")
-    buffName:SetText((spellInfo and spellInfo.name) or L["Loading..."])
-    buffName:SetFont(EasyReminders.Font, 12, "")
-    buffName:SetWidth(220)
-    buffName:SetImage((spellInfo and spellInfo.iconID) or nil)
-    buffName:SetImageSize(16,16)
-    scrollBox:AddChild(buffName)
-
-    EasyReminders:AddData(data.itemID, itemName, itemIcon, spellInfo)
-    if data.otherIds then
-      for key, otherID in pairs(data.otherIds) do
-        EasyReminders:AddData(otherID, itemName, C_Item.GetItemIconByID(otherID), spellInfo)
-      end
-    end
+    EasyReminders:AddData(data.itemID, itemName, itemIcon)
 
     local raid = EasyReminders.AceGUI:Create("CheckBox")
     raid:SetType("checkbox")
     raid:SetValue(false)
     raid:SetWidth(50)
-    raid:SetValue((EasyReminders.charDB.potions[data.itemID] and EasyReminders.charDB.potions[data.itemID].raid) or false)
+    raid:SetValue((EasyReminders.charDB.food[data.itemID] and EasyReminders.charDB.food[data.itemID].raid) or false)
     scrollBox:AddChild(raid)
     raid:SetCallback("OnValueChanged", function(_,_,value)
-      EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
-      EasyReminders.charDB.potions[data.itemID].raid = value
-      EasyReminders.ConsumableCheck:BuildTrackingList()
+      EasyReminders.charDB.food[data.itemID] = EasyReminders.charDB.food[data.itemID] or {}
+      EasyReminders.charDB.food[data.itemID].raid = value
+      EasyReminders.WellFedCheck:BuildTrackingList()
       EasyReminders:CheckBuffs()
     end)
 
@@ -118,11 +96,11 @@ function ConsumablesTab:RebuildScrollBox()
     dungeon:SetType("checkbox")
     dungeon:SetValue(false)
     dungeon:SetWidth(50)
-    dungeon:SetValue((EasyReminders.charDB.potions[data.itemID] and EasyReminders.charDB.potions[data.itemID].dungeon) or false)
+    dungeon:SetValue((EasyReminders.charDB.food[data.itemID] and EasyReminders.charDB.food[data.itemID].dungeon) or false)
     dungeon:SetCallback("OnValueChanged", function(_,_,value)
-      EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
-      EasyReminders.charDB.potions[data.itemID].dungeon = value
-      EasyReminders.ConsumableCheck:BuildTrackingList()
+      EasyReminders.charDB.food[data.itemID] = EasyReminders.charDB.food[data.itemID] or {}
+      EasyReminders.charDB.food[data.itemID].dungeon = value
+      EasyReminders.WellFedCheck:BuildTrackingList()
       EasyReminders:CheckBuffs()
     end)
     scrollBox:AddChild(dungeon)
@@ -131,11 +109,11 @@ function ConsumablesTab:RebuildScrollBox()
     pvp:SetType("checkbox")
     pvp:SetValue(false)
     pvp:SetWidth(50)
-    pvp:SetValue((EasyReminders.charDB.potions[data.itemID] and EasyReminders.charDB.potions[data.itemID].pvp) or false)
+    pvp:SetValue((EasyReminders.charDB.food[data.itemID] and EasyReminders.charDB.food[data.itemID].pvp) or false)
     pvp:SetCallback("OnValueChanged", function(_,_,value)
-      EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
-      EasyReminders.charDB.potions[data.itemID].pvp = value
-      EasyReminders.ConsumableCheck:BuildTrackingList()
+      EasyReminders.charDB.food[data.itemID] = EasyReminders.charDB.food[data.itemID] or {}
+      EasyReminders.charDB.food[data.itemID].pvp = value
+      EasyReminders.WellFedCheck:BuildTrackingList()
       EasyReminders:CheckBuffs()
     end)
     scrollBox:AddChild(pvp)
@@ -144,11 +122,11 @@ function ConsumablesTab:RebuildScrollBox()
     delve:SetType("checkbox")
     delve:SetValue(false)
     delve:SetWidth(50)
-    delve:SetValue((EasyReminders.charDB.potions[data.itemID] and EasyReminders.charDB.potions[data.itemID].delve) or false)
+    delve:SetValue((EasyReminders.charDB.food[data.itemID] and EasyReminders.charDB.food[data.itemID].delve) or false)
     delve:SetCallback("OnValueChanged", function(_,_,value)
-      EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
-      EasyReminders.charDB.potions[data.itemID].delve = value
-      EasyReminders.ConsumableCheck:BuildTrackingList()
+      EasyReminders.charDB.food[data.itemID] = EasyReminders.charDB.food[data.itemID] or {}
+      EasyReminders.charDB.food[data.itemID].delve = value
+      EasyReminders.WellFedCheck:BuildTrackingList()
       EasyReminders:CheckBuffs()
     end)
     scrollBox:AddChild(delve)
@@ -157,11 +135,11 @@ function ConsumablesTab:RebuildScrollBox()
     outside:SetType("checkbox")
     outside:SetValue(false)
     outside:SetWidth(50)
-    outside:SetValue((EasyReminders.charDB.potions[data.itemID] and EasyReminders.charDB.potions[data.itemID].outside) or false)
+    outside:SetValue((EasyReminders.charDB.food[data.itemID] and EasyReminders.charDB.food[data.itemID].outside) or false)
     outside:SetCallback("OnValueChanged", function(_,_,value)
-      EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
-      EasyReminders.charDB.potions[data.itemID].outside = value
-      EasyReminders.ConsumableCheck:BuildTrackingList()
+      EasyReminders.charDB.food[data.itemID] = EasyReminders.charDB.food[data.itemID] or {}
+      EasyReminders.charDB.food[data.itemID].outside = value
+      EasyReminders.WellFedCheck:BuildTrackingList()
       EasyReminders:CheckBuffs()
     end)
     scrollBox:AddChild(outside)
@@ -173,7 +151,7 @@ function ConsumablesTab:RebuildScrollBox()
       delete:SetImageSize(16,16)
       delete:SetWidth(20)
       delete:SetCallback("OnClick", function()
-        ConsumablesTab:RemoveConfirm(data.itemID, itemName)
+        WellFedTab:RemoveConfirm(data.itemID, itemName)
       end)
       scrollBox:AddChild(delete)
     end
@@ -181,7 +159,7 @@ function ConsumablesTab:RebuildScrollBox()
   end
 end
 
-function ConsumablesTab:RemoveConfirm(itemID, itemName)
+function WellFedTab:RemoveConfirm(itemID, itemName)
     local dialogFrame = EasyReminders.AceGUI:Create("Window")
     dialogFrame:SetWidth(220)
     dialogFrame:SetHeight(100)
@@ -200,7 +178,7 @@ function ConsumablesTab:RemoveConfirm(itemID, itemName)
     yes:SetText("Yes")
     yes:SetWidth(90)
     yes:SetCallback("OnClick", function(widget) 
-      ConsumablesTab:RemoveReminder(itemID) 
+      WellFedTab:RemoveReminder(itemID) 
       dialogFrame:Hide()
     end)
 
@@ -215,24 +193,26 @@ function ConsumablesTab:RemoveConfirm(itemID, itemName)
 
 end
 
-function ConsumablesTab:RemoveReminder(itemID)
+function WellFedTab:RemoveReminder(itemID)
 
-  -- Confirmation Dialog
 
-  EasyReminders.globalDB.customConsumables[itemID] = nil
-  EasyReminders.charDB.potions[itemID] = nil
+  EasyReminders.globalDB.customFood[itemID] = nil
+  EasyReminders.charDB.food[itemID] = nil
 
-  if EasyReminders.Data.Consumables[itemID] then
-    EasyReminders.ConsumableCache[itemID] = EasyReminders.Data.Consumables[itemID]
+  if EasyReminders.Data.Food[itemID] then
+    EasyReminders.FoodCache[itemID] = EasyReminders.Data.Food[itemID]
   else
-    EasyReminders.ConsumableCache[itemID] = nil
+    EasyReminders.FoodCache[itemID] = nil
   end
 
-  EasyReminders.ConsumableCheck:BuildTrackingList()
+  EasyReminders.WellFedCheck:BuildTrackingList()
   EasyReminders:CheckBuffs()
-  ConsumablesTab:RebuildScrollBox()
+  WellFedTab:RebuildScrollBox()
  
 end
+
+
+
 
 
 

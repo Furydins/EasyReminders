@@ -14,6 +14,7 @@ EasyReminders.NotificationWindow = nil
 
 EasyReminders.DataCache = {}
 EasyReminders.ConsumableCache = {}
+EasyReminders.FoodCache = {}
 
 function EasyReminders:OnInitialize()
 
@@ -22,18 +23,26 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB = _G.LibStub("AceDB-3.0"):New("EasyRemindersCharDB").char
 
     EasyReminders.charDB.potions = EasyReminders.charDB.potions or {}
+    EasyReminders.charDB.food = EasyReminders.charDB.food or {}
     EasyReminders.globalDB.customConsumables = EasyReminders.globalDB.customConsumables or {}
+    EasyReminders.globalDB.customFood = EasyReminders.globalDB.customFood or {}
 
 
     EasyReminders:RegisterChatCommand("er", "OpenGUI")
     EasyReminders:RegisterChatCommand("easyreminders", "OpenGUI")
 
     EasyReminders.ConsumableCache = EasyReminders:ConcatenateTables(EasyReminders.Data.Consumables, EasyReminders.globalDB.customConsumables)
+    EasyReminders.FoodCache = EasyReminders:ConcatenateTables(EasyReminders.Data.Food, EasyReminders.globalDB.customFood)
+    
     EasyReminders.MainWindow = EasyReminders.UI.MainWindow:CreateMainWindow()
 
     EasyReminders:RegisterEvents()
 
+    EasyReminders.ConsumableCheck:PopulateData()
+    EasyReminders.WellFedCheck:PopulateData()
+
     EasyReminders.ConsumableCheck:BuildTrackingList()
+    EasyReminders.WellFedCheck:BuildTrackingList()
 
     EasyReminders:CreateTimer()
     
@@ -74,7 +83,7 @@ function EasyReminders:OpenGUI(msg)
     if msg and _G.string.len(msg) > 0 then
         local bagCache = EasyReminders.ConsumableCheck:GetBagCache()
     else
-        EasyReminders.UI.MainWindow:RefreshData()
+        EasyReminders:RefreshData()
         EasyReminders.MainWindow:Show()
     end
 end
@@ -84,7 +93,7 @@ function EasyReminders_OpenGUI()
 end
 
 function EasyReminders:CreateTimer()
-     EasyReminders.UpdateTimer = _G.C_Timer.NewTicker(10, function() EasyReminders.ConsumableCheck:CheckBuffs() end)
+     EasyReminders.UpdateTimer = _G.C_Timer.NewTicker(10, function() EasyReminders:CheckBuffs() end)
 end
 
 function EasyReminders:RegisterEvents()
@@ -98,16 +107,46 @@ end
 function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
     if "PLAYER_ENTERING_WORLD" == event then
         if arg2 then
-            EasyReminders.ConsumableCheck:GetBagItems()
+            EasyReminders.BagCache:RefreshBags()
         end
-        EasyReminders.ConsumableCheck:CheckBuffs()
+        EasyReminders:CheckBuffs()
     elseif "UNIT_INVENTORY_CHANGED" == event and not _G.issecretvalue(arg1) and "player" == arg1 then
-        EasyReminders.ConsumableCheck:GetBagItems()
+        EasyReminders.BagCache:RefreshBags()
     elseif "UNIT_AURA" == event and not _G.issecretvalue(arg1) and "player" == arg1 then
-        EasyReminders.ConsumableCheck:CheckBuffs()
+        EasyReminders:CheckBuffs()
     elseif "PLAYER_REGEN_ENABLED" == event then
-        EasyReminders.ConsumableCheck:CheckBuffs()
+        EasyReminders:CheckBuffs()
     end
+end
+
+function EasyReminders:AddData(itemID, itemName, itemIcon, spellInfo)
+    local data = EasyReminders.DataCache[itemID] or {}
+
+    data[1] = itemID
+    data[2] = itemName or data[2]
+    data[3] = itemIcon or data[3]
+    data[4] = spellInfo or data[4]
+
+    EasyReminders.DataCache[itemID] = data
+
+end
+
+function EasyReminders:RefreshData()
+  for itemID, data in pairs(EasyReminders.DataCache) do
+
+    local itemName = data[2] or C_Item.GetItemNameByID(itemID)
+    local itemIcon = data[3] or C_Item.GetItemIconByID(itemID)
+    local spellInfo = data[4] or C_Spell.GetSpellInfo(itemID)
+    EasyReminders.DataCache[itemID] = {data[1], itemName, itemIcon, spellInfo}
+  end
+end
+
+function EasyReminders:CheckBuffs()
+    local missingBuffs = {}
+
+    EasyReminders.ConsumableCheck:CheckBuffs(missingBuffs)
+    EasyReminders.WellFedCheck:CheckBuffs(missingBuffs)
+    EasyReminders.UI.NotificationWindow:UpdateNotifications(missingBuffs)
 end
 
 function EasyReminders:ConcatenateTables(table1, table2)
@@ -122,3 +161,4 @@ function EasyReminders:ConcatenateTables(table1, table2)
     end
     return outputTable
 end
+

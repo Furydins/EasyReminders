@@ -3,10 +3,9 @@ EasyReminders.ConsumableCheck = EasyReminders.ConsumableCheck or {}
 local ConsumableCheck = EasyReminders.ConsumableCheck
 
 local TrackingList = {}
-local bagContentsCache = {}
 local missingBuffs = {}
 
---   dataCache[data.itemID] = {data.buffID, itemName, itemIcon, spellInfo, potionName, buffName}
+--   dataCache[data.itemID] = {data.buffID, itemName, itemIcon, spellInfo, potionName, buffName, foodName}
 
 function ConsumableCheck:BuildTrackingList()
 
@@ -47,9 +46,9 @@ function ConsumableCheck:BuildTrackingList()
   end
 end
 
-function ConsumableCheck:CheckBuffs()
+function ConsumableCheck:CheckBuffs(missingBuffs)
 
-  local missingBuffs = {}
+  local bagContentsCache = EasyReminders.BagCache:GetBagCache()
   local trackingList = nil
 
   inInstance, instanceType = _G.IsInInstance()
@@ -90,27 +89,22 @@ function ConsumableCheck:CheckBuffs()
         end     
     end
   end
-  EasyReminders.UI.NotificationWindow:UpdateNotifications(missingBuffs)
 end
 
-function ConsumableCheck:GetBagItems()
-    bagContentsCache = {}
-      -- Loop through player bags (0 is backpack, 1-4 are additional bags, 5 reagent bag)
-    for bag = 0, 5 do
-        -- Check if the bag exists/is accessible
-        if C_Container.GetBagName(bag) then
-            -- Loop through all slots in the current bag
-            for slot = 1, C_Container.GetContainerNumSlots(bag) do
-                -- Get the item link for the current slot
-                local itemID = C_Container.GetContainerItemID(bag, slot)
-                if itemID then
-                    bagContentsCache[itemID] = true
-                end
-            end
-        end
+
+function ConsumableCheck:PopulateData()
+ for key, data in pairs(EasyReminders.ConsumableCache)  do
+
+    local itemName = C_Item.GetItemNameByID(data.itemID)
+    local itemIcon = C_Item.GetItemIconByID(data.itemID)
+    local spellInfo = C_Spell.GetSpellInfo(data.buffID)
+
+    EasyReminders:AddData(data.itemID, itemName, itemIcon, spellInfo)
+    if data.otherIds then
+      for key, otherID in pairs(data.otherIds) do
+        EasyReminders:AddData(otherID, itemName, C_Item.GetItemIconByID(otherID), spellInfo)
+      end
     end
-end
 
-function ConsumableCheck:GetBagCache()
-  return bagContentsCache
+  end
 end

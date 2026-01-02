@@ -28,3 +28,5 @@ L["Shows a visible anchor to make moving the notification frame easier"] = "Show
 L["Some Options"] = "Some Options"
 L["Toggle to hide the minimap button"] = "Toggle to hide the minimap button"
 L["Tracked Buff"] = "Tracked Buff"
+L["Well Fed"] = "Well Fed"
+L["Add Food"] = "Add Food"
