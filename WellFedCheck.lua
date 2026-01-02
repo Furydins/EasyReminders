@@ -91,7 +91,7 @@ function WellFedCheck:PopulateData()
     local itemName = C_Item.GetItemNameByID(data.itemID)
     local itemIcon = C_Item.GetItemIconByID(data.itemID)
 
-    EasyReminders:AddData(data.itemID, itemName, itemIcon, nil, nil, nil, nil)
+    EasyReminders:AddData(data.itemID, itemName, itemIcon, nil)
  end
 
 end

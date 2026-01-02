@@ -99,10 +99,10 @@ function ConsumableCheck:PopulateData()
     local itemIcon = C_Item.GetItemIconByID(data.itemID)
     local spellInfo = C_Spell.GetSpellInfo(data.buffID)
 
-    EasyReminders:AddData(data.itemID, itemName, itemIcon, spellInfo, nil, nil, nil)
+    EasyReminders:AddData(data.itemID, itemName, itemIcon, spellInfo)
     if data.otherIds then
       for key, otherID in pairs(data.otherIds) do
-        EasyReminders:AddData(otherID, itemName, C_Item.GetItemIconByID(otherID), spellInfo, nil, nil, nil)
+        EasyReminders:AddData(otherID, itemName, C_Item.GetItemIconByID(otherID), spellInfo)
       end
     end
 

@@ -25,13 +25,13 @@ function ConsumablesTab:Create(mainFrame, container)
 
   local potionTitle = EasyReminders.AceGUI:Create("Label")
   potionTitle:SetText(L["Item"])
-  potionTitle:SetWidth(230)
+  potionTitle:SetWidth(220)
   titleContainer:AddChild(potionTitle)
 
   --
   local buffTitle = EasyReminders.AceGUI:Create("Label")
   buffTitle:SetText(L["Tracked Buff"])
-  buffTitle:SetWidth(230)
+  buffTitle:SetWidth(220)
   titleContainer:AddChild(buffTitle)
 
   local raidTitle = EasyReminders.AceGUI:Create("Label")
@@ -80,7 +80,7 @@ function ConsumablesTab:RebuildScrollBox()
     local potionName = EasyReminders.AceGUI:Create("Label")
     potionName:SetText(itemName or L["Loading..."])
     potionName:SetFont(EasyReminders.Font, 12, "")
-    potionName:SetWidth(230)
+    potionName:SetWidth(220)
     potionName:SetImage(itemIcon)
     potionName:SetImageSize(16,16)
     scrollBox:AddChild(potionName)
@@ -89,16 +89,15 @@ function ConsumablesTab:RebuildScrollBox()
     local buffName = EasyReminders.AceGUI:Create("Label")
     buffName:SetText((spellInfo and spellInfo.name) or L["Loading..."])
     buffName:SetFont(EasyReminders.Font, 12, "")
-    buffName:SetWidth(230)
+    buffName:SetWidth(220)
     buffName:SetImage((spellInfo and spellInfo.iconID) or nil)
     buffName:SetImageSize(16,16)
     scrollBox:AddChild(buffName)
 
-    EasyReminders:Print("medlding with potion data")
-    EasyReminders:AddData(data.itemID, itemName, itemIcon, spellInfo, potionName, buffName, nil)
+    EasyReminders:AddData(data.itemID, itemName, itemIcon, spellInfo)
     if data.otherIds then
       for key, otherID in pairs(data.otherIds) do
-        EasyReminders:AddData(otherID, itemName, C_Item.GetItemIconByID(otherID), spellInfo, potionName, buffName, nil)
+        EasyReminders:AddData(otherID, itemName, C_Item.GetItemIconByID(otherID), spellInfo)
       end
     end
 

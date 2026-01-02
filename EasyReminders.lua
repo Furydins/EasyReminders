@@ -119,16 +119,13 @@ function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
     end
 end
 
-function EasyReminders:AddData(itemID, itemName, itemIcon, spellInfo, potionName, buffName,foodName)
+function EasyReminders:AddData(itemID, itemName, itemIcon, spellInfo)
     local data = EasyReminders.DataCache[itemID] or {}
 
     data[1] = itemID
     data[2] = itemName or data[2]
     data[3] = itemIcon or data[3]
     data[4] = spellInfo or data[4]
-    data[5] = potionName or data[5]
-    data[6] = buffName or data[6]
-    data[7] = foodName or data[7]
 
     EasyReminders.DataCache[itemID] = data
 
@@ -140,10 +137,7 @@ function EasyReminders:RefreshData()
     local itemName = data[2] or C_Item.GetItemNameByID(itemID)
     local itemIcon = data[3] or C_Item.GetItemIconByID(itemID)
     local spellInfo = data[4] or C_Spell.GetSpellInfo(itemID)
-    local potionName = data[5]
-    local buffName = data[6]
-    local foodName = data[7]
-    EasyReminders.DataCache[itemID] = {data[1], itemName, itemIcon, spellInfo, potionName, buffName, foodName}
+    EasyReminders.DataCache[itemID] = {data[1], itemName, itemIcon, spellInfo}
   end
 end
 
@@ -168,16 +162,3 @@ function EasyReminders:ConcatenateTables(table1, table2)
     return outputTable
 end
 
---- For food:
--- cleanup data cache
-
--- TO DO
--- Test Raid (If I can)
--- v1 ready!!!
--- Add food tab!
--- Add raid buffs tab
--- Add personal buffs tab
--- Add profiles
--- Add holidays trackers
--- Add calenar reminders
--- Add restock reminders
