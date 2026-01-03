@@ -75,7 +75,7 @@ function WellFedCheck:CheckBuffs(missingBuffs)
      if not foundbuffs then 
         for itemID, _ in pairs(trackingList) do
             if bagContentsCache[itemID] ~= nil then
-                missingBuffs[itemID] = itemID
+                missingBuffs[itemID] = EasyReminders.DataCache[itemID][3]
                 break
             end
         end

@@ -89,7 +89,7 @@ function ConsumableCheck:CheckBuffs(missingBuffs)
                 end
               end
               if not filtered then 
-                missingBuffs[buffID] = itemID
+                missingBuffs[buffID] = EasyReminders.DataCache[itemID][3]
                 break
               end
             else
