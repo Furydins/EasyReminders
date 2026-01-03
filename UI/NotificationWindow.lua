@@ -49,11 +49,11 @@ function NotificationWindow:UpdateNotifications(missingBuffs)
       frame:AddChild(anchor)
     end
     
-    for buffID, itemID in pairs(missingBuffs) do
+    for buffID, iconID in pairs(missingBuffs) do
         itemData = EasyReminders.DataCache[itemID]
 
         local icon = EasyReminders.AceGUI:Create("Label")
-        icon:SetImage(itemData[3])
+        icon:SetImage(iconID)
         icon:SetImageSize(64,64)
         icon:SetWidth(64)
         frame:AddChild(icon)

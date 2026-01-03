@@ -15,6 +15,7 @@ EasyReminders.NotificationWindow = nil
 EasyReminders.DataCache = {}
 EasyReminders.ConsumableCache = {}
 EasyReminders.FoodCache = {}
+EasyReminders.BuffCache = {}
 
 function EasyReminders:OnInitialize()
 
@@ -24,15 +25,18 @@ function EasyReminders:OnInitialize()
 
     EasyReminders.charDB.potions = EasyReminders.charDB.potions or {}
     EasyReminders.charDB.food = EasyReminders.charDB.food or {}
+    EasyReminders.charDB.buff = EasyReminders.charDB.buff or {}
+
     EasyReminders.globalDB.customConsumables = EasyReminders.globalDB.customConsumables or {}
     EasyReminders.globalDB.customFood = EasyReminders.globalDB.customFood or {}
-
+    EasyReminders.globalDB.customBuffs = EasyReminders.globalDB.customBuffs or {}
 
     EasyReminders:RegisterChatCommand("er", "OpenGUI")
     EasyReminders:RegisterChatCommand("easyreminders", "OpenGUI")
 
     EasyReminders.ConsumableCache = EasyReminders:ConcatenateTables(EasyReminders.Data.Consumables, EasyReminders.globalDB.customConsumables)
     EasyReminders.FoodCache = EasyReminders:ConcatenateTables(EasyReminders.Data.Food, EasyReminders.globalDB.customFood)
+    EasyReminders.BuffCache = EasyReminders:ConcatenateTables(EasyReminders.Data.Buffs, EasyReminders.globalDB.customBuffs)
     
     EasyReminders.MainWindow = EasyReminders.UI.MainWindow:CreateMainWindow()
 
@@ -43,6 +47,7 @@ function EasyReminders:OnInitialize()
 
     EasyReminders.ConsumableCheck:BuildTrackingList()
     EasyReminders.WellFedCheck:BuildTrackingList()
+    EasyReminders.BuffCheck:BuildTrackingList()
 
     EasyReminders:CreateTimer()
     
@@ -146,6 +151,7 @@ function EasyReminders:CheckBuffs()
 
     EasyReminders.ConsumableCheck:CheckBuffs(missingBuffs)
     EasyReminders.WellFedCheck:CheckBuffs(missingBuffs)
+    EasyReminders.BuffCheck:CheckBuffs(missingBuffs)
     EasyReminders.UI.NotificationWindow:UpdateNotifications(missingBuffs)
 end
 
@@ -162,3 +168,13 @@ function EasyReminders:ConcatenateTables(table1, table2)
     return outputTable
 end
 
+-- TO DO
+-- Test Raid (If I can)
+-- v1 ready!!!
+-- Add buffs tab
+-- Extra buffs option for consumables
+-- Add Import/Export
+-- Add profiles
+-- Add holidays trackers
+-- Add calenar reminders
+-- Add restock reminders
