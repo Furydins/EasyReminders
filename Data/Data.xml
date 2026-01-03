@@ -2,5 +2,5 @@
 ..\FrameXML\UI.xsd">
     <Script file="ConsumableData.lua"/>
     <Script file="FoodData.lua"/>
-    <Script file="RaidBuffs.lua"/>
+    <Script file="BuffsData.lua"/>
 </Ui>

@@ -4,10 +4,11 @@
     <Include file="Widgets\Widgets.xml"/>
     <Script file="ConsumablesTab.lua"/>
     <Script file="WellFedTab.lua"/>
-    <Script file="RaidBuffTab.lua"/>
+    <Script file="BuffTab.lua"/>
     <Script file="Options.lua"/>
     <Script file="MainWindow.lua"/>
     <Script file="NotificationWindow.lua"/>
     <Script file="ConsumablesDialog.lua"/>
     <Script file="WellFedDialog.lua"/>
+    <Script file="BuffDialog.lua"/>
 </Ui>

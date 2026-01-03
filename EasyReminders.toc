@@ -39,6 +39,7 @@ Data\Data.xml
 BagCache.lua
 ConsumableCheck.lua
 WellFedCheck.lua
+BuffCheck.lua
 
 
 

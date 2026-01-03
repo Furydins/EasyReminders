@@ -81,7 +81,7 @@ function ConsumableCheck:CheckBuffs(missingBuffs)
         if not foundbuffs[buffID] then
           for i, itemID in pairs(itemIDs) do
             if bagContentsCache[itemID] ~= nil then
-                missingBuffs[buffID] = itemID
+                missingBuffs[buffID] = EasyReminders.DataCache[itemID][3]
                 break
             else
             end
