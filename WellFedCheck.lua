@@ -60,9 +60,8 @@ function WellFedCheck:CheckBuffs(missingBuffs)
 
   -- check if we can scan auras
 
-
   if trackingList and not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
-      and not C_PvP.IsMatchActive() and not C_Secrets.ShouldAurasBeSecret() then
+      and not C_PvP.IsMatchActive() and (C_Secrets and (not C_Secrets.ShouldAurasBeSecret())) then
      local foundbuffs = nil
 
      _G.AuraUtil.ForEachAura("player", "HELPFUL", nil, function(name, icon, _, _, _, _, _, _, _, spellID)
