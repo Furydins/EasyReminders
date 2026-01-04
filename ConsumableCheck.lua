@@ -9,6 +9,8 @@ local missingBuffs = {}
 
 function ConsumableCheck:BuildTrackingList()
 
+  EasyReminders:RefreshData()
+
   TrackingList.outside = {}
   TrackingList.dungeon = {}
   TrackingList.raid = {}
@@ -28,19 +30,19 @@ function ConsumableCheck:BuildTrackingList()
 
     if EasyReminders.charDB.potions[data.itemID] then
         if EasyReminders.charDB.potions[data.itemID].outside then
-          TrackingList.outside[buffID] = itemIDs
+          TrackingList.outside[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
         end
         if EasyReminders.charDB.potions[data.itemID].dungeon then
-          TrackingList.dungeon[buffID] = itemIDs
+          TrackingList.dungeon[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
         end
         if EasyReminders.charDB.potions[data.itemID].raid then
-          TrackingList.raid[buffID] = itemIDs
+          TrackingList.raid[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
         end
         if EasyReminders.charDB.potions[data.itemID].pvp then
-          TrackingList.pvp[buffID] = itemIDs
+          TrackingList.pvp[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
         end
         if EasyReminders.charDB.potions[data.itemID].delve then
-          TrackingList.delve[buffID] = itemIDs
+          TrackingList.delve[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
         end
     end
   end
@@ -68,7 +70,7 @@ function ConsumableCheck:CheckBuffs(missingBuffs)
   -- check if we can scan auras
 
   if trackingList and not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
-      and not C_PvP.IsMatchActive() and not C_Secrets.ShouldAurasBeSecret() then
+      and not C_PvP.IsMatchActive() and (C_Secrets and (not C_Secrets.ShouldAurasBeSecret())) then
      local foundbuffs = {}
 
      _G.AuraUtil.ForEachAura("player", "HELPFUL", nil, function(_, _, _, _, _, _, _, _, _, spellID)
@@ -76,13 +78,24 @@ function ConsumableCheck:CheckBuffs(missingBuffs)
             foundbuffs[spellID] = true 
         end
      end)
-     for buffID, itemIDs in pairs(trackingList) do
-        
+     for buffID, data in pairs(trackingList) do       
         if not foundbuffs[buffID] then
-          for i, itemID in pairs(itemIDs) do
+          for i, itemID in pairs(data.itemIDs) do
             if bagContentsCache[itemID] ~= nil then
+              local filtered = false
+              if data.otherBuffs then 
+                for i, otherBuffID in pairs(data.otherBuffs) do
+                  if foundbuffs[otherBuffID] then 
+                    filtered = true
+                    break
+                  end
+                end
+              end
+              if not filtered then 
+
                 missingBuffs[buffID] = EasyReminders.DataCache[itemID][3]
                 break
+              end
             else
             end
           end

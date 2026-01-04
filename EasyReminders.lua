@@ -38,9 +38,15 @@ function EasyReminders:OnInitialize()
     EasyReminders.FoodCache = EasyReminders:ConcatenateTables(EasyReminders.Data.Food, EasyReminders.globalDB.customFood)
     EasyReminders.BuffCache = EasyReminders:ConcatenateTables(EasyReminders.Data.Buffs, EasyReminders.globalDB.customBuffs)
     
-    EasyReminders.MainWindow = EasyReminders.UI.MainWindow:CreateMainWindow()
-
     EasyReminders:RegisterEvents()
+
+    -- Prime Cache
+    for i, data in pairs(EasyReminders.Data.Consumables) do
+        EasyReminders:AddData(data.itemID)
+    end
+    for i, data in pairs(EasyReminders.Data.Food)  do
+        EasyReminders:AddData(data.itemID)
+    end
 
     EasyReminders.ConsumableCheck:PopulateData()
     EasyReminders.WellFedCheck:PopulateData()
@@ -50,7 +56,7 @@ function EasyReminders:OnInitialize()
     EasyReminders.BuffCheck:BuildTrackingList()
 
     EasyReminders:CreateTimer()
-    
+
     EasyReminders.UI.NotificationWindow:CreateNotificationWindow()
 
     -- Set Up the minimap icon
@@ -89,6 +95,9 @@ function EasyReminders:OpenGUI(msg)
         local bagCache = EasyReminders.ConsumableCheck:GetBagCache()
     else
         EasyReminders:RefreshData()
+        if not EasyReminders.MainWindow then
+            EasyReminders.MainWindow = EasyReminders.UI.MainWindow:CreateMainWindow()
+        end
         EasyReminders.MainWindow:Show()
     end
 end
@@ -111,13 +120,13 @@ end
 
 function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
     if "PLAYER_ENTERING_WORLD" == event then
-        if arg2 then
+        if arg1 or arg2 then
             EasyReminders.BagCache:RefreshBags()
         end
         EasyReminders:CheckBuffs()
-    elseif "UNIT_INVENTORY_CHANGED" == event and not _G.issecretvalue(arg1) and "player" == arg1 then
+    elseif "UNIT_INVENTORY_CHANGED" == event and "player" == arg1 then
         EasyReminders.BagCache:RefreshBags()
-    elseif "UNIT_AURA" == event and not _G.issecretvalue(arg1) and "player" == arg1 then
+    elseif "UNIT_AURA" == event and "player" == arg1 then
         EasyReminders:CheckBuffs()
     elseif "PLAYER_REGEN_ENABLED" == event then
         EasyReminders:CheckBuffs()
@@ -128,9 +137,9 @@ function EasyReminders:AddData(itemID, itemName, itemIcon, spellInfo)
     local data = EasyReminders.DataCache[itemID] or {}
 
     data[1] = itemID
-    data[2] = itemName or data[2]
-    data[3] = itemIcon or data[3]
-    data[4] = spellInfo or data[4]
+    data[2] = itemName or data[2] or nil
+    data[3] = itemIcon or data[3] or nil
+    data[4] = spellInfo or data[4] or nil
 
     EasyReminders.DataCache[itemID] = data
 
@@ -143,10 +152,12 @@ function EasyReminders:RefreshData()
     local itemIcon = data[3] or C_Item.GetItemIconByID(itemID)
     local spellInfo = data[4] or C_Spell.GetSpellInfo(itemID)
     EasyReminders.DataCache[itemID] = {data[1], itemName, itemIcon, spellInfo}
+
   end
 end
 
 function EasyReminders:CheckBuffs()
+    EasyReminders:RefreshData()
     local missingBuffs = {}
 
     EasyReminders.ConsumableCheck:CheckBuffs(missingBuffs)
@@ -167,14 +178,3 @@ function EasyReminders:ConcatenateTables(table1, table2)
     end
     return outputTable
 end
-
--- TO DO
--- Test Raid (If I can)
--- v1 ready!!!
--- Add buffs tab
--- Extra buffs option for consumables
--- Add Import/Export
--- Add profiles
--- Add holidays trackers
--- Add calenar reminders
--- Add restock reminders

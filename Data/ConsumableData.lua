@@ -16,4 +16,7 @@ EasyReminders.Data.Consumables = {
     [243191] = {["itemID"] = 243191,  ["buffID"] = 1234969},  -- Ethereal Augment Rune
     [224572] = {["itemID"] = 224572,  ["buffID"] = 453250},  -- Crystallized Augment Rune
 
+    --- Extras
+    [171364] = {["itemID"] = 171364, ["buffID"] = 136583, ["otherBuffs"] = {46668}} -- Darkmoon Faire Top Hats,
+
 }
