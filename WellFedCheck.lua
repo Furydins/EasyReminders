@@ -16,24 +16,36 @@ function WellFedCheck:BuildTrackingList()
   TrackingList.delve = {}
   for index, data in pairs(EasyReminders.FoodCache) do
 
-    local itemID = data.itemID
 
-    if EasyReminders.charDB.food[itemID] then
-        if EasyReminders.charDB.food[itemID].outside then
-          TrackingList.outside[itemID] = itemID
-        end
-        if EasyReminders.charDB.food[itemID].dungeon then
-          TrackingList.dungeon[itemID] = itemID
-        end
-        if EasyReminders.charDB.food[itemID].raid then
-          TrackingList.raid[itemID] = itemID
-        end
-        if EasyReminders.charDB.food[itemID].pvp then
-          TrackingList.pvp[itemID] = itemID
-        end
-        if EasyReminders.charDB.food[itemID].delve then
-          TrackingList.delve[itemID] = itemID
-        end
+
+    local itemIDs = {}
+    if data.otherIds then
+      for k,v in pairs(data.otherIds) do
+        table.insert(itemIDs, v)
+      end
+    end
+    table.insert(itemIDs, data.itemID)
+
+    for i, itemID in pairs(itemIDs) do
+
+      if EasyReminders.charDB.food[itemID] then
+          if EasyReminders.charDB.food[itemID].outside then
+            TrackingList.outside[itemID] = itemID
+          end
+          if EasyReminders.charDB.food[itemID].dungeon then
+            TrackingList.dungeon[itemID] = itemID
+          end
+          if EasyReminders.charDB.food[itemID].raid then
+            TrackingList.raid[itemID] = itemID
+          end
+          if EasyReminders.charDB.food[itemID].pvp then
+            TrackingList.pvp[itemID] = itemID
+          end
+          if EasyReminders.charDB.food[itemID].delve then
+            TrackingList.delve[itemID] = itemID
+          end
+      end
+
     end
   end
 end
@@ -91,6 +103,12 @@ function WellFedCheck:PopulateData()
     local itemIcon = C_Item.GetItemIconByID(data.itemID)
 
     EasyReminders:AddData(data.itemID, itemName, itemIcon, nil)
+    if data.otherIds then
+      for key, otherID in pairs(data.otherIds) do
+        EasyReminders:AddData(otherID, itemName, C_Item.GetItemIconByID(otherID), spellInfo)
+      end
+    end
+
  end
 
 end

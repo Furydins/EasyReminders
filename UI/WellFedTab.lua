@@ -80,6 +80,11 @@ function WellFedTab:RebuildScrollBox()
     scrollBox:AddChild(foodName)
 
     EasyReminders:AddData(data.itemID, itemName, itemIcon)
+     if data.otherIds then
+      for key, otherID in pairs(data.otherIds) do
+        EasyReminders:AddData(otherID, itemName, C_Item.GetItemIconByID(otherID), nil)
+      end
+    end
 
     local raid = EasyReminders.AceGUI:Create("CheckBox")
     raid:SetType("checkbox")
