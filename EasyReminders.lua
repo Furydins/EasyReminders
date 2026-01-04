@@ -178,11 +178,3 @@ function EasyReminders:ConcatenateTables(table1, table2)
     end
     return outputTable
 end
-
--- TO DO
--- Test Raid (If I can)
--- v1 ready!!!
--- Add holidays trackers
--- Add calenar reminders
--- Add restock reminders
--- Add Countdown
