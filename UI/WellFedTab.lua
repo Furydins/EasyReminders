@@ -65,8 +65,10 @@ function WellFedTab:RebuildScrollBox()
 
   for key, data in pairs(EasyReminders.FoodCache)  do
 
-    local itemName = C_Item.GetItemNameByID(data.itemID)
-    local itemIcon = C_Item.GetItemIconByID(data.itemID)
+    local cacheEntry = EasyReminders.DataCache[data.itemID] or {}
+
+    local itemName = cacheEntry[2] or C_Item.GetItemNameByID(data.itemID)
+    local itemIcon = cacheEntry[3] or C_Item.GetItemIconByID(data.itemID)
 
     ---
     local foodName = EasyReminders.AceGUI:Create("Label")

@@ -9,6 +9,8 @@ local missingBuffs = {}
 
 function ConsumableCheck:BuildTrackingList()
 
+  EasyReminders:RefreshData()
+
   TrackingList.outside = {}
   TrackingList.dungeon = {}
   TrackingList.raid = {}
@@ -28,19 +30,19 @@ function ConsumableCheck:BuildTrackingList()
 
     if EasyReminders.charDB.potions[data.itemID] then
         if EasyReminders.charDB.potions[data.itemID].outside then
-          TrackingList.outside[buffID] = { ["itemIds"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
+          TrackingList.outside[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
         end
         if EasyReminders.charDB.potions[data.itemID].dungeon then
-          TrackingList.dungeon[buffID] = { ["itemIds"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
+          TrackingList.dungeon[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
         end
         if EasyReminders.charDB.potions[data.itemID].raid then
-          TrackingList.raid[buffID] = { ["itemIds"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
+          TrackingList.raid[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
         end
         if EasyReminders.charDB.potions[data.itemID].pvp then
-          TrackingList.pvp[buffID] = { ["itemIds"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
+          TrackingList.pvp[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
         end
         if EasyReminders.charDB.potions[data.itemID].delve then
-          TrackingList.delve[buffID] = { ["itemIds"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
+          TrackingList.delve[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
         end
     end
   end
@@ -76,19 +78,21 @@ function ConsumableCheck:CheckBuffs(missingBuffs)
             foundbuffs[spellID] = true 
         end
      end)
-     for buffID, data in pairs(trackingList) do
-        
+     for buffID, data in pairs(trackingList) do       
         if not foundbuffs[buffID] then
           for i, itemID in pairs(data.itemIDs) do
             if bagContentsCache[itemID] ~= nil then
               local filtered = false
               if data.otherBuffs then 
-                for i, buffID in pairs(data.otherBuffs) do
-                  filtered = true
-                  break
+                for i, otherBuffID in pairs(data.otherBuffs) do
+                  if foundbuffs[otherBuffID] then 
+                    filtered = true
+                    break
+                  end
                 end
               end
               if not filtered then 
+
                 missingBuffs[buffID] = EasyReminders.DataCache[itemID][3]
                 break
               end

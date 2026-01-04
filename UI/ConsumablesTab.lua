@@ -67,14 +67,18 @@ function ConsumablesTab:Create(mainFrame, container)
 end
 
 function ConsumablesTab:RebuildScrollBox()
+  EasyReminders:RefreshData()
   local scrollBox = ConsumablesTab.ScrollBox
   scrollBox:ReleaseChildren()
 
   for key, data in pairs(EasyReminders.ConsumableCache)  do
 
-    local itemName = C_Item.GetItemNameByID(data.itemID)
-    local itemIcon = C_Item.GetItemIconByID(data.itemID)
-    local spellInfo = C_Spell.GetSpellInfo(data.buffID)
+    -- itemID, itemName, itemIcon, spellInfo
+    local cacheEntry = EasyReminders.DataCache[data.itemID] or {}
+
+    local itemName = cacheEntry[2] or C_Item.GetItemNameByID(data.itemID)
+    local itemIcon = cacheEntry[3] or C_Item.GetItemIconByID(data.itemID)
+    local spellInfo = cacheEntry[4] or C_Spell.GetSpellInfo(data.buffID)
 
     ---
     local potionName = EasyReminders.AceGUI:Create("Label")
