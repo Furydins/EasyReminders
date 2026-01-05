@@ -5,7 +5,7 @@ EasyReminders.AceConfig = _G.LibStub("AceConfig-3.0")
 EasyReminders.AceConfigDialog = _G.LibStub("AceConfigDialog-3.0")
 
 
-local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
+L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 EasyReminders.MainWindow = nil
 EasyReminders.Font = "Fonts\\FRIZQT__.TTF"
@@ -26,6 +26,7 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.potions = EasyReminders.charDB.potions or {}
     EasyReminders.charDB.food = EasyReminders.charDB.food or {}
     EasyReminders.charDB.buff = EasyReminders.charDB.buff or {}
+     EasyReminders.charDB.holiday = EasyReminders.charDB.holiday or {}
 
     EasyReminders.globalDB.customConsumables = EasyReminders.globalDB.customConsumables or {}
     EasyReminders.globalDB.customFood = EasyReminders.globalDB.customFood or {}
@@ -92,7 +93,16 @@ end
 
 function EasyReminders:OpenGUI(msg)
     if msg and _G.string.len(msg) > 0 then
-        local bagCache = EasyReminders.ConsumableCheck:GetBagCache()
+
+        local frame =  EasyReminders.UI.HolidayWindow:CreateHolidayWindow()
+
+        local activeHolidays = {
+            [0] = {["name"] = "holidayOne", ["holidayIndex"] = 100},
+            [1] = {["name"] = "holidayTwo", ["holidayIndex"] = 101},
+            [2] = {["name"] = "holidayTwo", ["holidayIndex"] = 102},
+        }
+        EasyReminders.UI.HolidayWindow:UpdateNotifications(activeHolidays)
+        
     else
         EasyReminders:RefreshData()
         if not EasyReminders.MainWindow then
