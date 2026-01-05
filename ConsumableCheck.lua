@@ -70,11 +70,11 @@ function ConsumableCheck:CheckBuffs(missingBuffs)
   -- check if we can scan auras
 
   if trackingList and not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
-      and not C_PvP.IsMatchActive() and (C_Secrets and (not C_Secrets.ShouldAurasBeSecret())) then
+      and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
      local foundbuffs = {}
 
      _G.AuraUtil.ForEachAura("player", "HELPFUL", nil, function(_, _, _, _, _, _, _, _, _, spellID)
-        if not _G.issecretvalue(spellID) then
+        if not (_G.issecretvalue and _G.issecretvalue(spellID)) then
             foundbuffs[spellID] = true 
         end
      end)
@@ -102,6 +102,7 @@ function ConsumableCheck:CheckBuffs(missingBuffs)
         end     
     end
   end
+  EasyReminders.BagCache:RefreshBags()
 end
 
 

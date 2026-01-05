@@ -21,33 +21,34 @@ function WellFedCheck:BuildTrackingList()
     local itemIDs = {}
     if data.otherIds then
       for k,v in pairs(data.otherIds) do
-        table.insert(itemIDs, v)
+        table.insert(itemIDs, v, data.itemID)
       end
     end
-    table.insert(itemIDs, data.itemID)
+    table.insert(itemIDs, data.itemID, data.itemID)
 
-    for i, itemID in pairs(itemIDs) do
+    for itemID, baseItemID in pairs(itemIDs) do
 
-      if EasyReminders.charDB.food[itemID] then
-          if EasyReminders.charDB.food[itemID].outside then
+      if EasyReminders.charDB.food[baseItemID] then
+          if EasyReminders.charDB.food[baseItemID].outside then
             TrackingList.outside[itemID] = itemID
           end
-          if EasyReminders.charDB.food[itemID].dungeon then
+          if EasyReminders.charDB.food[baseItemID].dungeon then
             TrackingList.dungeon[itemID] = itemID
           end
-          if EasyReminders.charDB.food[itemID].raid then
+          if EasyReminders.charDB.food[baseItemID].raid then
             TrackingList.raid[itemID] = itemID
           end
-          if EasyReminders.charDB.food[itemID].pvp then
+          if EasyReminders.charDB.food[baseItemID].pvp then
             TrackingList.pvp[itemID] = itemID
           end
-          if EasyReminders.charDB.food[itemID].delve then
+          if EasyReminders.charDB.food[baseItemID].delve then
             TrackingList.delve[itemID] = itemID
           end
       end
 
     end
   end
+  EasyReminders.BagCache:RefreshBags()
 end
 
 function WellFedCheck:CheckBuffs(missingBuffs)
@@ -73,11 +74,11 @@ function WellFedCheck:CheckBuffs(missingBuffs)
   -- check if we can scan auras
 
   if trackingList and not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
-      and not C_PvP.IsMatchActive() and (C_Secrets and (not C_Secrets.ShouldAurasBeSecret())) then
+      and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
      local foundbuffs = nil
 
      _G.AuraUtil.ForEachAura("player", "HELPFUL", nil, function(name, icon, _, _, _, _, _, _, _, spellID)
-        if not _G.issecretvalue(spellID) then
+        if not (_G.issecretvalue and _G.issecretvalue(spellID)) then
             if EasyReminders.Data.FoodIcons[spellID] then
                 foundbuffs = spellID
             end
