@@ -41,7 +41,7 @@ function HolidayTab:RebuildScrollBox()
   local holidayModeDropdown = {
     [EasyReminders.Data.HolidayMode.NEVER] = L["Never"],
     [EasyReminders.Data.HolidayMode.ONCE] = L["Once per year"],
-    [EasyReminders.Data.HolidayMode.DAILY] = L["Once per Day"],
+    [EasyReminders.Data.HolidayMode.DAILY] = L["Once per event"],
   }
 
   for i=1,#EasyReminders.Data.Holidays do
@@ -60,6 +60,7 @@ function HolidayTab:RebuildScrollBox()
       scrollBox:AddChild(holidayMode)
       holidayMode:SetCallback("OnValueChanged", function(_,_,value)
         EasyReminders.charDB.holiday[i] = EasyReminders.charDB.holiday[i] or {}
+        EasyReminders:Print("Holiday setting:", EasyReminders.charDB.holiday[i])
         EasyReminders.charDB.holiday[i].setting = value
         -- EasyReminders.HolidayCheck:BuildTrackingList()
         -- EasyReminders:CheckHolidays()

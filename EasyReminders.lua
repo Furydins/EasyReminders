@@ -17,6 +17,8 @@ EasyReminders.ConsumableCache = {}
 EasyReminders.FoodCache = {}
 EasyReminders.BuffCache = {}
 
+local HolidayFrame = nil
+
 function EasyReminders:OnInitialize()
 
      -- Initialise Database
@@ -97,9 +99,9 @@ function EasyReminders:OpenGUI(msg)
         local frame =  EasyReminders.UI.HolidayWindow:CreateHolidayWindow()
 
         local activeHolidays = {
-            [0] = {["name"] = "holidayOne", ["holidayIndex"] = 100},
-            [1] = {["name"] = "holidayTwo", ["holidayIndex"] = 101},
-            [2] = {["name"] = "holidayTwo", ["holidayIndex"] = 102},
+            [0] = {["name"] = "holidayOne", ["holidayIndex"] = 100, ["duration"] = EasyReminders.Data.Duration.MONTHLY},
+            [1] = {["name"] = "holidayTwo", ["holidayIndex"] = 101, ["duration"] = EasyReminders.Data.Duration.MONTHLY},
+            [2] = {["name"] = "holidayThree", ["holidayIndex"] = 102,  ["duration"] = EasyReminders.Data.Duration.MONTHLY},
         }
         EasyReminders.UI.HolidayWindow:UpdateNotifications(activeHolidays)
         
@@ -174,6 +176,13 @@ function EasyReminders:CheckBuffs()
     EasyReminders.WellFedCheck:CheckBuffs(missingBuffs)
     EasyReminders.BuffCheck:CheckBuffs(missingBuffs)
     EasyReminders.UI.NotificationWindow:UpdateNotifications(missingBuffs)
+
+    if not HolidayFrame then 
+        HolidayFrame = EasyReminders.UI.HolidayWindow:CreateHolidayWindow()
+    end
+    
+    EasyReminders.UI.HolidayWindow:UpdateNotifications()
+    
 end
 
 function EasyReminders:ConcatenateTables(table1, table2)
