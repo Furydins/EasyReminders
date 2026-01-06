@@ -22,7 +22,7 @@ local function GetCalendarData(calendarEvent)
     for i, data in pairs(EasyReminders.Data.Holidays) do
         if data.holidayID == calendarEvent.eventID then
             local result = {}
-            result.name = calendarEvent.titleContainer
+            result.name = calendarEvent.title
             result.holidayIndex = i
             result.duration = data.duration
             return result
@@ -37,13 +37,14 @@ local function GetActiveHolidays()
     activeHolidays = { }
 	local today = C_DateAndTime.GetCurrentCalendarTime()
 	local month, day, year = today.month, today.monthDay, today.year
+    C_Calendar.OpenCalendar()
 	local numEvents = C_Calendar.GetNumDayEvents(0, day)
 
-	for i = 1, numEvents, 1 do
+	for i = 1, numEvents do
 		local calendarEvent = C_Calendar.GetDayEvent(0, day, i)
 
 		if calendarEvent.calendarType == "HOLIDAY" then
-			 table.insert(activeHolidays, GetCalendarData(calendarEvent))
+			table.insert(activeHolidays, GetCalendarData(calendarEvent))
 		end
 	end
     return activeHolidays
@@ -92,11 +93,10 @@ end
 local function canShow(holidayData)
     local dismissDate = EasyReminders.charDB.holiday[holidayData.holidayIndex] and EasyReminders.charDB.holiday[holidayData.holidayIndex].dismissDate
     if not dismissDate then
-        return false
+        return true
     end
 
     local currentTime = _G.date(DATE_FORMAT)
-    EasyReminders:Print("Dismiss date", dismissDate, EasyReminders.charDB.holiday[holidayData.holidayIndex].setting)
     local c_year, c_month, c_day, c_hour, c_min, c_sec = currentTime:match("(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+)")
     local resetHour = resetTimes[CURRENT_REGION] or resetTimes["RetailUS"]
     local resetTime = _G.time({year = tonumber(c_year), month = tonumber(c_month), 
@@ -116,15 +116,12 @@ local function canShow(holidayData)
     local days = math.floor(diffSeconds / 86400)
 
     if EasyReminders.charDB.holiday[holidayData.holidayIndex].setting == EasyReminders.Data.HolidayMode.ONCE then
-         EasyReminders:Print("Yearly processing", days, diffSeconds)
         if days > holidayData.duration then 
-             EasyReminders:Print("Yearly processing", days, diffSeconds, duration)
             return true
         end
     end
    
     if EasyReminders.charDB.holiday[holidayData.holidayIndex].setting == EasyReminders.Data.HolidayMode.DAILY then
-        EasyReminders:Print("Daily processing", resetTime, dismissTime)
        if resetTime > dismissTime then
             return true
        end
@@ -134,9 +131,6 @@ end
 
 function HolidayWindow:UpdateNotifications()
     local activeHolidays = GetActiveHolidays()
-
-
-    EasyReminders:Print("go!")
 
     local shouldShow = false
 
@@ -154,7 +148,6 @@ function HolidayWindow:UpdateNotifications()
 
     
     for i, data in pairs(activeHolidays) do
-      EasyReminders:Print( "Processing: ", data)
       if canShow(data) then 
         local group = EasyReminders.AceGUI:Create("SimpleGroup")
         group:SetLayout("flow")
