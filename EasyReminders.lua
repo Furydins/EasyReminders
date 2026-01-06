@@ -5,7 +5,7 @@ EasyReminders.AceConfig = _G.LibStub("AceConfig-3.0")
 EasyReminders.AceConfigDialog = _G.LibStub("AceConfigDialog-3.0")
 
 
-local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
+L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 EasyReminders.MainWindow = nil
 EasyReminders.Font = "Fonts\\FRIZQT__.TTF"
@@ -17,6 +17,8 @@ EasyReminders.ConsumableCache = {}
 EasyReminders.FoodCache = {}
 EasyReminders.BuffCache = {}
 
+local HolidayFrame = nil
+
 function EasyReminders:OnInitialize()
 
      -- Initialise Database
@@ -26,6 +28,7 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.potions = EasyReminders.charDB.potions or {}
     EasyReminders.charDB.food = EasyReminders.charDB.food or {}
     EasyReminders.charDB.buff = EasyReminders.charDB.buff or {}
+     EasyReminders.charDB.holiday = EasyReminders.charDB.holiday or {}
 
     EasyReminders.globalDB.customConsumables = EasyReminders.globalDB.customConsumables or {}
     EasyReminders.globalDB.customFood = EasyReminders.globalDB.customFood or {}
@@ -92,7 +95,16 @@ end
 
 function EasyReminders:OpenGUI(msg)
     if msg and _G.string.len(msg) > 0 then
-        local bagCache = EasyReminders.ConsumableCheck:GetBagCache()
+
+        local frame =  EasyReminders.UI.HolidayWindow:CreateHolidayWindow()
+
+        local activeHolidays = {
+            [0] = {["name"] = "holidayOne", ["holidayIndex"] = 100, ["duration"] = EasyReminders.Data.Duration.MONTHLY},
+            [1] = {["name"] = "holidayTwo", ["holidayIndex"] = 101, ["duration"] = EasyReminders.Data.Duration.MONTHLY},
+            [2] = {["name"] = "holidayThree", ["holidayIndex"] = 102,  ["duration"] = EasyReminders.Data.Duration.MONTHLY},
+        }
+        EasyReminders.UI.HolidayWindow:UpdateNotifications(activeHolidays)
+        
     else
         EasyReminders:RefreshData()
         if not EasyReminders.MainWindow then
@@ -164,6 +176,13 @@ function EasyReminders:CheckBuffs()
     EasyReminders.WellFedCheck:CheckBuffs(missingBuffs)
     EasyReminders.BuffCheck:CheckBuffs(missingBuffs)
     EasyReminders.UI.NotificationWindow:UpdateNotifications(missingBuffs)
+
+    if not HolidayFrame then 
+        HolidayFrame = EasyReminders.UI.HolidayWindow:CreateHolidayWindow()
+    end
+    
+    EasyReminders.UI.HolidayWindow:UpdateNotifications()
+    
 end
 
 function EasyReminders:ConcatenateTables(table1, table2)

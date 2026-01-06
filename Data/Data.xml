@@ -3,4 +3,5 @@
     <Script file="ConsumableData.lua"/>
     <Script file="FoodData.lua"/>
     <Script file="BuffsData.lua"/>
+    <Script file="HolidayData.lua"/>
 </Ui>
