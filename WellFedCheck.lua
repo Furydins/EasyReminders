@@ -79,7 +79,8 @@ function WellFedCheck:CheckBuffs(missingBuffs)
 
      _G.AuraUtil.ForEachAura("player", "HELPFUL", nil, function(name, icon, _, _, _, _, _, _, _, spellID)
         if not (_G.issecretvalue and _G.issecretvalue(spellID)) then
-            if EasyReminders.Data.FoodIcons[spellID] then
+            local spellInfo = C_Spell.GetSpellInfo(spellID)
+            if spellInfo and EasyReminders.Data.FoodIcons[spellInfo.iconID] then
                 foundbuffs = spellID
             end
         end

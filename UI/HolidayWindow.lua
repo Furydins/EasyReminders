@@ -93,7 +93,11 @@ end
 local function canShow(holidayData)
     local dismissDate = EasyReminders.charDB.holiday[holidayData.holidayIndex] and EasyReminders.charDB.holiday[holidayData.holidayIndex].dismissDate
     if not dismissDate then
-        return true
+        if EasyReminders.charDB.holiday[holidayData.holidayIndex] and EasyReminders.charDB.holiday[holidayData.holidayIndex].setting ~= EasyReminders.Data.HolidayMode.NEVER then
+            return true
+        else
+            return false
+        end
     end
 
     local currentTime = _G.date(DATE_FORMAT)
