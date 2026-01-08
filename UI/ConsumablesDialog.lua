@@ -10,6 +10,7 @@ local itemID, itemName, itemIcon
 local spellID, spellName, spellIcon
 local additionalItems, statusText
 local spellNameText
+local loadFrame
 
 local function setCloseOnEscPress(window)
    local oldCloseSpecialWindows = CloseSpecialWindows
@@ -100,9 +101,15 @@ function ConsumablesDialog:FindItemByID()
       if not name then 
         itemName:SetText(L["Loading..."])
         EasyReminders:Print("Setup for: ", id)
-        C_Timer.After(2, function() ConsumablesDialog:RetrieveFindByID(id) end)
+        if not loadFrame then
+          loadFrame = _G.CreateFrame("Frame")
+          loadFrame:SetScript("onEvent", function(frame, event, itemID, success)
+              ConsumablesDialog:RetrieveFindByID(id, success)
+          end)
+        end
+        loadFrame:RegisterEvent("GET_ITEM_INFO_RECEIVED")
       else
-        ConsumablesDialog:PopulateItems(id)
+        ConsumablesDialog:PopulateItems(name, id)
       end
   else
       itemID:SetText("invalid!")
@@ -111,7 +118,7 @@ function ConsumablesDialog:FindItemByID()
   end
 end
 
-function ConsumablesDialog:RetrieveFindByID(id)
+function ConsumablesDialog:RetrieveFindByID(id, success)
   EasyReminders:Print("retrieving for: ", id)
 
   local name = C_Item.GetItemNameByID(id)
@@ -127,7 +134,7 @@ function ConsumablesDialog:RetrieveFindByID(id)
   else
     ConsumablesDialog:PopulateItems(name, id)
   end
-  
+  loadFrame:UnregisterEvent("GET_ITEM_INFO_RECEIVED")
 end
 
 function ConsumablesDialog:PopulateItems(name, id)
