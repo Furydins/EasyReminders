@@ -74,10 +74,9 @@ function WellFedTab:RebuildScrollBox()
     foodName:SetImageSize(16,16)
     scrollBox:AddChild(foodName)
 
-    EasyReminders:AddData(data.itemID, itemName, itemIcon)
      if data.otherIds then
       for key, otherID in pairs(data.otherIds) do
-        EasyReminders:AddData(otherID, itemName, C_Item.GetItemIconByID(otherID), nil)
+        C_Item.GetItemIconByID(otherID)
       end
     end
 

@@ -62,7 +62,7 @@ function ConsumablesTab:Create(mainFrame, container)
 end
 
 function ConsumablesTab:RebuildScrollBox()
-  EasyReminders:RefreshData()
+
   local scrollBox = ConsumablesTab.ScrollBox
   scrollBox:ReleaseChildren()
 
@@ -93,10 +93,10 @@ function ConsumablesTab:RebuildScrollBox()
     buffName:SetImageSize(16,16)
     scrollBox:AddChild(buffName)
 
-    EasyReminders:AddData(data.itemID, itemName, itemIcon, spellInfo)
+    -- Prime item Data
     if data.otherIds then
       for key, otherID in pairs(data.otherIds) do
-        EasyReminders:AddData(otherID, itemName, C_Item.GetItemIconByID(otherID), spellInfo)
+          C_Item.GetItemIconByID(otherID)
       end
     end
 

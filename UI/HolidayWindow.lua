@@ -139,7 +139,6 @@ function HolidayWindow:UpdateNotifications()
     local shouldShow = false
 
     frame:ReleaseChildren()
-    EasyReminders:RefreshData()
 
     local masterDismiss = EasyReminders.AceGUI:Create("Button")
     masterDismiss:SetText(L["Dismiss All"])

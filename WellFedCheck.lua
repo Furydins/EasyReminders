@@ -97,20 +97,3 @@ function WellFedCheck:CheckBuffs(missingBuffs)
 
   end
 end
-
-function WellFedCheck:PopulateData()
- for key, data in pairs(EasyReminders.FoodCache)  do
-
-    local itemName = C_Item.GetItemNameByID(data.itemID)
-    local itemIcon = C_Item.GetItemIconByID(data.itemID)
-
-    EasyReminders:AddData(data.itemID, itemName, itemIcon, nil)
-    if data.otherIds then
-      for key, otherID in pairs(data.otherIds) do
-        EasyReminders:AddData(otherID, itemName, C_Item.GetItemIconByID(otherID), spellInfo)
-      end
-    end
-
- end
-
-end

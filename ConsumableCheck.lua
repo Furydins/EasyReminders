@@ -9,8 +9,6 @@ local missingBuffs = {}
 
 function ConsumableCheck:BuildTrackingList()
 
-  EasyReminders:RefreshData()
-
   TrackingList.outside = {}
   TrackingList.dungeon = {}
   TrackingList.raid = {}
@@ -103,22 +101,4 @@ function ConsumableCheck:CheckBuffs(missingBuffs)
     end
   end
   EasyReminders.BagCache:RefreshBags()
-end
-
-
-function ConsumableCheck:PopulateData()
- for key, data in pairs(EasyReminders.ConsumableCache)  do
-
-    local itemName = C_Item.GetItemNameByID(data.itemID)
-    local itemIcon = C_Item.GetItemIconByID(data.itemID)
-    local spellInfo = C_Spell.GetSpellInfo(data.buffID)
-
-    EasyReminders:AddData(data.itemID, itemName, itemIcon, spellInfo)
-    if data.otherIds then
-      for key, otherID in pairs(data.otherIds) do
-        EasyReminders:AddData(otherID, itemName, C_Item.GetItemIconByID(otherID), spellInfo)
-      end
-    end
-
-  end
 end

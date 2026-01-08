@@ -19,6 +19,8 @@ EasyReminders.BuffCache = {}
 
 local HolidayFrame = nil
 
+local loadFrame
+
 function EasyReminders:OnInitialize()
 
      -- Initialise Database
@@ -43,16 +45,20 @@ function EasyReminders:OnInitialize()
     
     EasyReminders:RegisterEvents()
 
+    loadFrame = _G.CreateFrame("Frame")
+    loadFrame:SetScript("onEvent", function(frame, event, itemID, success)
+        EasyReminders:RefreshItem(itemID, success)
+    end)
+    loadFrame:RegisterEvent("GET_ITEM_INFO_RECEIVED")
+
     -- Prime Cache
-    for i, data in pairs(EasyReminders.Data.Consumables) do
-        EasyReminders:AddData(data.itemID)
+    for i, data in pairs(EasyReminders.ConsumableCache) do
+        C_Item.GetItemNameByID(data.itemID)
     end
-    for i, data in pairs(EasyReminders.Data.Food)  do
-        EasyReminders:AddData(data.itemID)
+    for i, data in pairs(EasyReminders.FoodCache)  do
+        C_Item.GetItemNameByID(data.itemID)
     end
 
-    EasyReminders.ConsumableCheck:PopulateData()
-    EasyReminders.WellFedCheck:PopulateData()
 
     EasyReminders.ConsumableCheck:BuildTrackingList()
     EasyReminders.WellFedCheck:BuildTrackingList()
@@ -106,7 +112,6 @@ function EasyReminders:OpenGUI(msg)
         EasyReminders.UI.HolidayWindow:UpdateNotifications(activeHolidays)
         
     else
-        EasyReminders:RefreshData()
         if not EasyReminders.MainWindow then
             EasyReminders.MainWindow = EasyReminders.UI.MainWindow:CreateMainWindow()
         end
@@ -145,31 +150,15 @@ function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
     end
 end
 
-function EasyReminders:AddData(itemID, itemName, itemIcon, spellInfo)
-    local data = EasyReminders.DataCache[itemID] or {}
-
-    data[1] = itemID
-    data[2] = itemName or data[2] or nil
-    data[3] = itemIcon or data[3] or nil
-    data[4] = spellInfo or data[4] or nil
-
-    EasyReminders.DataCache[itemID] = data
-
-end
-
-function EasyReminders:RefreshData()
-  for itemID, data in pairs(EasyReminders.DataCache) do
-
-    local itemName = data[2] or C_Item.GetItemNameByID(itemID)
-    local itemIcon = data[3] or C_Item.GetItemIconByID(itemID)
-    local spellInfo = data[4] or C_Spell.GetSpellInfo(itemID)
-    EasyReminders.DataCache[itemID] = {data[1], itemName, itemIcon, spellInfo}
-
+function EasyReminders:RefreshItem(itemID, success) 
+  if success and (EasyReminders.ConsumableCache[itemID] or EasyReminders.FoodCache[itemID]) then
+    local itemName = C_Item.GetItemNameByID(itemID)
+    local itemIcon = C_Item.GetItemIconByID(itemID)
+    EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil}
   end
 end
 
 function EasyReminders:CheckBuffs()
-    EasyReminders:RefreshData()
     local missingBuffs = {}
 
     EasyReminders.ConsumableCheck:CheckBuffs(missingBuffs)
@@ -182,6 +171,20 @@ function EasyReminders:CheckBuffs()
     end
     
     EasyReminders.UI.HolidayWindow:UpdateNotifications()
+
+    -- reprime cache if needed:
+
+    for i, data in pairs(EasyReminders.ConsumableCache) do
+        if not EasyReminders.DataCache[data.itemID] or not EasyReminders.DataCache[data.itemID][2] then
+            C_Item.GetItemNameByID(data.itemID)
+        end
+    end
+    for i, data in pairs(EasyReminders.FoodCache)  do
+        if not EasyReminders.DataCache[data.itemID] or not EasyReminders.DataCache[data.itemID][2] then
+            C_Item.GetItemNameByID(data.itemID)
+        end
+    end
+
     
 end
 
