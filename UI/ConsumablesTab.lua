@@ -44,11 +44,6 @@ function ConsumablesTab:Create(mainFrame, container)
   dungeonTitle:SetWidth(50)
   titleContainer:AddChild(dungeonTitle)
 
-  local pvpTitle = EasyReminders.AceGUI:Create("Label")
-  pvpTitle:SetText(L["PvP"])
-  pvpTitle:SetWidth(50)
-  titleContainer:AddChild(pvpTitle)
-
   local delveTitle = EasyReminders.AceGUI:Create("Label")
   delveTitle:SetText(L["Delve"])
   delveTitle:SetWidth(50)
@@ -130,19 +125,6 @@ function ConsumablesTab:RebuildScrollBox()
       EasyReminders:CheckBuffs()
     end)
     scrollBox:AddChild(dungeon)
-
-    local pvp = EasyReminders.AceGUI:Create("CheckBox")
-    pvp:SetType("checkbox")
-    pvp:SetValue(false)
-    pvp:SetWidth(50)
-    pvp:SetValue((EasyReminders.charDB.potions[data.itemID] and EasyReminders.charDB.potions[data.itemID].pvp) or false)
-    pvp:SetCallback("OnValueChanged", function(_,_,value)
-      EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
-      EasyReminders.charDB.potions[data.itemID].pvp = value
-      EasyReminders.ConsumableCheck:BuildTrackingList()
-      EasyReminders:CheckBuffs()
-    end)
-    scrollBox:AddChild(pvp)
 
     local delve = EasyReminders.AceGUI:Create("CheckBox")
     delve:SetType("checkbox")

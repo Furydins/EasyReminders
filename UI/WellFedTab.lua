@@ -38,11 +38,6 @@ function WellFedTab:Create(mainFrame, container)
   dungeonTitle:SetWidth(50)
   titleContainer:AddChild(dungeonTitle)
 
-  local pvpTitle = EasyReminders.AceGUI:Create("Label")
-  pvpTitle:SetText(L["PvP"])
-  pvpTitle:SetWidth(50)
-  titleContainer:AddChild(pvpTitle)
-
   local delveTitle = EasyReminders.AceGUI:Create("Label")
   delveTitle:SetText(L["Delve"])
   delveTitle:SetWidth(50)
@@ -111,19 +106,6 @@ function WellFedTab:RebuildScrollBox()
       EasyReminders:CheckBuffs()
     end)
     scrollBox:AddChild(dungeon)
-
-    local pvp = EasyReminders.AceGUI:Create("CheckBox")
-    pvp:SetType("checkbox")
-    pvp:SetValue(false)
-    pvp:SetWidth(50)
-    pvp:SetValue((EasyReminders.charDB.food[data.itemID] and EasyReminders.charDB.food[data.itemID].pvp) or false)
-    pvp:SetCallback("OnValueChanged", function(_,_,value)
-      EasyReminders.charDB.food[data.itemID] = EasyReminders.charDB.food[data.itemID] or {}
-      EasyReminders.charDB.food[data.itemID].pvp = value
-      EasyReminders.WellFedCheck:BuildTrackingList()
-      EasyReminders:CheckBuffs()
-    end)
-    scrollBox:AddChild(pvp)
 
     local delve = EasyReminders.AceGUI:Create("CheckBox")
     delve:SetType("checkbox")

@@ -38,11 +38,6 @@ function BuffTab:Create(mainFrame, container)
   dungeonTitle:SetWidth(50)
   titleContainer:AddChild(dungeonTitle)
 
-  local pvpTitle = EasyReminders.AceGUI:Create("Label")
-  pvpTitle:SetText(L["PvP"])
-  pvpTitle:SetWidth(50)
-  titleContainer:AddChild(pvpTitle)
-
   local delveTitle = EasyReminders.AceGUI:Create("Label")
   delveTitle:SetText(L["Delve"])
   delveTitle:SetWidth(50)
@@ -103,19 +98,6 @@ function BuffTab:RebuildScrollBox()
         EasyReminders:CheckBuffs()
       end)
       scrollBox:AddChild(dungeon)
-
-      local pvp = EasyReminders.AceGUI:Create("CheckBox")
-      pvp:SetType("checkbox")
-      pvp:SetValue(false)
-      pvp:SetWidth(50)
-      pvp:SetValue((EasyReminders.charDB.buff[data.buffID] and EasyReminders.charDB.buff[data.buffID].pvp) or false)
-      pvp:SetCallback("OnValueChanged", function(_,_,value)
-        EasyReminders.charDB.buff[data.buffID] = EasyReminders.charDB.buff[data.buffID] or {}
-        EasyReminders.charDB.buff[data.buffID].pvp = value
-        EasyReminders.BuffCheck:BuildTrackingList()
-        EasyReminders:CheckBuffs()
-      end)
-      scrollBox:AddChild(pvp)
 
       local delve = EasyReminders.AceGUI:Create("CheckBox")
       delve:SetType("checkbox")
