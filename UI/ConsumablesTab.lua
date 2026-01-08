@@ -179,6 +179,7 @@ function ConsumablesTab:RemoveConfirm(itemID, itemName)
 
     local text =  EasyReminders.AceGUI:Create("Label")
     text:SetText(string.format(L["Are you sure you want to remove %s?"], itemName))
+    text:SetFont(EasyReminders.Font, 12, "")
     dialogFrame:AddChild(text)
 
     local yes=EasyReminders.AceGUI:Create("Button")

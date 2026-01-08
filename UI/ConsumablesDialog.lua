@@ -90,39 +90,61 @@ function ConsumablesDialog:FindItemByName()
 
 end
 
+-- Looking up item info fails if we havn't loaded the data
+-- SO allow time for it to become available
 function ConsumablesDialog:FindItemByID()
   local text = itemID:GetText()
-    local id = tonumber(text)
-      if id then
-        local name = C_Item.GetItemNameByID(id)
-        local icon = C_Item.GetItemIconByID(id)
-        local _, itemSpell = C_Item.GetItemSpell(id)
-
-        if not name then
-          name = C_Item.GetItemNameByID(id)
-        end
-
-
-        if not name then
-          name = "Not found"
-        end
-
-        itemName:SetText(name)
-
-        if icon then 
-          itemIcon:SetImage(icon)
-        end
-
-        if itemSpell then
-          spellID:SetText(itemSpell)
-          ConsumablesDialog:FindSpellByID()
-        end
+  local id = tonumber(text)
+  if id then
+      local name = C_Item.GetItemNameByID(id)
+      if not name then 
+        itemName:SetText(L["Loading..."])
+        EasyReminders:Print("Setup for: ", id)
+        C_Timer.After(2, function() ConsumablesDialog:RetrieveFindByID(id) end)
       else
-         itemID:SetText("invalid!")
-         itemName:SetText("")
-         itemIcon:SetImage(nil)
+        ConsumablesDialog:PopulateItems(id)
       end
+  else
+      itemID:SetText("invalid!")
+      itemName:SetText("")
+      itemIcon:SetImage(nil)
+  end
+end
 
+function ConsumablesDialog:RetrieveFindByID(id)
+  EasyReminders:Print("retrieving for: ", id)
+
+  local name = C_Item.GetItemNameByID(id)
+
+  if not name then
+    name = C_Item.GetItemNameByID(id)
+  end
+
+  if not name then
+    name = "Failed"
+    itemName:SetText("")
+    itemIcon:SetImage(nil)
+  else
+    ConsumablesDialog:PopulateItems(name, id)
+  end
+  
+end
+
+function ConsumablesDialog:PopulateItems(name, id)
+  
+  local icon = C_Item.GetItemIconByID(id)
+  local _, itemSpell = C_Item.GetItemSpell(id)
+
+  itemName:SetText(name)
+
+  if icon then 
+    itemIcon:SetImage(icon)
+  end
+
+  if itemSpell then
+    spellID:SetText(itemSpell)
+    ConsumablesDialog:FindSpellByID()
+  end
 end
 
 local function validateItems()
