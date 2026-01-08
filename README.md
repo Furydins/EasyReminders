@@ -11,18 +11,18 @@ Pre-populated with raid buffs and selected class buffs
 <img width="941" height="711" alt="image" src="https://github.com/user-attachments/assets/03ca3680-34bb-4803-a13f-6daa708409b1" />
 
 #### Consumables Reminders
-Checks for missing consumable buffs (eg flasks, potions, runes) and will display a rmeinder if you have the item(s) in yoru bags
+Checks for missing consumable buffs (eg flasks, potions, runes) and will display a reminder if you have the item(s) in your bags.
 
 <img width="939" height="708" alt="image" src="https://github.com/user-attachments/assets/aaa4fa7e-3ea7-4729-bdbe-337654b2306f" />
 
 #### Food Rmeidners
-Check of a missing "Well Fed" buff and will display if you have selected food items
+Check of a missing "Well Fed" buff and will display if you have selected food items.
 
 <img width="941" height="705" alt="image" src="https://github.com/user-attachments/assets/01ef1f5f-0875-4c76-929d-ab2bcc025d86" />
 
 #### Calendar Reminders
-Reminds you when major holiday events are active
-Can be paused untill the next day or the next time the event starts
+Reminds you when major holiday events are active.
+Can be paused untill the next day or the next time the event starts.
 
 <img width="940" height="701" alt="image" src="https://github.com/user-attachments/assets/a8580d59-a185-42d9-a9a0-2b5bf7c1b8b7" />
 
