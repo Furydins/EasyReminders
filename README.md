@@ -2,6 +2,7 @@
 
 World of Warcraft addon to remind you to apply buffs and more.
 
+<span style="color:red">*Important*:</span> due to the addon restrictions introduced in Midnight this addon cannot display buff reminders in combat, PvP encounters or when a M+ key is active!
 
 #### Buff Reminders
 Reminds you to apply mising buffs. 
@@ -26,10 +27,9 @@ Can be paused untill the next day or the next time the event starts
 <img width="940" height="701" alt="image" src="https://github.com/user-attachments/assets/a8580d59-a185-42d9-a9a0-2b5bf7c1b8b7" />
 
 #### Configurable
-Seperate settings for raid, dungeons, pvp, delves and outdoors
+Seperate settings for raid, dungeons, delves and outdoors
 
 <img width="703" height="275" alt="image" src="https://github.com/user-attachments/assets/1a26a1d2-0acd-4dcb-8d0c-00305a0dafbe" />
-
 
 #### Customizable
 You can add your own buffs, consumables and food
@@ -40,7 +40,7 @@ The easiest way is to use and addon like IdTip, ElvUI or All The Things
 
 (If you use All the Things you cna enable ids in ATT Settings->Interface->Information and then enable "itemID" and "spellID")
 
-Alternatively you can get the ids from Wowhead - just look up then item or spell and it's ID is in the URL
+Alternatively you can get the ids from Wowhead - just look up then item or spell and it's ID is in the URL!
 
 
 
