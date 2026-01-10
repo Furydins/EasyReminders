@@ -28,7 +28,6 @@ local function SelectGroup(container, event, group)
       EasyReminders.UI.BuffTab:Create(mainFrame, container)
   elseif group == "tab2" then
       EasyReminders.UI.ConsumablesTab:Create(mainFrame, container)
-      EasyReminders.UI.WellFedTab:Create(mainFrame, container)
    elseif group == "tab3" then
       EasyReminders.UI.WellFedTab:Create(mainFrame, container)
    elseif group == "tab4" then
