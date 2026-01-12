@@ -100,7 +100,6 @@ function ConsumablesDialog:FindItemByID()
       local name = C_Item.GetItemNameByID(id)
       if not name then 
         itemName:SetText(L["Loading..."])
-        EasyReminders:Print("Setup for: ", id)
         if not loadFrame then
           loadFrame = _G.CreateFrame("Frame")
           loadFrame:SetScript("onEvent", function(frame, event, itemID, success)
@@ -119,7 +118,6 @@ function ConsumablesDialog:FindItemByID()
 end
 
 function ConsumablesDialog:RetrieveFindByID(id, success)
-  EasyReminders:Print("retrieving for: ", id)
 
   local name = C_Item.GetItemNameByID(id)
 
