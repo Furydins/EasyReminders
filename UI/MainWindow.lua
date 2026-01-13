@@ -20,6 +20,13 @@ local function setCloseOnEscPress(window)
 	end
 end
 
+local function forceCloseHandler(self, event, arg1, arg2, arg3, arg4, ...)
+   if "PLAYER_REGEN_DISABLED" == event or "CHALLENGE_MODE_START" == event then
+      if mainFrame and mainFrame:IsShown() then
+         mainFrame:Hide()
+      end
+   end
+end
 
 -- Callback function for OnGroupSelected
 local function SelectGroup(container, event, group)
@@ -60,7 +67,11 @@ function MainWindow:CreateMainWindow()
 
     -- add to the frame container
     mainFrame:AddChild(tab)
+
     
+    mainFrame.frame:SetScript("OnEvent", forceCloseHandler)
+    mainFrame.frame:RegisterEvent("PLAYER_REGEN_DISABLED")
+    mainFrame.frame:RegisterEvent("CHALLENGE_MODE_START")
 
     return mainFrame
 
