@@ -100,18 +100,8 @@ function EasyReminders:OnInitialize()
 end
 
 function EasyReminders:OpenGUI(msg)
-    if msg and _G.string.len(msg) > 0 then
-
-        local frame =  EasyReminders.UI.HolidayWindow:CreateHolidayWindow()
-
-        local activeHolidays = {
-            [0] = {["name"] = "holidayOne", ["holidayIndex"] = 100, ["duration"] = EasyReminders.Data.Duration.MONTHLY},
-            [1] = {["name"] = "holidayTwo", ["holidayIndex"] = 101, ["duration"] = EasyReminders.Data.Duration.MONTHLY},
-            [2] = {["name"] = "holidayThree", ["holidayIndex"] = 102,  ["duration"] = EasyReminders.Data.Duration.MONTHLY},
-        }
-        EasyReminders.UI.HolidayWindow:UpdateNotifications(activeHolidays)
-        
-    else
+    if not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
+      and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
         if not EasyReminders.MainWindow then
             EasyReminders.MainWindow = EasyReminders.UI.MainWindow:CreateMainWindow()
         end
@@ -132,6 +122,7 @@ function EasyReminders:RegisterEvents()
     f:RegisterEvent("UNIT_INVENTORY_CHANGED")
     f:RegisterEvent("PLAYER_ENTERING_WORLD")
     f:RegisterEvent("UNIT_AURA")
+    f:RegisterEvent("PLAYER_REGEN_ENABLED")
     f:SetScript("OnEvent", EasyReminders.EventHandler)
 end
 
