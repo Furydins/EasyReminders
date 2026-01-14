@@ -89,9 +89,14 @@ function ConsumableCheck:CheckBuffs(missingBuffs)
                   end
                 end
               end
-              if not filtered then 
-
-                missingBuffs[buffID] = EasyReminders.DataCache[itemID][3]
+              if not filtered then
+                local itemIcon 
+                if not EasyReminders.DataCache[itemID] then
+                  itemIcon = C_Item.GetItemIconByID(itemID)
+                else
+                  itemIcon = EasyReminders.DataCache[itemID][3]
+                end
+                missingBuffs[buffID] = itemIcon
                 break
               end
             else
