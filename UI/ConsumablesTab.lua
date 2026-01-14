@@ -51,7 +51,7 @@ function ConsumablesTab:Create(mainFrame, container)
 
   local potionTitle = EasyReminders.AceGUI:Create("Label")
   potionTitle:SetText(L["Item"])
-  potionTitle:SetWidth(440)
+  potionTitle:SetWidth(400)
   titleContainer:AddChild(potionTitle)
 
   -- Hide for for now as it messes up the checkboxes sometimes.
