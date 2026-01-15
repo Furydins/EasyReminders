@@ -52,11 +52,18 @@ function EasyReminders:OnInitialize()
     loadFrame:RegisterEvent("GET_ITEM_INFO_RECEIVED")
 
     -- Prime Cache
+   
     for i, data in pairs(EasyReminders.ConsumableCache) do
-        C_Item.GetItemNameByID(data.itemID)
+        local itemID = data.itemID
+        local itemName = C_Item.GetItemNameByID(itemID)
+        local itemIcon = C_Item.GetItemIconByID(itemID)
+        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil}
     end
     for i, data in pairs(EasyReminders.FoodCache)  do
-        C_Item.GetItemNameByID(data.itemID)
+        local itemID = data.itemID
+        local itemName = C_Item.GetItemNameByID(itemID)
+        local itemIcon = C_Item.GetItemIconByID(itemID)
+        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil}
     end
 
 

@@ -13,41 +13,6 @@ function BuffTab:Create(mainFrame, container)
   addItemButton:SetText(L["Add Buff"])
   addItemButton:SetCallback("OnClick", function(widget) EasyReminders.UI.BuffDialog:Create(mainFrame) end)
 
-  local titleContainer = EasyReminders.AceGUI:Create("SimpleGroup")
-  titleContainer:SetFullWidth(true)
-  titleContainer:SetLayout("Flow")  
-  container:AddChild(titleContainer)
-
-  local spacer  = EasyReminders.AceGUI:Create("Label")
-  spacer:SetText("")
-  spacer:SetWidth(10)
-  titleContainer:AddChild(spacer)
-
-  local buffTitle = EasyReminders.AceGUI:Create("Label")
-  buffTitle:SetText(L["Buff"])
-  buffTitle:SetWidth(440)
-  titleContainer:AddChild(buffTitle)
-
-  local raidTitle = EasyReminders.AceGUI:Create("Label")
-  raidTitle:SetText(L["Raid"])
-  raidTitle:SetWidth(50)
-  titleContainer:AddChild(raidTitle)
-
-  local dungeonTitle = EasyReminders.AceGUI:Create("Label")
-  dungeonTitle:SetText(L["Dungeon"])
-  dungeonTitle:SetWidth(50)
-  titleContainer:AddChild(dungeonTitle)
-
-  local delveTitle = EasyReminders.AceGUI:Create("Label")
-  delveTitle:SetText(L["Delve"])
-  delveTitle:SetWidth(50)
-  titleContainer:AddChild(delveTitle)
-
-  local outsideTitle = EasyReminders.AceGUI:Create("Label")
-  outsideTitle:SetText(L["Outside"])
-  outsideTitle:SetWidth(50)
-  titleContainer:AddChild(outsideTitle)
-
   BuffTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)
 
   BuffTab:RebuildScrollBox()
@@ -73,57 +38,35 @@ function BuffTab:RebuildScrollBox()
       buffName:SetImageSize(16,16)
       scrollBox:AddChild(buffName)
 
-      local raid = EasyReminders.AceGUI:Create("CheckBox")
-      raid:SetType("checkbox")
-      raid:SetValue(false)
-      raid:SetWidth(50)
-      raid:SetValue((EasyReminders.charDB.buff[data.buffID] and EasyReminders.charDB.buff[data.buffID].raid) or false)
-      scrollBox:AddChild(raid)
-      raid:SetCallback("OnValueChanged", function(_,_,value)
-        EasyReminders.charDB.buff[data.buffID] = EasyReminders.charDB.buff[data.buffID] or {}
-        EasyReminders.charDB.buff[data.buffID].raid = value
-        EasyReminders.BuffCheck:BuildTrackingList()
-        EasyReminders:CheckBuffs()
-      end)
+      local activeDropdown = EasyReminders.AceGUI:Create("Dropdown")
+      activeDropdown:SetWidth(150)
+      activeDropdown:SetList({
+        ["Raid"] = L["Raid"],
+        ["Dungeon"] = L["Dungeon"],
+        ["Delve"] = L["Delve"],
+        ["Outside"] = L["Outside"],
+      })
 
-      local dungeon = EasyReminders.AceGUI:Create("CheckBox")
-      dungeon:SetType("checkbox")
-      dungeon:SetValue(false)
-      dungeon:SetWidth(50)
-      dungeon:SetValue((EasyReminders.charDB.buff[data.buffID] and EasyReminders.charDB.buff[data.buffID].dungeon) or false)
-      dungeon:SetCallback("OnValueChanged", function(_,_,value)
-        EasyReminders.charDB.buff[data.buffID] = EasyReminders.charDB.buff[data.buffID] or {}
-        EasyReminders.charDB.buff[data.buffID].dungeon = value
+      EasyReminders.charDB.buff[data.buffID] = EasyReminders.charDB.buff[data.buffID] or {}
+      activeDropdown:SetMultiselect(true)
+      activeDropdown:SetItemValue("Raid", EasyReminders.charDB.buff[data.buffID].raid or false)
+      activeDropdown:SetItemValue("Dungeon", EasyReminders.charDB.buff[data.buffID].dungeon or false)
+      activeDropdown:SetItemValue("Delve", EasyReminders.charDB.buff[data.buffID].delve or false)
+      activeDropdown:SetItemValue("Outside", EasyReminders.charDB.buff[data.buffID].outside or false)
+      scrollBox:AddChild(activeDropdown)
+      activeDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
+        if "Raid" == key then
+          EasyReminders.charDB.buff[data.buffID].raid = checked
+        elseif "Dungeon" == key then
+          EasyReminders.charDB.buff[data.buffID].dungeon = checked
+        elseif "Delve" == key then
+          EasyReminders.charDB.buff[data.buffID].delve = checked
+        elseif "Outside" == key then
+          EasyReminders.charDB.buff[data.buffID].outside = checked
+        end
         EasyReminders.BuffCheck:BuildTrackingList()
         EasyReminders:CheckBuffs()
       end)
-      scrollBox:AddChild(dungeon)
-
-      local delve = EasyReminders.AceGUI:Create("CheckBox")
-      delve:SetType("checkbox")
-      delve:SetValue(false)
-      delve:SetWidth(50)
-      delve:SetValue((EasyReminders.charDB.buff[data.buffID] and EasyReminders.charDB.buff[data.buffID].delve) or false)
-      delve:SetCallback("OnValueChanged", function(_,_,value)
-        EasyReminders.charDB.buff[data.buffID] = EasyReminders.charDB.buff[data.buffID] or {}
-        EasyReminders.charDB.buff[data.buffID].delve = value
-        EasyReminders.BuffCheck:BuildTrackingList()
-        EasyReminders:CheckBuffs()
-      end)
-      scrollBox:AddChild(delve)
-
-      local outside = EasyReminders.AceGUI:Create("CheckBox")
-      outside:SetType("checkbox")
-      outside:SetValue(false)
-      outside:SetWidth(50)
-      outside:SetValue((EasyReminders.charDB.buff[data.buffID] and EasyReminders.charDB.buff[data.buffID].outside) or false)
-      outside:SetCallback("OnValueChanged", function(_,_,value)
-        EasyReminders.charDB.buff[data.buffID] = EasyReminders.charDB.buff[data.buffID] or {}
-        EasyReminders.charDB.buff[data.buffID].outside = value
-        EasyReminders.BuffCheck:BuildTrackingList()
-        EasyReminders:CheckBuffs()
-      end)
-      scrollBox:AddChild(outside)
 
       if data["canDelete"] then 
 

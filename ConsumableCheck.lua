@@ -91,7 +91,7 @@ function ConsumableCheck:CheckBuffs(missingBuffs)
               end
               if not filtered then
                 local itemIcon 
-                if not EasyReminders.DataCache[itemID] then
+                if not EasyReminders.DataCache[itemID] or not EasyReminders.DataCache[itemID][3] then
                   itemIcon = C_Item.GetItemIconByID(itemID)
                 else
                   itemIcon = EasyReminders.DataCache[itemID][3]
