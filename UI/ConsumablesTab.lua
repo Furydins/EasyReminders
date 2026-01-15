@@ -38,29 +38,7 @@ function ConsumablesTab:Create(mainFrame, container)
     EasyReminders.Filters[key] = checked
     ConsumablesTab:RebuildScrollBox()
   end)
-
-  local filterText = EasyReminders.AceGUI:Create("Label")
-  filterText:SetText(L["Filter:"])
-  filterText:SetWidth(40)
-  container:AddChild(filterText)
-
-  local filterDropdown = EasyReminders.AceGUI:Create("Dropdown")
-  filterDropdown:SetWidth(150)
-  filterDropdown:SetList({
-    [EasyReminders.Data.Expansions.MIDNIGHT] = L["Midnight"],
-    [EasyReminders.Data.Expansions.TWW] = L["The War Within"],
-    [EasyReminders.Data.Expansions.OTHER] = L["Other Items"],
-  })
-  filterDropdown:SetMultiselect(true)
-  filterDropdown:SetItemValue(EasyReminders.Data.Expansions.MIDNIGHT, EasyReminders.Filters.MIDNIGHT)
-  filterDropdown:SetItemValue(EasyReminders.Data.Expansions.TWW, EasyReminders.Filters.TWW)
-  filterDropdown:SetItemValue(EasyReminders.Data.Expansions.OTHER, EasyReminders.Filters.OTHER)
-  container:AddChild(filterDropdown)
-  filterDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
-    EasyReminders.Filters[key] = checked
-    ConsumablesTab:RebuildScrollBox()
-  end)
-
+  
   ConsumablesTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)
 
   ConsumablesTab:RebuildScrollBox()
