@@ -13,41 +13,6 @@ function WellFedTab:Create(mainFrame, container)
   addItemButton:SetText(L["Add Item"])
   addItemButton:SetCallback("OnClick", function(widget) EasyReminders.UI.WellFedDialog:Create(mainFrame) end)
 
-  local titleContainer = EasyReminders.AceGUI:Create("SimpleGroup")
-  titleContainer:SetFullWidth(true)
-  titleContainer:SetLayout("Flow")  
-  container:AddChild(titleContainer)
-
-  local spacer  = EasyReminders.AceGUI:Create("Label")
-  spacer:SetText("")
-  spacer:SetWidth(10)
-  titleContainer:AddChild(spacer)
-
-  local foodTitle = EasyReminders.AceGUI:Create("Label")
-  foodTitle:SetText(L["Item"])
-  foodTitle:SetWidth(440)
-  titleContainer:AddChild(foodTitle)
-
-  local raidTitle = EasyReminders.AceGUI:Create("Label")
-  raidTitle:SetText(L["Raid"])
-  raidTitle:SetWidth(50)
-  titleContainer:AddChild(raidTitle)
-
-  local dungeonTitle = EasyReminders.AceGUI:Create("Label")
-  dungeonTitle:SetText(L["Dungeon"])
-  dungeonTitle:SetWidth(50)
-  titleContainer:AddChild(dungeonTitle)
-
-  local delveTitle = EasyReminders.AceGUI:Create("Label")
-  delveTitle:SetText(L["Delve"])
-  delveTitle:SetWidth(50)
-  titleContainer:AddChild(delveTitle)
-
-  local outsideTitle = EasyReminders.AceGUI:Create("Label")
-  outsideTitle:SetText(L["Outside"])
-  outsideTitle:SetWidth(50)
-  titleContainer:AddChild(outsideTitle)
-
   WellFedTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)
 
   WellFedTab:RebuildScrollBox()
@@ -64,6 +29,11 @@ function WellFedTab:RebuildScrollBox()
 
     local itemName = cacheEntry[2] or C_Item.GetItemNameByID(data.itemID)
     local itemIcon = cacheEntry[3] or C_Item.GetItemIconByID(data.itemID)
+    if data.otherIds then
+      for key, otherID in pairs(data.otherIds) do
+        C_Item.GetItemIconByID(otherID)
+      end
+    end
 
     ---
     local foodName = EasyReminders.AceGUI:Create("Label")
@@ -74,63 +44,35 @@ function WellFedTab:RebuildScrollBox()
     foodName:SetImageSize(16,16)
     scrollBox:AddChild(foodName)
 
-     if data.otherIds then
-      for key, otherID in pairs(data.otherIds) do
-        C_Item.GetItemIconByID(otherID)
+     local activeDropdown = EasyReminders.AceGUI:Create("Dropdown")
+    activeDropdown:SetWidth(150)
+    activeDropdown:SetList({
+      ["Raid"] = L["Raid"],
+      ["Dungeon"] = L["Dungeon"],
+      ["Delve"] = L["Delve"],
+      ["Outside"] = L["Outside"],
+    })
+
+    EasyReminders.charDB.food[data.itemID] = EasyReminders.charDB.food[data.itemID] or {}
+    activeDropdown:SetMultiselect(true)
+    activeDropdown:SetItemValue("Raid", EasyReminders.charDB.food[data.itemID].raid or false)
+    activeDropdown:SetItemValue("Dungeon", EasyReminders.charDB.food[data.itemID].dungeon or false)
+    activeDropdown:SetItemValue("Delve", EasyReminders.charDB.food[data.itemID].delve or false)
+    activeDropdown:SetItemValue("Outside", EasyReminders.charDB.food[data.itemID].outside or false)
+    scrollBox:AddChild(activeDropdown)
+    activeDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
+      if "Raid" == key then
+        EasyReminders.charDB.food[data.itemID].raid = checked
+      elseif "Dungeon" == key then
+        EasyReminders.charDB.food[data.itemID].dungeon = checked
+      elseif "Delve" == key then
+        EasyReminders.charDB.food[data.itemID].delve = checked
+      elseif "Outside" == key then
+        EasyReminders.charDB.food[data.itemID].outside = checked
       end
-    end
-
-    local raid = EasyReminders.AceGUI:Create("CheckBox")
-    raid:SetType("checkbox")
-    raid:SetValue(false)
-    raid:SetWidth(50)
-    raid:SetValue((EasyReminders.charDB.food[data.itemID] and EasyReminders.charDB.food[data.itemID].raid) or false)
-    scrollBox:AddChild(raid)
-    raid:SetCallback("OnValueChanged", function(_,_,value)
-      EasyReminders.charDB.food[data.itemID] = EasyReminders.charDB.food[data.itemID] or {}
-      EasyReminders.charDB.food[data.itemID].raid = value
       EasyReminders.WellFedCheck:BuildTrackingList()
       EasyReminders:CheckBuffs()
     end)
-
-    local dungeon = EasyReminders.AceGUI:Create("CheckBox")
-    dungeon:SetType("checkbox")
-    dungeon:SetValue(false)
-    dungeon:SetWidth(50)
-    dungeon:SetValue((EasyReminders.charDB.food[data.itemID] and EasyReminders.charDB.food[data.itemID].dungeon) or false)
-    dungeon:SetCallback("OnValueChanged", function(_,_,value)
-      EasyReminders.charDB.food[data.itemID] = EasyReminders.charDB.food[data.itemID] or {}
-      EasyReminders.charDB.food[data.itemID].dungeon = value
-      EasyReminders.WellFedCheck:BuildTrackingList()
-      EasyReminders:CheckBuffs()
-    end)
-    scrollBox:AddChild(dungeon)
-
-    local delve = EasyReminders.AceGUI:Create("CheckBox")
-    delve:SetType("checkbox")
-    delve:SetValue(false)
-    delve:SetWidth(50)
-    delve:SetValue((EasyReminders.charDB.food[data.itemID] and EasyReminders.charDB.food[data.itemID].delve) or false)
-    delve:SetCallback("OnValueChanged", function(_,_,value)
-      EasyReminders.charDB.food[data.itemID] = EasyReminders.charDB.food[data.itemID] or {}
-      EasyReminders.charDB.food[data.itemID].delve = value
-      EasyReminders.WellFedCheck:BuildTrackingList()
-      EasyReminders:CheckBuffs()
-    end)
-    scrollBox:AddChild(delve)
-
-    local outside = EasyReminders.AceGUI:Create("CheckBox")
-    outside:SetType("checkbox")
-    outside:SetValue(false)
-    outside:SetWidth(50)
-    outside:SetValue((EasyReminders.charDB.food[data.itemID] and EasyReminders.charDB.food[data.itemID].outside) or false)
-    outside:SetCallback("OnValueChanged", function(_,_,value)
-      EasyReminders.charDB.food[data.itemID] = EasyReminders.charDB.food[data.itemID] or {}
-      EasyReminders.charDB.food[data.itemID].outside = value
-      EasyReminders.WellFedCheck:BuildTrackingList()
-      EasyReminders:CheckBuffs()
-    end)
-    scrollBox:AddChild(outside)
 
     if data["canDelete"] then 
 
