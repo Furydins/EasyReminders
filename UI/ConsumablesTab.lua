@@ -5,6 +5,7 @@ local ConsumablesTab = EasyReminders.UI.ConsumablesTab
 
 EasyReminders.Filters = {["MIDNIGHT"] = true,  
                    ["TWW"] = true,  
+                   ["CUSTOM"] = true,
                    ["OTHER"] = true,}
 
 local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
@@ -27,11 +28,13 @@ function ConsumablesTab:Create(mainFrame, container)
   filterDropdown:SetList({
     [EasyReminders.Data.Expansions.MIDNIGHT] = L["Midnight"],
     [EasyReminders.Data.Expansions.TWW] = L["The War Within"],
+    [EasyReminders.Data.Expansions.CUSTOM] = L["Custom"],
     [EasyReminders.Data.Expansions.OTHER] = L["Other Items"],
   })
   filterDropdown:SetMultiselect(true)
   filterDropdown:SetItemValue(EasyReminders.Data.Expansions.MIDNIGHT, EasyReminders.Filters.MIDNIGHT)
   filterDropdown:SetItemValue(EasyReminders.Data.Expansions.TWW, EasyReminders.Filters.TWW)
+  filterDropdown:SetItemValue(EasyReminders.Data.Expansions.CUSTOM, EasyReminders.Filters.CUSTOM)
   filterDropdown:SetItemValue(EasyReminders.Data.Expansions.OTHER, EasyReminders.Filters.OTHER)
   container:AddChild(filterDropdown)
   filterDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
@@ -52,73 +55,77 @@ function ConsumablesTab:RebuildScrollBox()
 
   for key, data in pairs(EasyReminders.ConsumableCache)  do
 
+    if not data.expansion then
+      data.expansion = EasyReminders.Data.Expansions.OTHER
+    end
+    
     if EasyReminders.Filters[data.expansion] then
 
       -- itemID, itemName, itemIcon, spellInfo
       local cacheEntry = EasyReminders.DataCache[data.itemID] or {}
 
-    local itemName = cacheEntry[2] or C_Item.GetItemNameByID(data.itemID)
-    local itemIcon = cacheEntry[3] or C_Item.GetItemIconByID(data.itemID)
-    local spellInfo = cacheEntry[4] or C_Spell.GetSpellInfo(data.buffID)
+      local itemName = cacheEntry[2] or C_Item.GetItemNameByID(data.itemID)
+      local itemIcon = cacheEntry[3] or C_Item.GetItemIconByID(data.itemID)
+      local spellInfo = cacheEntry[4] or C_Spell.GetSpellInfo(data.buffID)
 
-    -- Prime item Data
-    if data.otherIds then
-      for key, otherID in pairs(data.otherIds) do
-          if not EasyReminders.DataCache[otherID] then
-            local otherItemName = C_Item.GetItemNameByID(otherID)
-            local otherItemIcon = C_Item.GetItemIconByID(otherID)
-            EasyReminders.DataCache[otherID] = {otherID, otherItemName, otherItemIcon, nil}
-          end
+      -- Prime item Data
+      if data.otherIds then
+        for key, otherID in pairs(data.otherIds) do
+            if not EasyReminders.DataCache[otherID] then
+              local otherItemName = C_Item.GetItemNameByID(otherID)
+              local otherItemIcon = C_Item.GetItemIconByID(otherID)
+              EasyReminders.DataCache[otherID] = {otherID, otherItemName, otherItemIcon, nil}
+            end
+        end
       end
-    end
 
-    ---
-    local potionName = EasyReminders.AceGUI:Create("Label")
-    potionName:SetText(itemName or L["Loading..."])
-    potionName:SetFont(EasyReminders.Font, 12, "")
-    potionName:SetWidth(220)
-    potionName:SetImage(itemIcon)
-    potionName:SetImageSize(16,16)
-    scrollBox:AddChild(potionName)
+      ---
+      local potionName = EasyReminders.AceGUI:Create("Label")
+      potionName:SetText(itemName or L["Loading..."])
+      potionName:SetFont(EasyReminders.Font, 12, "")
+      potionName:SetWidth(220)
+      potionName:SetImage(itemIcon)
+      potionName:SetImageSize(16,16)
+      scrollBox:AddChild(potionName)
 
-    -- For soem reason havign this column can case checkboxes to go AWOL
-    local buffName = EasyReminders.AceGUI:Create("Label")
-    buffName:SetText((spellInfo and spellInfo.name) or L["Loading..."])
-    buffName:SetFont(EasyReminders.Font, 12, "")
-    buffName:SetWidth(220)
-    buffName:SetImage((spellInfo and spellInfo.iconID) or nil)
-    buffName:SetImageSize(16,16)
-    scrollBox:AddChild(buffName)
+      -- For soem reason havign this column can case checkboxes to go AWOL
+      local buffName = EasyReminders.AceGUI:Create("Label")
+      buffName:SetText((spellInfo and spellInfo.name) or L["Loading..."])
+      buffName:SetFont(EasyReminders.Font, 12, "")
+      buffName:SetWidth(220)
+      buffName:SetImage((spellInfo and spellInfo.iconID) or nil)
+      buffName:SetImageSize(16,16)
+      scrollBox:AddChild(buffName)
 
-    local activeDropdown = EasyReminders.AceGUI:Create("Dropdown")
-    activeDropdown:SetWidth(150)
-    activeDropdown:SetList({
-      ["Raid"] = L["Raid"],
-      ["Dungeon"] = L["Dungeon"],
-      ["Delve"] = L["Delve"],
-      ["Outside"] = L["Outside"],
-    })
+      local activeDropdown = EasyReminders.AceGUI:Create("Dropdown")
+      activeDropdown:SetWidth(150)
+      activeDropdown:SetList({
+        ["Raid"] = L["Raid"],
+        ["Dungeon"] = L["Dungeon"],
+        ["Delve"] = L["Delve"],
+        ["Outside"] = L["Outside"],
+      })
 
-    EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
-    activeDropdown:SetMultiselect(true)
-    activeDropdown:SetItemValue("Raid", EasyReminders.charDB.potions[data.itemID].raid or false)
-    activeDropdown:SetItemValue("Dungeon", EasyReminders.charDB.potions[data.itemID].dungeon or false)
-    activeDropdown:SetItemValue("Delve", EasyReminders.charDB.potions[data.itemID].delve or false)
-    activeDropdown:SetItemValue("Outside", EasyReminders.charDB.potions[data.itemID].outside or false)
-    scrollBox:AddChild(activeDropdown)
-    activeDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
-      if "Raid" == key then
-        EasyReminders.charDB.potions[data.itemID].raid = checked
-      elseif "Dungeon" == key then
-        EasyReminders.charDB.potions[data.itemID].dungeon = checked
-      elseif "Delve" == key then
-        EasyReminders.charDB.potions[data.itemID].delve = checked
-      elseif "Outside" == key then
-        EasyReminders.charDB.potions[data.itemID].outside = checked
-      end
-      EasyReminders.ConsumableCheck:BuildTrackingList()
-      EasyReminders:CheckBuffs()
-    end)
+      EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
+      activeDropdown:SetMultiselect(true)
+      activeDropdown:SetItemValue("Raid", EasyReminders.charDB.potions[data.itemID].raid or false)
+      activeDropdown:SetItemValue("Dungeon", EasyReminders.charDB.potions[data.itemID].dungeon or false)
+      activeDropdown:SetItemValue("Delve", EasyReminders.charDB.potions[data.itemID].delve or false)
+      activeDropdown:SetItemValue("Outside", EasyReminders.charDB.potions[data.itemID].outside or false)
+      scrollBox:AddChild(activeDropdown)
+      activeDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
+        if "Raid" == key then
+          EasyReminders.charDB.potions[data.itemID].raid = checked
+        elseif "Dungeon" == key then
+          EasyReminders.charDB.potions[data.itemID].dungeon = checked
+        elseif "Delve" == key then
+          EasyReminders.charDB.potions[data.itemID].delve = checked
+        elseif "Outside" == key then
+          EasyReminders.charDB.potions[data.itemID].outside = checked
+        end
+        EasyReminders.ConsumableCheck:BuildTrackingList()
+        EasyReminders:CheckBuffs()
+      end)
 
       if data["canDelete"] then 
 

@@ -213,6 +213,7 @@ function ConsumablesDialog:AddReminder()
 
   end
   reminderData["canDelete"] = true
+  reminderData["expansion"] = EasyReminders.Data.Expansions.CUSTOM
 
   EasyReminders.globalDB.customConsumables[reminderData.itemID] = reminderData
   EasyReminders.ConsumableCache[reminderData.itemID] = reminderData
