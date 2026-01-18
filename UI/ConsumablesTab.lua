@@ -3,7 +3,9 @@ EasyReminders.UI.ConsumablesTab = EasyReminders.UI.ConsumablesTab or {}
 
 local ConsumablesTab = EasyReminders.UI.ConsumablesTab
 
-EasyReminders.Filters = {["MIDNIGHT"] = true,  
+EasyReminders.Filters = EasyReminders.Filters or {}
+
+EasyReminders.Filters.consumables = {["MIDNIGHT"] = true,  
                    ["TWW"] = true,  
                    ["CUSTOM"] = true,
                    ["OTHER"] = true,}
@@ -32,13 +34,13 @@ function ConsumablesTab:Create(mainFrame, container)
     [EasyReminders.Data.Expansions.OTHER] = L["Other Items"],
   })
   filterDropdown:SetMultiselect(true)
-  filterDropdown:SetItemValue(EasyReminders.Data.Expansions.MIDNIGHT, EasyReminders.Filters.MIDNIGHT)
-  filterDropdown:SetItemValue(EasyReminders.Data.Expansions.TWW, EasyReminders.Filters.TWW)
-  filterDropdown:SetItemValue(EasyReminders.Data.Expansions.CUSTOM, EasyReminders.Filters.CUSTOM)
-  filterDropdown:SetItemValue(EasyReminders.Data.Expansions.OTHER, EasyReminders.Filters.OTHER)
+  filterDropdown:SetItemValue(EasyReminders.Data.Expansions.MIDNIGHT, EasyReminders.Filters.consumables.MIDNIGHT)
+  filterDropdown:SetItemValue(EasyReminders.Data.Expansions.TWW, EasyReminders.Filters.consumables.TWW)
+  filterDropdown:SetItemValue(EasyReminders.Data.Expansions.CUSTOM, EasyReminders.Filters.consumables.CUSTOM)
+  filterDropdown:SetItemValue(EasyReminders.Data.Expansions.OTHER, EasyReminders.Filters.consumables.OTHER)
   container:AddChild(filterDropdown)
   filterDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
-    EasyReminders.Filters[key] = checked
+    EasyReminders.Filters.consumables[key] = checked
     ConsumablesTab:RebuildScrollBox()
   end)
   
@@ -59,7 +61,7 @@ function ConsumablesTab:RebuildScrollBox()
       data.expansion = EasyReminders.Data.Expansions.OTHER
     end
     
-    if EasyReminders.Filters[data.expansion] then
+    if EasyReminders.Filters.consumables[data.expansion] then
 
       -- itemID, itemName, itemIcon, spellInfo
       local cacheEntry = EasyReminders.DataCache[data.itemID] or {}

@@ -104,6 +104,7 @@ function WellFedDialog:AddReminder()
   local reminderData = {["itemID"] = tonumber(itemID:GetText())}
 
   reminderData["canDelete"] = true
+  reminderData["expansion"] = EasyReminders.Data.Expansions.CUSTOM
 
   EasyReminders.globalDB.customFood[reminderData.itemID] = reminderData
   EasyReminders.FoodCache[reminderData.itemID] = reminderData
