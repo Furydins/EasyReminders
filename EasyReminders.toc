@@ -1,4 +1,4 @@
-## Interface: 120000
+## Interface: 120000, 120001
 ## Title: EasyReminders
 ## Notes: Reminds you to apply buffs and more
 ## Author: FurydinWow
