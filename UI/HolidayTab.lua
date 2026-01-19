@@ -3,6 +3,16 @@ EasyReminders.UI.HolidayTab = EasyReminders.UI.HolidayTab or {}
 
 local HolidayTab = EasyReminders.UI.HolidayTab
 
+EasyReminders.Filters = EasyReminders.Filters or {}
+EasyReminders.Filters.holidays = EasyReminders.Filters.holidays or {}
+
+EasyReminders.Filters.holidays = {["MAJOR"] = true,  
+                   ["MICRO"] = true,  
+                   ["BRAWL"] = true,
+                   ["TIMEWALKING"] = true,
+                   ["OTHER"] = true,}
+
+
 local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 -- function that draws the widgets for the first tab
@@ -13,20 +23,26 @@ function HolidayTab:Create(mainFrame, container)
   titleContainer:SetLayout("Flow")  
   container:AddChild(titleContainer)
 
-  local spacer  = EasyReminders.AceGUI:Create("Label")
-  spacer:SetText("")
-  spacer:SetWidth(10)
-  titleContainer:AddChild(spacer)
-
-  local buffTitle = EasyReminders.AceGUI:Create("Label")
-  buffTitle:SetText(L["Holiday Name"])
-  buffTitle:SetWidth(440)
-  titleContainer:AddChild(buffTitle)
-
-  local optionsTitle = EasyReminders.AceGUI:Create("Label")
-  optionsTitle:SetText(L["Options"])
-  optionsTitle:SetWidth(50)
-  titleContainer:AddChild(optionsTitle)
+local filterDropdown = EasyReminders.AceGUI:Create("Dropdown")
+  filterDropdown:SetWidth(150)
+  filterDropdown:SetList({
+    [EasyReminders.Data.HolidayCategories.MAJOR] = L["Major Holidays"],
+    [EasyReminders.Data.HolidayCategories.MICRO] = L["Micro Holidays"],
+    [EasyReminders.Data.HolidayCategories.BRAWL] = L["Brawls"],
+    [EasyReminders.Data.HolidayCategories.TIMEWALKING] = L["Timewalking"],
+    [EasyReminders.Data.HolidayCategories.OTHER] = L["Other Events"],
+  })
+  filterDropdown:SetMultiselect(true)
+  filterDropdown:SetItemValue(EasyReminders.Data.HolidayCategories.MAJOR, EasyReminders.Filters.holidays.MAJOR)
+  filterDropdown:SetItemValue(EasyReminders.Data.HolidayCategories.MICRO, EasyReminders.Filters.holidays.MICRO)
+  filterDropdown:SetItemValue(EasyReminders.Data.HolidayCategories.BRAWL, EasyReminders.Filters.holidays.BRAWL)
+  filterDropdown:SetItemValue(EasyReminders.Data.HolidayCategories.TIMEWALKING, EasyReminders.Filters.holidays.TIMEWALKING)
+  filterDropdown:SetItemValue(EasyReminders.Data.HolidayCategories.OTHER, EasyReminders.Filters.holidays.OTHER)
+  container:AddChild(filterDropdown)
+  filterDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
+    EasyReminders.Filters.holidays[key] = checked
+    HolidayTab:RebuildScrollBox()
+  end)
 
   HolidayTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)
 
@@ -45,26 +61,27 @@ function HolidayTab:RebuildScrollBox()
   }
 
   for i=1,#EasyReminders.Data.Holidays do
-      local holidayData = EasyReminders.Data.Holidays[i]
 
-      ---
-      local holidayName = EasyReminders.AceGUI:Create("Label")
-      holidayName:SetText( holidayData.name)
-      holidayName:SetFont(EasyReminders.Font, 12, "")
-      holidayName:SetWidth(440)
-      scrollBox:AddChild(holidayName)
+       local holidayData = EasyReminders.Data.Holidays[i]
+       if EasyReminders.Filters.holidays[holidayData.category] then
 
-      local setting = EasyReminders.charDB.holiday[i] and EasyReminders.charDB.holiday[i].setting
-      local holidayMode = EasyReminders.AceGUI:Create("Dropdown")
-      holidayMode:SetList(holidayModeDropdown, {EasyReminders.Data.HolidayMode.NEVER, EasyReminders.Data.HolidayMode.ONCE, EasyReminders.Data.HolidayMode.DAILY})
-      holidayMode:SetValue(setting or EasyReminders.Data.HolidayMode.NEVER)
-      scrollBox:AddChild(holidayMode)
-      holidayMode:SetCallback("OnValueChanged", function(_,_,value)
-        EasyReminders.charDB.holiday[i] = EasyReminders.charDB.holiday[i] or {}
-        EasyReminders.charDB.holiday[i].setting = value
-        -- EasyReminders.HolidayCheck:BuildTrackingList()
-        -- EasyReminders:CheckHolidays()
-      end)
+        ---
+        local holidayName = EasyReminders.AceGUI:Create("Label")
+        holidayName:SetText( holidayData.name)
+        holidayName:SetFont(EasyReminders.Font, 12, "")
+        holidayName:SetWidth(440)
+        scrollBox:AddChild(holidayName)
+
+        local setting = EasyReminders.charDB.holiday[i] and EasyReminders.charDB.holiday[i].setting
+        local holidayMode = EasyReminders.AceGUI:Create("Dropdown")
+        holidayMode:SetList(holidayModeDropdown, {EasyReminders.Data.HolidayMode.NEVER, EasyReminders.Data.HolidayMode.ONCE, EasyReminders.Data.HolidayMode.DAILY})
+        holidayMode:SetValue(setting or EasyReminders.Data.HolidayMode.NEVER)
+        scrollBox:AddChild(holidayMode)
+        holidayMode:SetCallback("OnValueChanged", function(_,_,value)
+          EasyReminders.charDB.holiday[i] = EasyReminders.charDB.holiday[i] or {}
+          EasyReminders.charDB.holiday[i].setting = value
+        end)
+      end
 
     
     end

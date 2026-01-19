@@ -59,7 +59,7 @@ function MainWindow:CreateMainWindow()
     tab:SetLayout("Flow")
     -- Setup which tabs to show
     tab:SetTabs({ {text=L["Buffs"], value="tab1"}, {text=L["Consumables"], value="tab2"}, {text=L["Well Fed"], value="tab3"},
-             {text=L["Holidays"], value = "tab4"}, })
+             {text=L["Events"], value = "tab4"}, })
     -- Register callback
     tab:SetCallback("OnGroupSelected", SelectGroup)
     -- Set initial Tab (this will fire the OnGroupSelected callback)

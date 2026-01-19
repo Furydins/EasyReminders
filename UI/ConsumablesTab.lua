@@ -4,6 +4,7 @@ EasyReminders.UI.ConsumablesTab = EasyReminders.UI.ConsumablesTab or {}
 local ConsumablesTab = EasyReminders.UI.ConsumablesTab
 
 EasyReminders.Filters = EasyReminders.Filters or {}
+EasyReminders.Filters.consumables = EasyReminders.Filters.consumables or {}
 
 EasyReminders.Filters.consumables = {["MIDNIGHT"] = true,  
                    ["TWW"] = true,  

@@ -65,7 +65,7 @@ end
 function HolidayWindow:CreateHolidayWindow()
 
     frame = EasyReminders.AceGUI:Create("Window")
-    frame:SetTitle(L["Active Holidays"])
+    frame:SetTitle(L["Active Events"])
     frame:SetWidth(500)
     frame:SetHeight(150)
     frame:SetLayout("List")
