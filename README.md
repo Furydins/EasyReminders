@@ -5,7 +5,7 @@ World of Warcraft addon to remind you to apply buffs and more.
 <span style="color:red">*Important*:</span> due to the addon restrictions introduced in Midnight this addon cannot display buff reminders in combat, PvP encounters or when a M+ key is active!
 
 #### Buff Reminders
-Reminds you to apply mising buffs. 
+Reminds you to apply missing buffs. 
 Pre-populated with raid buffs and selected class buffs
 
 <img width="941" height="711" alt="image" src="https://github.com/user-attachments/assets/03ca3680-34bb-4803-a13f-6daa708409b1" />
@@ -15,7 +15,7 @@ Checks for missing consumable buffs (eg flasks, potions, runes) and will display
 
 <img width="939" height="708" alt="image" src="https://github.com/user-attachments/assets/aaa4fa7e-3ea7-4729-bdbe-337654b2306f" />
 
-#### Food Rmeidners
+#### Food Remidners
 Check of a missing "Well Fed" buff and will display if you have selected food items.
 
 <img width="941" height="705" alt="image" src="https://github.com/user-attachments/assets/01ef1f5f-0875-4c76-929d-ab2bcc025d86" />
