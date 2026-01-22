@@ -134,51 +134,55 @@ local function canShow(holidayData)
 end
 
 function HolidayWindow:UpdateNotifications()
-    local activeHolidays = GetActiveHolidays()
+    if not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
+      and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
 
-    local shouldShow = false
+        local activeHolidays = GetActiveHolidays()
 
-    frame:ReleaseChildren()
+        local shouldShow = false
 
-    local masterDismiss = EasyReminders.AceGUI:Create("Button")
-    masterDismiss:SetText(L["Dismiss All"])
-    masterDismiss:SetWidth(480)
-    masterDismiss:SetCallback("OnClick", function(widget)
-        HolidayWindow:DimissAll(activeHolidays)
-        frame.frame:Hide()
-    end)
-    frame:AddChild(masterDismiss)
+        frame:ReleaseChildren()
 
-    
-    for i, data in pairs(activeHolidays) do
-      if canShow(data) then 
-        local group = EasyReminders.AceGUI:Create("SimpleGroup")
-        group:SetLayout("flow")
-        group:SetFullWidth(true)
-        frame:AddChild(group)
-
-        local holidayName = EasyReminders.AceGUI:Create("Label")
-        holidayName:SetText( data.name)
-        holidayName:SetFont(EasyReminders.Font, 12, "")
-        holidayName:SetWidth(300)
-        group:AddChild(holidayName)
-
-
-        local dismissButton = EasyReminders.AceGUI:Create("Button")
-        dismissButton:SetText(L["Dismiss"])
-        dismissButton:SetWidth(140)
-        group:AddChild(dismissButton)
-        dismissButton:SetCallback("OnClick", function(widget)
-            EasyReminders.charDB.holiday[data.holidayIndex] = EasyReminders.charDB.holiday[data.holidayIndex] or {}
-            EasyReminders.charDB.holiday[data.holidayIndex].dismissDate = _G.date(DATE_FORMAT)
-            group.frame:Hide()
+        local masterDismiss = EasyReminders.AceGUI:Create("Button")
+        masterDismiss:SetText(L["Dismiss All"])
+        masterDismiss:SetWidth(480)
+        masterDismiss:SetCallback("OnClick", function(widget)
+            HolidayWindow:DimissAll(activeHolidays)
+            frame.frame:Hide()
         end)
-        shouldShow = true
-      end
-    end
+        frame:AddChild(masterDismiss)
 
-    if shouldShow then
-        frame.frame:Show()
+        
+        for i, data in pairs(activeHolidays) do
+        if canShow(data) then 
+            local group = EasyReminders.AceGUI:Create("SimpleGroup")
+            group:SetLayout("flow")
+            group:SetFullWidth(true)
+            frame:AddChild(group)
+
+            local holidayName = EasyReminders.AceGUI:Create("Label")
+            holidayName:SetText( data.name)
+            holidayName:SetFont(EasyReminders.Font, 12, "")
+            holidayName:SetWidth(300)
+            group:AddChild(holidayName)
+
+
+            local dismissButton = EasyReminders.AceGUI:Create("Button")
+            dismissButton:SetText(L["Dismiss"])
+            dismissButton:SetWidth(140)
+            group:AddChild(dismissButton)
+            dismissButton:SetCallback("OnClick", function(widget)
+                EasyReminders.charDB.holiday[data.holidayIndex] = EasyReminders.charDB.holiday[data.holidayIndex] or {}
+                EasyReminders.charDB.holiday[data.holidayIndex].dismissDate = _G.date(DATE_FORMAT)
+                group.frame:Hide()
+            end)
+            shouldShow = true
+        end
+        end
+
+        if shouldShow then
+            frame.frame:Show()
+        end
     end
 end
 
