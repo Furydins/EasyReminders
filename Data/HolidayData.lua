@@ -53,6 +53,18 @@ EasyReminders.Data.Holidays = {
     [25] = {["name"] = L["Trial of Style"], ["holidayID"] = 691, ["duration"] = EasyReminders.Data.Duration.ANNUAL, ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [26] = {["name"] = L["Great Gnomeregan Run"], ["holidayID"] = 696, ["duration"] = EasyReminders.Data.Duration.ANNUAL, ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [27] = {["name"] = L["Moonkin Festival"], ["holidayID"] = 694, ["duration"] = EasyReminders.Data.Duration.ANNUAL, ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
+
+    -- Timewwalking
+    [28] = {["name"] = L["Classic Timewalking"], ["holidayID"] = 1508, otherIds = {1583, 1584, 1585}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
+    [29] = {["name"] = L["BC Timewalking"], ["holidayID"] = 559, otherIds = {622, 623, 624}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
+    [30] = {["name"] = L["Wrath Timewalking"], ["holidayID"] = 562, otherIds = {616, 617, 618}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
+    [31] = {["name"] = L["Cataclysm Timewalking"], ["holidayID"] = 587, otherIds = {628, 629, 630}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
+    [32] = {["name"] = L["Mists Timewalking"], ["holidayID"] = 643, otherIds = {652, 654, 656}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
+    [33] = {["name"] = L["Warlords Timewalking"], ["holidayID"] = 1056, otherIds = {1063, 1065, 1068}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
+    [34] = {["name"] = L["Legion Timewalking"], ["holidayID"] = 1263, otherIds = {1265, 1267, 1269, 1271}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
+    [35] = {["name"] = L["BfA Timewalking"], ["holidayID"] = 1666, otherIds = {1667, 1668, 1669}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
+    [36] = {["name"] = L["Shadowlands Timewalking"], ["holidayID"] = 1703, otherIds = {1704, 1705, 1706, 1707, 1708, 1709, 1710}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
+
     
 }
 
