@@ -65,6 +65,19 @@ EasyReminders.Data.Holidays = {
     [35] = {["name"] = L["BfA Timewalking"], ["holidayID"] = 1666, otherIds = {1667, 1668, 1669}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
     [36] = {["name"] = L["Shadowlands Timewalking"], ["holidayID"] = 1703, otherIds = {1704, 1705, 1706, 1707, 1708, 1709, 1710}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
 
-    
+    -- Brawels
+    [37] = {["name"] = L["Brawl: Arathi Blizzard"], ["holidayID"] = 666, otherIds = {673, 680, 687, 737}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
+    [38] = {["name"] = L["Brawl: Classic Ashran"], ["holidayID"] = 1120, otherIds = {1121, 1122, 1123, 1124}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
+    [39] = {["name"] = L["Brawl: Comp Stomp"], ["holidayID"] = 1234, otherIds = {1235, 1236, 1237, 1238}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
+    [40] = {["name"] = L["Brawl: Cooking Impossible"], ["holidayID"] = 1047, otherIds = {1048, 1049, 1050, 1051}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
+    [41] = {["name"] = L["Brawl: Deep Six"], ["holidayID"] = 702, otherIds = {704, 105, 706, 736}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
+    [42] = {["name"] = L["Brawl: Cooking Impossible"], ["holidayID"] = 1047, otherIds = {1048, 1049, 1050, 1051}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
+    [43] = {["name"] = L["Brawl: Deepwind Dunk"], ["holidayID"] = 1239, otherIds = {1240, 1241, 1242, 1243}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
+    [44] = {["name"] = L["Brawl: Gravity Lapse"], ["holidayID"] = 659, otherIds = {663, 670, 677, 684}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
+    [45] = {["name"] = L["Brawl: Packed House"], ["holidayID"] = 667, otherIds = {674, 681, 688, 701}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
+    [46] = {["name"] = L["Brawl: Shado-Pan Showdown"], ["holidayID"] = 1232, otherIds = {1233, 1244, 1245, 1246}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
+    [47] = {["name"] = L["Brawl: Southore v Tarren Mill"], ["holidayID"] = 660, otherIds = {662, 669, 676, 683}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
+    [48] = {["name"] = L["Brawl: Temple of Hotmogu"], ["holidayID"] = 1166, otherIds = {1167, 1168, 1168, 1170}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
+    [49] = {["name"] = L["Brawl: Warsong Scramble"], ["holidayID"] = 664, otherIds = {671, 678, 685, 1221}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
 }
 
