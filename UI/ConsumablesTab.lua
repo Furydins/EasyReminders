@@ -6,8 +6,8 @@ local ConsumablesTab = EasyReminders.UI.ConsumablesTab
 EasyReminders.Filters = EasyReminders.Filters or {}
 EasyReminders.Filters.consumables = EasyReminders.Filters.consumables or {}
 
-EasyReminders.Filters.consumables = {["MIDNIGHT"] = true,  
-                   ["TWW"] = true,  
+EasyReminders.Filters.consumables = {["MIDNIGHT"] = (_G.GetMaxLevelForExpansionLevel(_G.GetExpansionLevel()) or 90) >= 90,  
+                   ["TWW"] = (_G.GetMaxLevelForExpansionLevel(_G.GetExpansionLevel()) or 80) < 90,  
                    ["CUSTOM"] = true,
                    ["OTHER"] = true,}
 
