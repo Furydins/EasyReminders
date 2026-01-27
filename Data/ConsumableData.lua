@@ -21,10 +21,10 @@ EasyReminders.Data.Consumables = {
     [241323] = {["itemID"] = 241323, ["otherIds"] = {241322, 245932, 245933}, ["buffID"] = 1235108, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT},  -- Flask of the Magisters,
     [241327] = {["itemID"] = 241327, ["otherIds"] = {241326, 245928, 245929}, ["buffID"] = 1235111, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT},  -- Flask of the Shattered Sun,
     [241321] = {["itemID"] = 241321, ["otherIds"] = {241320, 245926, 245927}, ["buffID"] = 1235057, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT},  -- Flask of Thalassian Resistance,
-    [241334] = {["itemID"] = 241334, ["otherIds"] = {241335}, ["buffID"] = 1235057, ["expansion"] = EasyReminders.Data.Expansions.TWW},  -- Vicious Thalassian Flask of Honor,
+    [241334] = {["itemID"] = 241334, ["otherIds"] = {241335}, ["buffID"] = 1235057, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT},  -- Vicious Thalassian Flask of Honor,
 
     -- Midnight Runes
-    [259085] = {["itemID"] = 259085, ["buffID"] = 1264426, ["expansion"] = EasyReminders.Data.Expansions.TWW},  -- Void-Touched Augment Rune,
+    [259085] = {["itemID"] = 259085, ["buffID"] = 1264426, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT},  -- Void-Touched Augment Rune,
 
     --- Extras
     [171364] = {["itemID"] = 171364, ["buffID"] = 136583, ["otherBuffs"] = {46668}, ["expansion"] = EasyReminders.Data.Expansions.OTHER}, -- Darkmoon Faire Top Hats,
