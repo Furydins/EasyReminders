@@ -2,7 +2,7 @@ EasyReminders.Data = EasyReminders.Data or {}
 
 EasyReminders.Data.Food = {
 
-    -- TWW Flasks
+    -- TWW Food
 
     [222728] = {["itemID"] = 222728, ["otherIds"] = {222776}, ["expansion"] = EasyReminders.Data.Expansions.TWW},  -- Beledar's Bounty,
     [222730] = {["itemID"] = 222730, ["otherIds"] = {222778}, ["expansion"] = EasyReminders.Data.Expansions.TWW}, -- Jester's Board
@@ -26,6 +26,23 @@ EasyReminders.Data.Food = {
     [222712] = {["itemID"] = 222712, ["otherIds"] = {222760},["expansion"] = EasyReminders.Data.Expansions.TWW}, -- Sweet and Sour Meatballs
     [222711] = {["itemID"] = 222711, ["otherIds"] = {222759}, ["expansion"] = EasyReminders.Data.Expansions.TWW}, -- Rib Stickers
     [222710] = {["itemID"] = 222710, ["otherIds"] = {222758}, ["expansion"] = EasyReminders.Data.Expansions.TWW}, -- Meat And Potatoes
+
+    -- MIDNIGHT FOOD
+    [242276] = {["itemID"] = 242276, ["otherIds"] = {242748}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Braised Bl;ood Hunter
+    [242277] = {["itemID"] = 242277, ["otherIds"] = {242749}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Crimson Calimari
+    [242278] = {["itemID"] = 242278, ["otherIds"] = {242750}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Tasty Smoked Tetra
+    [242287] = {["itemID"] = 242287, ["otherIds"] = {242759}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Arcano Cutlets
+    [242280] = {["itemID"] = 242280, ["otherIds"] = {242752}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Buttered Root Crab
+    [242286] = {["itemID"] = 242286, ["otherIds"] = {242758}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Fel-Kissed Filet
+    [242281] = {["itemID"] = 242281, ["otherIds"] = {242753}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Glitter Skewars
+    [242282] = {["itemID"] = 242282, ["otherIds"] = {242754}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Null and Void Plate
+    [242283] = {["itemID"] = 242283, ["otherIds"] = {242755}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Sun-Seared Luminfin
+    [242284] = {["itemID"] = 242284, ["otherIds"] = {242756}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Void-Kissed Fish Rolls
+    [242285] = {["itemID"] = 242285, ["otherIds"] = {242757}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Warped Wise Wings
+    [242274] = {["itemID"] = 242274, ["otherIds"] = {242746}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Champion's Bento
+    [255848] = {["itemID"] = 255848, ["otherIds"] = {267000, 268680}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Flora Frenzy
+    [255847] = {["itemID"] = 255847, ["otherIds"] = {268679}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Impossibly Royal Roast
+    [242275] = {["itemID"] = 242275, ["otherIds"] = {242747}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Royal Roast
 
 }
 

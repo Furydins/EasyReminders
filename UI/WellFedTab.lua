@@ -7,8 +7,8 @@ local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 EasyReminders.Filters = EasyReminders.Filters or {}
 
-EasyReminders.Filters.food = {["MIDNIGHT"] = true,  
-                   ["TWW"] = true,  
+EasyReminders.Filters.food = {["MIDNIGHT"] = (_G.GetMaxLevelForExpansionLevel(_G.GetExpansionLevel()) or 90) >= 90,  
+                   ["TWW"] = (_G.GetMaxLevelForExpansionLevel(_G.GetExpansionLevel()) or 80) < 90,
                    ["CUSTOM"] = true,
                    ["OTHER"] = true,}
 
