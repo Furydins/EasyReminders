@@ -54,8 +54,26 @@ function MainWindow:CreateMainWindow()
 
     setCloseOnEscPress(mainFrame)
 
+   local topGroup = EasyReminders.AceGUI:Create("SimpleGroup")
+   topGroup:SetLayout("Flow")
+   topGroup:SetFullWidth(true)
+   topGroup:SetFullHeight(true)
+   mainFrame:AddChild(topGroup)
+
+   local enable= EasyReminders.AceGUI:Create("CheckBox")
+   enable:SetFullWidth(true)
+   enable:SetLabel(L["Enable Reminders"])
+   enable:SetValue(EasyReminders.globalDB.enabled)
+   enable:SetCallback("OnValueChanged", function(_, _, value)
+       EasyReminders.globalDB.enabled = value
+       EasyReminders:CheckBuffs()
+   end)
+   topGroup:AddChild(enable)
+
     -- Create the TabGroup
     local tab = EasyReminders.AceGUI:Create("TabGroup")
+    tab:SetFullHeight(true)
+    tab:SetFullWidth(true)
     tab:SetLayout("Flow")
     -- Setup which tabs to show
     tab:SetTabs({ {text=L["Buffs"], value="tab1"}, {text=L["Consumables"], value="tab2"}, {text=L["Well Fed"], value="tab3"},
@@ -66,7 +84,7 @@ function MainWindow:CreateMainWindow()
     tab:SelectTab("tab1")
 
     -- add to the frame container
-    mainFrame:AddChild(tab)
+    topGroup:AddChild(tab)
 
     
     mainFrame.frame:SetScript("OnEvent", forceCloseHandler)

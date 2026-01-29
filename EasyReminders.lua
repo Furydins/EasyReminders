@@ -30,8 +30,9 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.potions = EasyReminders.charDB.potions or {}
     EasyReminders.charDB.food = EasyReminders.charDB.food or {}
     EasyReminders.charDB.buff = EasyReminders.charDB.buff or {}
-     EasyReminders.charDB.holiday = EasyReminders.charDB.holiday or {}
+    EasyReminders.charDB.holiday = EasyReminders.charDB.holiday or {}
 
+    EasyReminders.globalDB.enabled = EasyReminders.globalDB.enabled or true
     EasyReminders.globalDB.customConsumables = EasyReminders.globalDB.customConsumables or {}
     EasyReminders.globalDB.customFood = EasyReminders.globalDB.customFood or {}
     EasyReminders.globalDB.customBuffs = EasyReminders.globalDB.customBuffs or {}
@@ -84,14 +85,18 @@ function EasyReminders:OnInitialize()
         OnClick = function(self, button)
             if button == "LeftButton" then
              EasyReminders:OpenGUI()
+          -- elseif button == "RightButton" and _G.IsShiftKeyDown() then
+          -- _G.Settings.OpenToCategory( EasyReminders.optionsPage)
             elseif button == "RightButton" then
-                _G.Settings.OpenToCategory( EasyReminders.optionsPage)
+                EasyReminders.globalDB.enabled = not EasyReminders.globalDB.enabled
+                EasyReminders:CheckBuffs()
             end 
         end,
         OnTooltipShow = function(tooltip)
             tooltip:SetText(L["Easy Reminders"])
             tooltip:AddLine(L["Left click to setup reminders"], 1, 1, 1)
-            tooltip:AddLine(L["Right click for settings"], 1, 1, 1)
+            tooltip:AddLine(L["Right click to enable/disable"], 1, 1, 1)
+            --tooltip:AddLine(L["Shift-right click for options"], 1, 1, 1)
             tooltip:Show()
         end
     })
@@ -157,6 +162,14 @@ function EasyReminders:RefreshItem(itemID, success)
 end
 
 function EasyReminders:CheckBuffs()
+
+    -- Early out if disabled
+    if not EasyReminders.globalDB.enabled then
+        EasyReminders.UI.NotificationWindow:UpdateNotifications({})
+        EasyReminders.UI.HolidayWindow:HideHolidayWindow()
+        return
+    end
+
     local missingBuffs = {}
 
     EasyReminders.ConsumableCheck:CheckBuffs(missingBuffs)

@@ -205,3 +205,9 @@ function HolidayWindow:DimissAll(currentHolidays)
         EasyReminders.charDB.holiday[data].dismissDate = _G.date(DATE_FORMAT)
     end
 end
+
+function HolidayWindow:HideHolidayWindow()
+    if frame then
+        frame.frame:Hide()
+    end
+end
