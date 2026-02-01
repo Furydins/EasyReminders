@@ -32,7 +32,9 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.buff = EasyReminders.charDB.buff or {}
     EasyReminders.charDB.holiday = EasyReminders.charDB.holiday or {}
 
-    EasyReminders.globalDB.enabled = EasyReminders.globalDB.enabled or true
+    if EasyReminders.globalDB.enabled == nil then
+        EasyReminders.globalDB.enable = true
+    end
     EasyReminders.globalDB.customConsumables = EasyReminders.globalDB.customConsumables or {}
     EasyReminders.globalDB.customFood = EasyReminders.globalDB.customFood or {}
     EasyReminders.globalDB.customBuffs = EasyReminders.globalDB.customBuffs or {}
