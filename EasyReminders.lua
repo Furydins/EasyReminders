@@ -87,19 +87,19 @@ function EasyReminders:OnInitialize()
         icon = "Interface\\Icons\\Spell_holy_borrowedtime",
         OnClick = function(self, button)
             if button == "LeftButton" then
-             EasyReminders:OpenGUI()
-          -- elseif button == "RightButton" and _G.IsShiftKeyDown() then
-          -- _G.Settings.OpenToCategory( EasyReminders.optionsPage)
+               EasyReminders:OpenGUI()
+            elseif button == "RightButton" and _G.IsShiftKeyDown() then
+               _G.Settings.OpenToCategory( EasyReminders.optionsPage)
             elseif button == "RightButton" then
-                EasyReminders.globalDB.enabled = not EasyReminders.globalDB.enabled
-                EasyReminders:CheckBuffs()
+               EasyReminders.globalDB.enabled = not EasyReminders.globalDB.enabled
+               EasyReminders:CheckBuffs()
             end 
         end,
         OnTooltipShow = function(tooltip)
             tooltip:SetText(L["Easy Reminders"])
             tooltip:AddLine(L["Left click to setup reminders"], 1, 1, 1)
             tooltip:AddLine(L["Right click to enable/disable"], 1, 1, 1)
-            --tooltip:AddLine(L["Shift-right click for options"], 1, 1, 1)
+            tooltip:AddLine(L["Shift-right click for options"], 1, 1, 1)
             tooltip:Show()
         end
     })
