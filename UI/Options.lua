@@ -37,7 +37,7 @@ function Options:GetOptions()
           },
           anchor = {
               type = 'toggle',
-              order = 1,
+              order = 2,
               name = L["Show Notification Anchor"],
               desc = L["Shows a visible anchor to make moving the notification frame easier"],
               width = "full",
@@ -51,7 +51,7 @@ function Options:GetOptions()
           },
           lock = {
               type = 'toggle',
-              order = 1,
+              order = 3,
               name = L["Lock Notification Window"],
               desc = L["Prevents movement of the bar"],
               width = "full",
@@ -62,6 +62,29 @@ function Options:GetOptions()
                   end
                   EasyReminders:CheckBuffs()
                 end,
+          },
+          header3 = {
+              type = 'header',
+              order = 4,
+              name = L["Display"],
+          },
+          outline = {
+              type = 'select',
+              order = 5,
+              name = L["Orientation"],
+              desc = L["Controls the direction the notifications will grow"],
+              values = { ["VERTICAL"] = L["Vertical"], ["HORIZONTAL"] = L["Horizontal"] },
+              style = "dropdown",
+              width = "normal",
+              get = function(info)  return EasyReminders.globalDB.orientation end,
+              set = function(info,val) 
+                      if val == "NONE" then
+                          EasyReminders.globalDB.orientation = nil
+                      else
+                          EasyReminders.globalDB.orientation = val
+                      end
+                      EasyReminders.UI.NotificationWindow:ChangeOrientation(EasyReminders.globalDB.orientation)
+                  end,
           },
         },
         

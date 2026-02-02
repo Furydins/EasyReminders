@@ -3,17 +3,12 @@ EasyReminders.UI.NotificationWindow = EasyReminders.UI.NotificationWindow or {}
 
 local NotificationWindow = EasyReminders.UI.NotificationWindow
 
-
-
 local frame
 
 function NotificationWindow:CreateNotificationWindow()
 
     frame = EasyReminders.AceGUI:Create("SimpleGroup")
-    frame:SetWidth(64)
-    frame:SetHeight(256)
-    frame:SetLayout("List")
-    frame:SetAutoAdjustHeight(true)
+    NotificationWindow:ChangeOrientation(EasyReminders.globalDB.orientation)
     frame.frame:SetFrameStrata("MEDIUM")
     frame:SetPoint("TOP", _G.UIParent, "CENTER", -300, 300)
     frame.frame:SetMovable(true)
@@ -37,6 +32,7 @@ end
 function NotificationWindow:UpdateNotifications(missingBuffs)
 
     local optionsdb = EasyReminders.globalDB
+    local toShow = 0
 
     frame:ReleaseChildren()
 
@@ -56,8 +52,25 @@ function NotificationWindow:UpdateNotifications(missingBuffs)
         icon:SetImageSize(64,64)
         icon:SetWidth(64)
         frame:AddChild(icon)
+        toShow = toShow + 1
     end
 
+    if EasyReminders.globalDB.orientation == "HORIZONTAL" then
+        frame:SetWidth( math.max((toShow + (optionsdb.anchor and 1 or 0)) * 67, 256) )
+    end
 end
 
+function NotificationWindow:ChangeOrientation(orientation)
+    if orientation == "HORIZONTAL" then
+        frame:SetWidth(512)
+        frame:SetHeight(64)
+        frame:SetLayout("Flow")
+        frame:SetAutoAdjustHeight(false)
+    else
+        frame:SetWidth(64)
+        frame:SetHeight(256)
+        frame:SetLayout("List")
+        frame:SetAutoAdjustHeight(true)
+    end
+end
 

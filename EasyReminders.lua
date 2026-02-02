@@ -38,6 +38,7 @@ function EasyReminders:OnInitialize()
     EasyReminders.globalDB.customConsumables = EasyReminders.globalDB.customConsumables or {}
     EasyReminders.globalDB.customFood = EasyReminders.globalDB.customFood or {}
     EasyReminders.globalDB.customBuffs = EasyReminders.globalDB.customBuffs or {}
+    EasyReminders.globalDB.orientation = EasyReminders.globalDB.orientation or "VERTICAL"
 
     EasyReminders:RegisterChatCommand("er", "OpenGUI")
     EasyReminders:RegisterChatCommand("easyreminders", "OpenGUI")
