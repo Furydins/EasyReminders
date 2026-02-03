@@ -10,6 +10,7 @@ EasyReminders.Filters.holidays = {["MAJOR"] = true,
                    ["MICRO"] = true,  
                    ["BRAWL"] = true,
                    ["TIMEWALKING"] = true,
+                   ["SKYRIDING"] = true,
                    ["OTHER"] = true,}
 
 
@@ -30,6 +31,7 @@ local filterDropdown = EasyReminders.AceGUI:Create("Dropdown")
     [EasyReminders.Data.HolidayCategories.MICRO] = L["Micro Holidays"],
     [EasyReminders.Data.HolidayCategories.BRAWL] = L["Brawls"],
     [EasyReminders.Data.HolidayCategories.TIMEWALKING] = L["Timewalking"],
+    [EasyReminders.Data.HolidayCategories.SKYRIDING] = L["Skyriding Cups"],
     [EasyReminders.Data.HolidayCategories.OTHER] = L["Other Events"],
   })
   filterDropdown:SetMultiselect(true)
@@ -37,6 +39,7 @@ local filterDropdown = EasyReminders.AceGUI:Create("Dropdown")
   filterDropdown:SetItemValue(EasyReminders.Data.HolidayCategories.MICRO, EasyReminders.Filters.holidays.MICRO)
   filterDropdown:SetItemValue(EasyReminders.Data.HolidayCategories.BRAWL, EasyReminders.Filters.holidays.BRAWL)
   filterDropdown:SetItemValue(EasyReminders.Data.HolidayCategories.TIMEWALKING, EasyReminders.Filters.holidays.TIMEWALKING)
+  filterDropdown:SetItemValue(EasyReminders.Data.HolidayCategories.SKYRIDING, EasyReminders.Filters.holidays.SKYRIDING)
   filterDropdown:SetItemValue(EasyReminders.Data.HolidayCategories.OTHER, EasyReminders.Filters.holidays.OTHER)
   container:AddChild(filterDropdown)
   filterDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)

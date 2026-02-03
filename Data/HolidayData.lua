@@ -17,6 +17,7 @@ EasyReminders.Data.HolidayCategories.MAJOR = "MAJOR"
 EasyReminders.Data.HolidayCategories.MICRO = "MICRO"
 EasyReminders.Data.HolidayCategories.BRAWL = "BRAWL"
 EasyReminders.Data.HolidayCategories.TIMEWALKING = "TIMEWALKING"
+EasyReminders.Data.HolidayCategories.SKYRIDING = "SKYRIDING"
 EasyReminders.Data.HolidayCategories.OTHER = "OTHER"
 
 EasyReminders.Data.Holidays = {
@@ -65,7 +66,7 @@ EasyReminders.Data.Holidays = {
     [35] = {["name"] = L["BfA Timewalking"], ["holidayID"] = 1666, otherIds = {1667, 1668, 1669}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
     [36] = {["name"] = L["Shadowlands Timewalking"], ["holidayID"] = 1703, otherIds = {1704, 1705, 1706, 1707, 1708, 1709, 1710}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
 
-    -- Brawels
+    -- Brawls
     [37] = {["name"] = L["Brawl: Arathi Blizzard"], ["holidayID"] = 666, otherIds = {673, 680, 687, 737}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
     [38] = {["name"] = L["Brawl: Classic Ashran"], ["holidayID"] = 1120, otherIds = {1121, 1122, 1123, 1124}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
     [39] = {["name"] = L["Brawl: Comp Stomp"], ["holidayID"] = 1234, otherIds = {1235, 1236, 1237, 1238}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
@@ -79,5 +80,12 @@ EasyReminders.Data.Holidays = {
     [47] = {["name"] = L["Brawl: Southshore v Tarren Mill"], ["holidayID"] = 660, otherIds = {662, 669, 676, 683}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
     [48] = {["name"] = L["Brawl: Temple of Hotmogu"], ["holidayID"] = 1166, otherIds = {1167, 1168, 1168, 1170}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
     [49] = {["name"] = L["Brawl: Warsong Scramble"], ["holidayID"] = 664, otherIds = {671, 678, 685, 1221}, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
+
+    -- Skyriding
+    [50] = {["name"] = L["Skyriding Cup - Kalimdor"], ["holidayID"] = 1395, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.SKYRIDING},
+    [51] = {["name"] = L["Skyriding Cup - Eastern Kingdoms"], ["holidayID"] = 1400, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.SKYRIDING},
+    [52] = {["name"] = L["Skyriding Cup - Outland"], ["holidayID"] = 1407, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.SKYRIDING},
+    [53] = {["name"] = L["Skyriding Cup - Northrend"], ["holidayID"] = 1429, ["duration"] = EasyReminders.Data.Duration.MONTHLY, ["category"] = EasyReminders.Data.HolidayCategories.SKYRIDING},
+
 }
 
