@@ -81,9 +81,18 @@ function HolidayWindow:CreateHolidayWindow()
     frame:SetLayout("List")
     frame:SetAutoAdjustHeight(true)
     frame.frame:SetFrameStrata("MEDIUM")
+     if not EasyReminders.globalDB.holidayLocation then
+        frame:SetPoint("TOP", _G.UIParent, "CENTER", -300, -300)
+    else
+        frame:SetPoint(EasyReminders.globalDB.holidayLocation[1], 
+                _G.UIParent, EasyReminders.globalDB.holidayLocation[3], EasyReminders.globalDB.holidayLocation[4], 
+               EasyReminders.globalDB.holidayLocation[5])
+    end
     frame:SetPoint("TOP", _G.UIParent, "CENTER", -300, -300)
     frame.frame:SetMovable(true)
+    HolidayWindow:StorePositon()
     frame.frame:Hide()
+
     --- drag suport
 
    frame.frame:SetScript("OnMouseDown", function(this, button)
@@ -94,6 +103,7 @@ function HolidayWindow:CreateHolidayWindow()
     frame.frame:SetScript("OnMouseUp", function(this, button)
         if button == "LeftButton" then
             this:StopMovingOrSizing()
+            HolidayWindow:StorePositon()
         end
     end)
   
@@ -211,3 +221,15 @@ function HolidayWindow:HideHolidayWindow()
         frame.frame:Hide()
     end
 end
+
+function HolidayWindow:StorePositon()
+    if EasyReminders.globalDB.holidayLocation == nil then
+        EasyReminders.globalDB.holidayLocation = {}
+    end
+    point, relativeTo, relativePoint, offsetX, offsetY = frame:GetPoint()
+    EasyReminders.globalDB.holidayLocation[1] = point
+    EasyReminders.globalDB.holidayLocation[3] = relativePoint
+    EasyReminders.globalDB.holidayLocation[4] = offsetX
+    EasyReminders.globalDB.holidayLocation[5] = offsetY
+end
+

@@ -94,9 +94,3 @@ function NotificationWindow:StorePositon()
     EasyReminders.globalDB.notificationLocation[4] = offsetX
     EasyReminders.globalDB.notificationLocation[5] = offsetY
 end
-
-function NotificationWindow:GetFrame()
-    return frame
-end
-
--- /dump EasyReminders.UI.NotificationWindow:GetFrame():GetPoint()[3]
