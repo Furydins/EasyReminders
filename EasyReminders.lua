@@ -89,17 +89,20 @@ function EasyReminders:OnInitialize()
             if button == "LeftButton" then
                EasyReminders:OpenGUI()
             elseif button == "RightButton" and _G.IsShiftKeyDown() then
-               _G.Settings.OpenToCategory( EasyReminders.optionsPage)
-            elseif button == "RightButton" then
                EasyReminders.globalDB.enabled = not EasyReminders.globalDB.enabled
+               EasyReminders:Print(L["Toggled Easy Reminders: "] .. (not EasyReminders.globalDB.enabled and L["Enabled"] or L["Disabled"]))
+               EasyReminders.UI.MainWindow:UpdateEnable(EasyReminders.globalDB.enabled)
                EasyReminders:CheckBuffs()
+            elseif button == "RightButton" then
+               _G.Settings.OpenToCategory( EasyReminders.optionsPage)
+
             end 
         end,
         OnTooltipShow = function(tooltip)
             tooltip:SetText(L["Easy Reminders"])
             tooltip:AddLine(L["Left click to setup reminders"], 1, 1, 1)
-            tooltip:AddLine(L["Right click to enable/disable"], 1, 1, 1)
-            tooltip:AddLine(L["Shift-right click for options"], 1, 1, 1)
+            tooltip:AddLine(L["Right click for options"], 1, 1, 1)
+            tooltip:AddLine(L["Shift-Right click to enable/disable"], 1, 1, 1)
             tooltip:Show()
         end
     })

@@ -6,6 +6,7 @@ local MainWindow = EasyReminders.UI.MainWindow
 local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 local mainFrame
+local enable
 
 
 local function setCloseOnEscPress(window)
@@ -60,7 +61,7 @@ function MainWindow:CreateMainWindow()
    topGroup:SetFullHeight(true)
    mainFrame:AddChild(topGroup)
 
-   local enable= EasyReminders.AceGUI:Create("CheckBox")
+   enable= EasyReminders.AceGUI:Create("CheckBox")
    enable:SetFullWidth(true)
    enable:SetLabel(L["Enable Reminders"])
    enable:SetValue(EasyReminders.globalDB.enabled)
@@ -93,5 +94,11 @@ function MainWindow:CreateMainWindow()
 
     return mainFrame
 
+end
+
+function MainWindow:UpdateEnable(value)
+   if enable then
+      enable:SetValue(value)
+   end
 end
 
