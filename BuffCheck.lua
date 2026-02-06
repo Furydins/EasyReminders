@@ -75,7 +75,7 @@ function BuffCheck:CheckBuffs(missingBuffs)
       trackingList = TrackingList.dungeon
     end 
     trackingList = TrackingList.dungeon
-  elseif inInstance and "scenario" == instanceType  then
+  elseif inInstance and "scenario" == instanceType  and difficultyID == 208 then
     trackingList = TrackingList.delve
   else
     trackingList = TrackingList.outside

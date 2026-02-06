@@ -80,7 +80,7 @@ function ConsumableCheck:CheckBuffs(missingBuffs)
     trackingList = TrackingList.dungeon
   elseif inInstance and "pvp" == instanceType then 
     trackingList = TrackingList.pvp
-  elseif inInstance and "scenario" == instanceType  then
+  elseif inInstance and "scenario" == instanceType and difficultyID == 208 then
     trackingList = TrackingList.delve
   else
     trackingList = TrackingList.outside
