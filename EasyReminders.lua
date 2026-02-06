@@ -39,7 +39,16 @@ function EasyReminders:OnInitialize()
     EasyReminders.globalDB.customFood = EasyReminders.globalDB.customFood or {}
     EasyReminders.globalDB.customBuffs = EasyReminders.globalDB.customBuffs or {}
     EasyReminders.globalDB.orientation = EasyReminders.globalDB.orientation or "VERTICAL"
-
+    if EasyReminders.globalDB.ignoreLegacyInstances == nil then
+        EasyReminders.globalDB.ignoreLegacyInstances = false
+    end
+     if EasyReminders.globalDB.minimumDungeonDifficulty == nil then
+        EasyReminders.globalDB.minimumDungeonDifficulty = "NORMAL"
+    end
+    if EasyReminders.globalDB.minimumRaidDifficulty == nil then
+        EasyReminders.globalDB.minimumRaidDifficulty = "LFR"
+    end
+    
     EasyReminders:RegisterChatCommand("er", "OpenGUI")
     EasyReminders:RegisterChatCommand("easyreminders", "OpenGUI")
 
