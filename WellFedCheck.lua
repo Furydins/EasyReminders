@@ -57,11 +57,12 @@ function WellFedCheck:CheckBuffs(missingBuffs)
 
   local trackingList = nil
 
-  inInstance, instanceType = _G.IsInInstance()
+  local _, instanceType, difficultyID, _, _, _, _, _, _, _ = _G.GetInstanceInfo()
+  local _, _, isHeroic, isChallengeMode, displayHeroic, displayMythic, _, isLFR, _, _ = _G.GetDifficultyInfo(difficultyID)
 
   if C_Loot.IsLegacyLootModeEnabled() and EasyReminders.globalDB.ignoreLegacyInstances then
     trackingList = TrackingList.outside
-  elseif inInstance and "raid" == instanceType then
+  elseif "raid" == instanceType then
     trackingList = TrackingList.outside
     if EasyReminders.globalDB.minimumRaidDifficulty == "LFR" then
       trackingList = TrackingList.raid
@@ -72,7 +73,7 @@ function WellFedCheck:CheckBuffs(missingBuffs)
     elseif EasyReminders.globalDB.minimumRaidDifficulty == "MYTHIC" and (displayMythic) then
       trackingList = TrackingList.raid
     end
-  elseif inInstance and "party" == instanceType then
+  elseif "party" == instanceType then
      trackingList = TrackingList.outside
     if EasyReminders.globalDB.minimumDungeonDifficulty == "NORMAL" and (not isLFR) then
       trackingList = TrackingList.dungeon
@@ -82,9 +83,9 @@ function WellFedCheck:CheckBuffs(missingBuffs)
       trackingList = TrackingList.dungeon
     end 
     trackingList = TrackingList.dungeon
-  elseif inInstance and "pvp" == instanceType then 
+  elseif "pvp" == instanceType then 
     trackingList = TrackingList.pvp
-  elseif inInstance and "scenario" == instanceType  then
+  elseif "scenario" == instanceType  then
     trackingList = TrackingList.delve
   else
     trackingList = TrackingList.outside
