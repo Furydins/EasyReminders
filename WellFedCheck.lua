@@ -75,14 +75,13 @@ function WellFedCheck:CheckBuffs(missingBuffs)
     end
   elseif "party" == instanceType then
      trackingList = TrackingList.outside
-    if EasyReminders.globalDB.minimumDungeonDifficulty == "NORMAL" and (not isLFR) then
+    if EasyReminders.globalDB.minimumDungeonDifficulty == "NORMAL" then
       trackingList = TrackingList.dungeon
     elseif EasyReminders.globalDB.minimumDungeonDifficulty == "HEROIC" and (displayHeroic or displayMythic) then
       trackingList = TrackingList.dungeon
     elseif EasyReminders.globalDB.minimumDungeonDifficulty == "MYTHIC" and (displayMythic) then
       trackingList = TrackingList.dungeon
     end 
-    trackingList = TrackingList.dungeon
   elseif "pvp" == instanceType then 
     trackingList = TrackingList.pvp
   elseif "scenario" == instanceType  then
