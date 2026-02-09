@@ -30,12 +30,25 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.potions = EasyReminders.charDB.potions or {}
     EasyReminders.charDB.food = EasyReminders.charDB.food or {}
     EasyReminders.charDB.buff = EasyReminders.charDB.buff or {}
-     EasyReminders.charDB.holiday = EasyReminders.charDB.holiday or {}
+    EasyReminders.charDB.holiday = EasyReminders.charDB.holiday or {}
 
+    if EasyReminders.globalDB.enabled == nil then
+        EasyReminders.globalDB.enable = true
+    end
     EasyReminders.globalDB.customConsumables = EasyReminders.globalDB.customConsumables or {}
     EasyReminders.globalDB.customFood = EasyReminders.globalDB.customFood or {}
     EasyReminders.globalDB.customBuffs = EasyReminders.globalDB.customBuffs or {}
-
+    EasyReminders.globalDB.orientation = EasyReminders.globalDB.orientation or "VERTICAL"
+    if EasyReminders.globalDB.ignoreLegacyInstances == nil then
+        EasyReminders.globalDB.ignoreLegacyInstances = false
+    end
+     if EasyReminders.globalDB.minimumDungeonDifficulty == nil then
+        EasyReminders.globalDB.minimumDungeonDifficulty = "NORMAL"
+    end
+    if EasyReminders.globalDB.minimumRaidDifficulty == nil then
+        EasyReminders.globalDB.minimumRaidDifficulty = "LFR"
+    end
+    
     EasyReminders:RegisterChatCommand("er", "OpenGUI")
     EasyReminders:RegisterChatCommand("easyreminders", "OpenGUI")
 
@@ -83,15 +96,22 @@ function EasyReminders:OnInitialize()
         icon = "Interface\\Icons\\Spell_holy_borrowedtime",
         OnClick = function(self, button)
             if button == "LeftButton" then
-             EasyReminders:OpenGUI()
+               EasyReminders:OpenGUI()
+            elseif button == "RightButton" and _G.IsShiftKeyDown() then
+               EasyReminders.globalDB.enabled = not EasyReminders.globalDB.enabled
+               EasyReminders:Print(L["Toggled Easy Reminders: "] .. (not EasyReminders.globalDB.enabled and L["Enabled"] or L["Disabled"]))
+               EasyReminders.UI.MainWindow:UpdateEnable(EasyReminders.globalDB.enabled)
+               EasyReminders:CheckBuffs()
             elseif button == "RightButton" then
-                _G.Settings.OpenToCategory( EasyReminders.optionsPage)
+               _G.Settings.OpenToCategory( EasyReminders.optionsPage)
+
             end 
         end,
         OnTooltipShow = function(tooltip)
             tooltip:SetText(L["Easy Reminders"])
             tooltip:AddLine(L["Left click to setup reminders"], 1, 1, 1)
-            tooltip:AddLine(L["Right click for settings"], 1, 1, 1)
+            tooltip:AddLine(L["Right click for options"], 1, 1, 1)
+            tooltip:AddLine(L["Shift-right click to enable/disable"], 1, 1, 1)
             tooltip:Show()
         end
     })
@@ -157,6 +177,14 @@ function EasyReminders:RefreshItem(itemID, success)
 end
 
 function EasyReminders:CheckBuffs()
+
+    -- Early out if disabled
+    if not EasyReminders.globalDB.enabled then
+        EasyReminders.UI.NotificationWindow:UpdateNotifications({})
+        EasyReminders.UI.HolidayWindow:HideHolidayWindow()
+        return
+    end
+
     local missingBuffs = {}
 
     EasyReminders.ConsumableCheck:CheckBuffs(missingBuffs)

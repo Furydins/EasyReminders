@@ -6,6 +6,7 @@ local MainWindow = EasyReminders.UI.MainWindow
 local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 local mainFrame
+local enable
 
 
 local function setCloseOnEscPress(window)
@@ -54,19 +55,37 @@ function MainWindow:CreateMainWindow()
 
     setCloseOnEscPress(mainFrame)
 
+   local topGroup = EasyReminders.AceGUI:Create("SimpleGroup")
+   topGroup:SetLayout("Flow")
+   topGroup:SetFullWidth(true)
+   topGroup:SetFullHeight(true)
+   mainFrame:AddChild(topGroup)
+
+   enable= EasyReminders.AceGUI:Create("CheckBox")
+   enable:SetFullWidth(true)
+   enable:SetLabel(L["Enable Reminders"])
+   enable:SetValue(EasyReminders.globalDB.enabled)
+   enable:SetCallback("OnValueChanged", function(_, _, value)
+       EasyReminders.globalDB.enabled = value
+       EasyReminders:CheckBuffs()
+   end)
+   topGroup:AddChild(enable)
+
     -- Create the TabGroup
     local tab = EasyReminders.AceGUI:Create("TabGroup")
+    tab:SetFullHeight(true)
+    tab:SetFullWidth(true)
     tab:SetLayout("Flow")
     -- Setup which tabs to show
     tab:SetTabs({ {text=L["Buffs"], value="tab1"}, {text=L["Consumables"], value="tab2"}, {text=L["Well Fed"], value="tab3"},
-             {text=L["Holidays"], value = "tab4"}, })
+             {text=L["Events"], value = "tab4"}, })
     -- Register callback
     tab:SetCallback("OnGroupSelected", SelectGroup)
     -- Set initial Tab (this will fire the OnGroupSelected callback)
     tab:SelectTab("tab1")
 
     -- add to the frame container
-    mainFrame:AddChild(tab)
+    topGroup:AddChild(tab)
 
     
     mainFrame.frame:SetScript("OnEvent", forceCloseHandler)
@@ -75,5 +94,11 @@ function MainWindow:CreateMainWindow()
 
     return mainFrame
 
+end
+
+function MainWindow:UpdateEnable(value)
+   if enable then
+      enable:SetValue(value)
+   end
 end
 

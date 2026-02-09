@@ -34,8 +34,8 @@ Libs\LibDBIcon-1.0\lib.xml
 Localization\Locales.xml
 
 EasyReminders.lua
-UI\Ui.xml
 Data\Data.xml
+UI\Ui.xml
 BagCache.lua
 ConsumableCheck.lua
 WellFedCheck.lua
