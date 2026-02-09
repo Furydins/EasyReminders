@@ -3,21 +3,25 @@ EasyReminders.UI.NotificationWindow = EasyReminders.UI.NotificationWindow or {}
 
 local NotificationWindow = EasyReminders.UI.NotificationWindow
 
-
-
 local frame
 
 function NotificationWindow:CreateNotificationWindow()
 
     frame = EasyReminders.AceGUI:Create("SimpleGroup")
-    frame:SetWidth(64)
-    frame:SetHeight(256)
-    frame:SetLayout("List")
-    frame:SetAutoAdjustHeight(true)
+    NotificationWindow:ChangeOrientation(EasyReminders.globalDB.orientation)
     frame.frame:SetFrameStrata("MEDIUM")
-    frame:SetPoint("TOP", _G.UIParent, "CENTER", -300, 300)
+    if not EasyReminders.globalDB.notificationLocation then
+        frame:SetPoint("TOP", _G.UIParent, "CENTER", -300, 300)
+    else
+        frame:SetPoint(EasyReminders.globalDB.notificationLocation[1], 
+                _G.UIParent, EasyReminders.globalDB.notificationLocation[3], EasyReminders.globalDB.notificationLocation[4], 
+               EasyReminders.globalDB.notificationLocation[5])
+    end
+
     frame.frame:SetMovable(true)
 
+    NotificationWindow:StorePositon()
+    
     --- drag suport
 
    frame.frame:SetScript("OnMouseDown", function(this, button)
@@ -28,6 +32,7 @@ function NotificationWindow:CreateNotificationWindow()
     frame.frame:SetScript("OnMouseUp", function(this, button)
         if button == "LeftButton" then
             this:StopMovingOrSizing()
+            NotificationWindow:StorePositon()
         end
     end)
   
@@ -37,6 +42,7 @@ end
 function NotificationWindow:UpdateNotifications(missingBuffs)
 
     local optionsdb = EasyReminders.globalDB
+    local toShow = 0
 
     frame:ReleaseChildren()
 
@@ -56,8 +62,35 @@ function NotificationWindow:UpdateNotifications(missingBuffs)
         icon:SetImageSize(64,64)
         icon:SetWidth(64)
         frame:AddChild(icon)
+        toShow = toShow + 1
     end
 
+    if EasyReminders.globalDB.orientation == "HORIZONTAL" then
+        frame:SetWidth( math.max((toShow + (optionsdb.anchor and 1 or 0)) * 67, 256) )
+    end
 end
 
+function NotificationWindow:ChangeOrientation(orientation)
+    if orientation == "HORIZONTAL" then
+        frame:SetWidth(512)
+        frame:SetHeight(64)
+        frame:SetLayout("Flow")
+        frame:SetAutoAdjustHeight(false)
+    else
+        frame:SetWidth(64)
+        frame:SetHeight(256)
+        frame:SetLayout("List")
+        frame:SetAutoAdjustHeight(true)
+    end
+end
 
+function NotificationWindow:StorePositon()
+    if EasyReminders.globalDB.notificationLocation == nil then
+        EasyReminders.globalDB.notificationLocation = {}
+    end
+    point, relativeTo, relativePoint, offsetX, offsetY = frame:GetPoint()
+    EasyReminders.globalDB.notificationLocation[1] = point
+    EasyReminders.globalDB.notificationLocation[3] = relativePoint
+    EasyReminders.globalDB.notificationLocation[4] = offsetX
+    EasyReminders.globalDB.notificationLocation[5] = offsetY
+end

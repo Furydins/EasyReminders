@@ -16,11 +16,21 @@ local resetTimes = {
 }
 
 local frame
+local shownHolidays = {}
+
+local function hasValue(tab, value)
+    for k,v in pairs(tab) do
+        if v == value then
+            return true
+        end
+    end
+    return false
+end
 
 -- [0] = {["name"] = "holidayOne", ["holidayIndex"] = 100, ["duration"] = EasyReminders.Data.Duration.MONTHLY},
 local function GetCalendarData(calendarEvent)
     for i, data in pairs(EasyReminders.Data.Holidays) do
-        if data.holidayID == calendarEvent.eventID then
+        if data.holidayID == calendarEvent.eventID or hasValue(data.otherIds or {}, calendarEvent.eventID) then
             local result = {}
             result.name = calendarEvent.title
             result.holidayIndex = i
@@ -65,15 +75,24 @@ end
 function HolidayWindow:CreateHolidayWindow()
 
     frame = EasyReminders.AceGUI:Create("Window")
-    frame:SetTitle(L["Active Holidays"])
+    frame:SetTitle(L["Active Events"])
     frame:SetWidth(500)
     frame:SetHeight(150)
     frame:SetLayout("List")
     frame:SetAutoAdjustHeight(true)
     frame.frame:SetFrameStrata("MEDIUM")
+     if not EasyReminders.globalDB.holidayLocation then
+        frame:SetPoint("TOP", _G.UIParent, "CENTER", -300, -300)
+    else
+        frame:SetPoint(EasyReminders.globalDB.holidayLocation[1], 
+                _G.UIParent, EasyReminders.globalDB.holidayLocation[3], EasyReminders.globalDB.holidayLocation[4], 
+               EasyReminders.globalDB.holidayLocation[5])
+    end
     frame:SetPoint("TOP", _G.UIParent, "CENTER", -300, -300)
     frame.frame:SetMovable(true)
+    HolidayWindow:StorePositon()
     frame.frame:Hide()
+
     --- drag suport
 
    frame.frame:SetScript("OnMouseDown", function(this, button)
@@ -84,6 +103,7 @@ function HolidayWindow:CreateHolidayWindow()
     frame.frame:SetScript("OnMouseUp", function(this, button)
         if button == "LeftButton" then
             this:StopMovingOrSizing()
+            HolidayWindow:StorePositon()
         end
     end)
   
@@ -91,6 +111,7 @@ function HolidayWindow:CreateHolidayWindow()
 end
 
 local function canShow(holidayData)
+    
     local dismissDate = EasyReminders.charDB.holiday[holidayData.holidayIndex] and EasyReminders.charDB.holiday[holidayData.holidayIndex].dismissDate
     if not dismissDate then
         if EasyReminders.charDB.holiday[holidayData.holidayIndex] and EasyReminders.charDB.holiday[holidayData.holidayIndex].setting ~= EasyReminders.Data.HolidayMode.NEVER then
@@ -134,57 +155,81 @@ local function canShow(holidayData)
 end
 
 function HolidayWindow:UpdateNotifications()
-    local activeHolidays = GetActiveHolidays()
+    if not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
+      and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
 
-    local shouldShow = false
+        local activeHolidays = GetActiveHolidays()
 
-    frame:ReleaseChildren()
+        local shouldShow = false
 
-    local masterDismiss = EasyReminders.AceGUI:Create("Button")
-    masterDismiss:SetText(L["Dismiss All"])
-    masterDismiss:SetWidth(480)
-    masterDismiss:SetCallback("OnClick", function(widget)
-        HolidayWindow:DimissAll(activeHolidays)
-        frame.frame:Hide()
-    end)
-    frame:AddChild(masterDismiss)
+        frame:ReleaseChildren()
 
-    
-    for i, data in pairs(activeHolidays) do
-      if canShow(data) then 
-        local group = EasyReminders.AceGUI:Create("SimpleGroup")
-        group:SetLayout("flow")
-        group:SetFullWidth(true)
-        frame:AddChild(group)
-
-        local holidayName = EasyReminders.AceGUI:Create("Label")
-        holidayName:SetText( data.name)
-        holidayName:SetFont(EasyReminders.Font, 12, "")
-        holidayName:SetWidth(300)
-        group:AddChild(holidayName)
-
-
-        local dismissButton = EasyReminders.AceGUI:Create("Button")
-        dismissButton:SetText(L["Dismiss"])
-        dismissButton:SetWidth(140)
-        group:AddChild(dismissButton)
-        dismissButton:SetCallback("OnClick", function(widget)
-            EasyReminders.charDB.holiday[data.holidayIndex] = EasyReminders.charDB.holiday[data.holidayIndex] or {}
-            EasyReminders.charDB.holiday[data.holidayIndex].dismissDate = _G.date(DATE_FORMAT)
-            group.frame:Hide()
+         shownHolidays = {}    
+        local masterDismiss = EasyReminders.AceGUI:Create("Button")
+        masterDismiss:SetText(L["Dismiss All"])
+        masterDismiss:SetWidth(480)
+        masterDismiss:SetCallback("OnClick", function(widget)
+            HolidayWindow:DimissAll(shownHolidays)
+            frame.frame:Hide()
         end)
-        shouldShow = true
-      end
-    end
+        frame:AddChild(masterDismiss)
 
-    if shouldShow then
-        frame.frame:Show()
+           
+        for i, data in pairs(activeHolidays) do
+        if canShow(data) then 
+            local group = EasyReminders.AceGUI:Create("SimpleGroup")
+            group:SetLayout("flow")
+            group:SetFullWidth(true)
+            frame:AddChild(group)
+
+            local holidayName = EasyReminders.AceGUI:Create("Label")
+            holidayName:SetText( data.name)
+            holidayName:SetFont(EasyReminders.Font, 12, "")
+            holidayName:SetWidth(300)
+            group:AddChild(holidayName)
+
+
+            local dismissButton = EasyReminders.AceGUI:Create("Button")
+            dismissButton:SetText(L["Dismiss"])
+            dismissButton:SetWidth(140)
+            group:AddChild(dismissButton)
+            dismissButton:SetCallback("OnClick", function(widget)
+                EasyReminders.charDB.holiday[data.holidayIndex] = EasyReminders.charDB.holiday[data.holidayIndex] or {}
+                EasyReminders.charDB.holiday[data.holidayIndex].dismissDate = _G.date(DATE_FORMAT)
+                group.frame:Hide()
+            end)
+            table.insert(shownHolidays, data.holidayIndex)
+            shouldShow = true
+        end
+        end
+
+        if shouldShow then
+            frame.frame:Show()
+        end
     end
 end
 
-function HolidayWindow:DimissAll(activeHolidays)
-    for i, data in pairs(activeHolidays) do
-        EasyReminders.charDB.holiday[data.holidayIndex] = EasyReminders.charDB.holiday[data.holidayIndex] or {}
-        EasyReminders.charDB.holiday[data.holidayIndex].dismissDate = _G.date(DATE_FORMAT)
+function HolidayWindow:DimissAll(currentHolidays)
+    for i, data in pairs(currentHolidays) do
+        EasyReminders.charDB.holiday[data] = EasyReminders.charDB.holiday[data] or {}
+        EasyReminders.charDB.holiday[data].dismissDate = _G.date(DATE_FORMAT)
     end
 end
+
+function HolidayWindow:HideHolidayWindow()
+    if frame then
+        frame.frame:Hide()
+    end
+end
+
+function HolidayWindow:StorePositon()
+    if EasyReminders.globalDB.holidayLocation == nil then
+        EasyReminders.globalDB.holidayLocation = {}
+    end
+    point, relativeTo, relativePoint, offsetX, offsetY = frame:GetPoint()
+    EasyReminders.globalDB.holidayLocation[1] = point
+    EasyReminders.globalDB.holidayLocation[3] = relativePoint
+    EasyReminders.globalDB.holidayLocation[4] = offsetX
+    EasyReminders.globalDB.holidayLocation[5] = offsetY
+end
+
