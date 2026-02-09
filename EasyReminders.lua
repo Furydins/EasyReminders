@@ -111,7 +111,7 @@ function EasyReminders:OnInitialize()
             tooltip:SetText(L["Easy Reminders"])
             tooltip:AddLine(L["Left click to setup reminders"], 1, 1, 1)
             tooltip:AddLine(L["Right click for options"], 1, 1, 1)
-            tooltip:AddLine(L["Shift-Right click to enable/disable"], 1, 1, 1)
+            tooltip:AddLine(L["Shift-right click to enable/disable"], 1, 1, 1)
             tooltip:Show()
         end
     })
