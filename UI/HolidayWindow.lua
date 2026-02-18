@@ -54,7 +54,11 @@ local function GetActiveHolidays()
 		local calendarEvent = C_Calendar.GetDayEvent(0, day, i)
 
 		if calendarEvent.calendarType == "HOLIDAY" then
-			table.insert(activeHolidays, GetCalendarData(calendarEvent))
+            local startTime = calendarEvent.startTime
+            local startTable = {year = startTime.year, month = startTime.month, day = startTime.monthDay, hour = startTime.hour, min = startTime.minute, sec = 0}
+            if _G.time(startTable) <= _G.GetServerTime() then
+			    table.insert(activeHolidays, GetCalendarData(calendarEvent))
+            end
 		end
 	end
     return activeHolidays
