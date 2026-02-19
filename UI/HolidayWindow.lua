@@ -35,6 +35,8 @@ local function GetCalendarData(calendarEvent)
             result.name = calendarEvent.title
             result.holidayIndex = i
             result.duration = data.duration
+            result.startTime = calendarEvent.startTime
+            result.endTime = calendarEvent.endTime
             return result
         end
     end
@@ -56,7 +58,10 @@ local function GetActiveHolidays()
 		if calendarEvent.calendarType == "HOLIDAY" then
             local startTime = calendarEvent.startTime
             local startTable = {year = startTime.year, month = startTime.month, day = startTime.monthDay, hour = startTime.hour, min = startTime.minute, sec = 0}
-            if _G.time(startTable) <= _G.GetServerTime() then
+            local endTime = calendarEvent.endTime
+            local endTable = {year = endTime.year, month = endTime.month, day = endTime.monthDay, hour = endTime.hour, min = endTime.minute, sec = 0}
+          
+            if (_G.time(startTable) <= _G.GetServerTime() and _G.time(endTable) > _G.GetServerTime()) then
 			    table.insert(activeHolidays, GetCalendarData(calendarEvent))
             end
 		end
@@ -124,33 +129,33 @@ local function canShow(holidayData)
             return false
         end
     end
-
-    local currentTime = _G.date(DATE_FORMAT)
-    local c_year, c_month, c_day, c_hour, c_min, c_sec = currentTime:match("(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+)")
-    local resetHour = resetTimes[CURRENT_REGION] or resetTimes["RetailUS"]
-    local resetTime = _G.time({year = tonumber(c_year), month = tonumber(c_month), 
-        day = tonumber(c_day), hour = tonumber(resetHour), min = 0, sec = 0})
-
-    if resetTime > _G.GetServerTime() then -- if reset time is after now we want to use yesterday instead
-        resetTime = resetTime - 86400
-    end
-    
+ 
     -- Parse the dismissDate
     local year, month, day, hour, min, sec = dismissDate:match("(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+)")
     local dismissTime = _G.time({year = tonumber(year), month = tonumber(month), day = tonumber(day), hour = tonumber(hour), min = tonumber(min), sec = tonumber(sec)})
-    local currentTime = _G.GetServerTime() 
-    local diffSeconds = currentTime - dismissTime
-
-    -- Calculate days and hours
-    local days = math.floor(diffSeconds / 86400)
-
+   
     if EasyReminders.charDB.holiday[holidayData.holidayIndex].setting == EasyReminders.Data.HolidayMode.ONCE then
-        if days > holidayData.duration then 
+          -- Event start time
+        local startTime = holidayData.startTime
+        local startTable = {year = startTime.year, month = startTime.month, day = startTime.monthDay, hour = startTime.hour, min = startTime.minute, sec = 0}
+        local startTimeSeconds = _G.time(startTable)
+
+        if startTimeSeconds > dismissTime then 
             return true
         end
     end
    
     if EasyReminders.charDB.holiday[holidayData.holidayIndex].setting == EasyReminders.Data.HolidayMode.DAILY then
+        local currentTime = _G.date(DATE_FORMAT)
+        local c_year, c_month, c_day, c_hour, c_min, c_sec = currentTime:match("(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+)")
+        local resetHour = resetTimes[CURRENT_REGION] or resetTimes["RetailUS"]
+        local resetTime = _G.time({year = tonumber(c_year), month = tonumber(c_month), 
+         day = tonumber(c_day), hour = tonumber(resetHour), min = 0, sec = 0})
+
+        if resetTime > _G.GetServerTime() then -- if reset time is after now we want to use yesterday instead
+            resetTime = resetTime - 86400
+        end
+
        if resetTime > dismissTime then
             return true
        end
