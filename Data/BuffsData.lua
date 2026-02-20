@@ -2,13 +2,12 @@ EasyReminders.Data = EasyReminders.Data or {}
 
 EasyReminders.Data.Buffs = {
 
-    -- Warlock: soulstone
-    -- Warrior stances
 
 
     [465] = {["buffID"] = 465, ["class"] = "PALADIN"}, -- Devotion Aura
     [317920] = {["buffID"] = 317920, ["class"] = "PALADIN"}, -- Concentration Aura
     [32223] = {["buffID"] = 32223, ["class"] = "PALADIN"}, -- Crusader Aura
+    [433550] = {["buffID"] = 433550, ["class"] = "PALADIN"}, -- Rite of Sanctification
 
     [315584] = {["buffID"] = 315584, ["class"] = "ROGUE"},
     [3408] = {["buffID"] = 3408, ["class"] = "ROGUE"},
@@ -16,7 +15,7 @@ EasyReminders.Data.Buffs = {
     [381637] = {["buffID"] = 381637, ["class"] = "ROGUE"},
     [8679] = {["buffID"] = 8679, ["class"] = "ROGUE"},
     [381664] = {["buffID"] = 381664, ["class"] = "ROGUE"},
-    2823 = {["buffID"] = 2823, ["class"] = "ROGUE"},
+    [2823] = {["buffID"] = 2823, ["class"] = "ROGUE"},
 
     [20707] = {["buffID"] = 20707, ["class"] = "WARLOCK"},
 
