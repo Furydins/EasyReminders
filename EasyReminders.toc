@@ -2,7 +2,7 @@
 ## Title: EasyReminders
 ## Notes: Reminds you to apply buffs and more
 ## Author: FurydinWow
-## Version: 2026.02.10.A
+## Version: 2026.02.20.A
 ## SavedVariables: EasyRemindersDB
 ## SavedVariablesPerCharacter: EasyRemindersCharDB
 ## AddonCompartmentFunc: EasyReminders_OpenGUI
