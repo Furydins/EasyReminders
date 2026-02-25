@@ -22,7 +22,7 @@ EasyReminders.Data.Buffs = {
     [319778] = {["buffID"] = 319778, ["class"] = "SHAMAN"},
     [382021] = {["buffID"] = 382021, ["class"] = "SHAMAN", ["additionalBuffs"] = {382022}},
     [457496] = {["buffID"] = 457496, ["class"] = "SHAMAN", ["additionalBuffs"] = {457418}},
-    [462757] = {["buffID"] = 462757, ["class"] = "SHAMAN", ["additionalBuffs"] = {462742}}
+    [462757] = {["buffID"] = 462757, ["class"] = "SHAMAN", ["additionalBuffs"] = {462742}},
 
     [20707] = {["buffID"] = 20707, ["class"] = "WARLOCK"},
 
