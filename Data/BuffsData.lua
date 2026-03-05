@@ -8,7 +8,7 @@ EasyReminders.Data.Buffs = {
     [317920] = {["buffID"] = 317920, ["class"] = "PALADIN"}, -- Concentration Aura
     [32223] = {["buffID"] = 32223, ["class"] = "PALADIN"}, -- Crusader Aura
     [433550] = {["buffID"] = 433550, ["class"] = "PALADIN"}, -- Rite of Sanctification
-    [433584= {["buffID"] = 433584, ["class"] = "PALADIN"}, -- Rite of SAjuration
+    [433584] = {["buffID"] = 433584, ["class"] = "PALADIN"}, -- Rite of SAjuration
 
     [315584] = {["buffID"] = 315584, ["class"] = "ROGUE"},
     [3408] = {["buffID"] = 3408, ["class"] = "ROGUE"},
