@@ -37,7 +37,7 @@ EasyReminders.Data.Holidays = {
     [9] = {["name"] = L["Harvest Festival"], ["holidayID"] = 321,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR},
     [10] = {["name"] = L["Hallow's End"], ["holidayID"] = 324,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR},
     [11] = {["name"] = L["Day of the Dead"], ["holidayID"] = 409,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR},
-    [12] = {["name"] = L["Anniversary Event"], ["holidayID"] = 1501,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR}, -- Last years anniversary event id - 2026 not in game yet
+    [12] = {["name"] = L["Anniversary Event"], ["holidayID"] = 1808,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR}, 
     [13] = {["name"] = L["Pilgrim's Bounty"], ["holidayID"] = 404,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR},
     [14] = {["name"] = L["Feast of Winter Veil"], ["holidayID"] = 141,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR},
     -- Micro Holidays
