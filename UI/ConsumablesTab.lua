@@ -40,6 +40,7 @@ function ConsumablesTab:Create(mainFrame, container)
   filterDropdown:SetItemValue(EasyReminders.Data.Expansions.CUSTOM, EasyReminders.Filters.consumables.CUSTOM)
   filterDropdown:SetItemValue(EasyReminders.Data.Expansions.OTHER, EasyReminders.Filters.consumables.OTHER)
   container:AddChild(filterDropdown)
+
   filterDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
     EasyReminders.Filters.consumables[key] = checked
     ConsumablesTab:RebuildScrollBox()
@@ -129,6 +130,26 @@ function ConsumablesTab:RebuildScrollBox()
         EasyReminders.ConsumableCheck:BuildTrackingList()
         EasyReminders:CheckBuffs()
       end)
+
+      local minTimer = EasyReminders.AceGUI:Create("EditBox")
+      minTimer:SetWidth(70)
+      minTimer:SetText(tostring(EasyReminders.charDB.potions[data.itemID].minTimer or 0))
+      scrollBox:AddChild(minTimer)
+      minTimer:SetCallback("OnTextChanged", function(_,_,text)
+        local num = tonumber(text)
+        if num then
+          EasyReminders.charDB.potions[data.itemID].minTimer = num
+        else
+          EasyReminders.charDB.potions[data.itemID].minTimer = 0
+        end
+        EasyReminders.ConsumableCheck:BuildTrackingList()
+        EasyReminders:CheckBuffs()
+      end)
+      local minTimeLabel = EasyReminders.AceGUI:Create("Label")
+      minTimeLabel:SetText(L["min"])
+      minTimeLabel:SetWidth(20)
+      scrollBox:AddChild(minTimeLabel)
+
 
       if data["canDelete"] then 
 

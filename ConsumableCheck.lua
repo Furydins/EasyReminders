@@ -28,19 +28,19 @@ function ConsumableCheck:BuildTrackingList()
 
     if EasyReminders.charDB.potions[data.itemID] then
         if EasyReminders.charDB.potions[data.itemID].outside then
-          TrackingList.outside[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
+          TrackingList.outside[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs, ["minTimer"] = EasyReminders.charDB.potions[data.itemID].minTimer or 0 }
         end
         if EasyReminders.charDB.potions[data.itemID].dungeon then
-          TrackingList.dungeon[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
+          TrackingList.dungeon[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs, ["minTimer"] = EasyReminders.charDB.potions[data.itemID].minTimer or 0 }
         end
         if EasyReminders.charDB.potions[data.itemID].raid then
-          TrackingList.raid[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
+          TrackingList.raid[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs, ["minTimer"] = EasyReminders.charDB.potions[data.itemID].minTimer or 0 }
         end
         if EasyReminders.charDB.potions[data.itemID].pvp then
-          TrackingList.pvp[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
+          TrackingList.pvp[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs, ["minTimer"] = EasyReminders.charDB.potions[data.itemID].minTimer or 0 }
         end
         if EasyReminders.charDB.potions[data.itemID].delve then
-          TrackingList.delve[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
+          TrackingList.delve[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs, ["minTimer"] = EasyReminders.charDB.potions[data.itemID].minTimer or 0 }
         end
     end
   end
@@ -91,13 +91,18 @@ function ConsumableCheck:CheckBuffs(missingBuffs)
       and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
      local foundbuffs = {}
 
-     _G.AuraUtil.ForEachAura("player", "HELPFUL", nil, function(_, _, _, _, _, _, _, _, _, spellID)
+     _G.AuraUtil.ForEachAura("player", "HELPFUL", nil, function(_, _, _, _, _, expires, _, _, _, spellID)
         if not (_G.issecretvalue and _G.issecretvalue(spellID)) then
-            foundbuffs[spellID] = true 
+            local remainingTime = expires and (expires - _G.GetTime()) or nil
+            foundbuffs[spellID] = { ["found"] = true, ["remainingTime"] = remainingTime }
         end
      end)
      for buffID, data in pairs(trackingList) do       
-        if not foundbuffs[buffID] then
+        if (not foundbuffs[buffID]) or (foundbuffs[buffID].remainingTime and foundbuffs[buffID].remainingTime <= (data.minTimer * 60)) then
+          if foundbuffs[buffID] and foundbuffs[buffID].remainingTime then
+            EasyReminders:Print("Buff: ", buffID , " has ", foundbuffs[buffID].remainingTime, data.minTimer)
+          end
+          -- EasyReminders:Print("Missing buff: ", buffID , foundbuffs[buffID].remainingTime or "nil "
           for i, itemID in pairs(data.itemIDs) do
             if bagContentsCache[itemID] ~= nil then
               local filtered = false
