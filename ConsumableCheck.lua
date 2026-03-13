@@ -28,19 +28,19 @@ function ConsumableCheck:BuildTrackingList()
 
     if EasyReminders.charDB.potions[data.itemID] then
         if EasyReminders.charDB.potions[data.itemID].outside then
-          TrackingList.outside[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs, ["minTimer"] = EasyReminders.charDB.potions[data.itemID].minTimer or 0 }
+          TrackingList.outside[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
         end
         if EasyReminders.charDB.potions[data.itemID].dungeon then
-          TrackingList.dungeon[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs, ["minTimer"] = EasyReminders.charDB.potions[data.itemID].minTimer or 0 }
+          TrackingList.dungeon[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs}
         end
         if EasyReminders.charDB.potions[data.itemID].raid then
-          TrackingList.raid[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs, ["minTimer"] = EasyReminders.charDB.potions[data.itemID].minTimer or 0 }
+          TrackingList.raid[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
         end
         if EasyReminders.charDB.potions[data.itemID].pvp then
-          TrackingList.pvp[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs, ["minTimer"] = EasyReminders.charDB.potions[data.itemID].minTimer or 0 }
+          TrackingList.pvp[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs}
         end
         if EasyReminders.charDB.potions[data.itemID].delve then
-          TrackingList.delve[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs, ["minTimer"] = EasyReminders.charDB.potions[data.itemID].minTimer or 0 }
+          TrackingList.delve[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
         end
     end
   end
@@ -98,11 +98,7 @@ function ConsumableCheck:CheckBuffs(missingBuffs)
         end
      end)
      for buffID, data in pairs(trackingList) do       
-        if (not foundbuffs[buffID]) or (foundbuffs[buffID].remainingTime and foundbuffs[buffID].remainingTime <= (data.minTimer * 60)) then
-          if foundbuffs[buffID] and foundbuffs[buffID].remainingTime then
-            EasyReminders:Print("Buff: ", buffID , " has ", foundbuffs[buffID].remainingTime, data.minTimer)
-          end
-          -- EasyReminders:Print("Missing buff: ", buffID , foundbuffs[buffID].remainingTime or "nil "
+        if (not foundbuffs[buffID]) or (foundbuffs[buffID].remainingTime and foundbuffs[buffID].remainingTime <= (EasyReminders.charDB.potionsMinTime * 60)) then
           for i, itemID in pairs(data.itemIDs) do
             if bagContentsCache[itemID] ~= nil then
               local filtered = false

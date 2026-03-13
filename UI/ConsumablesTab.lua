@@ -45,6 +45,25 @@ function ConsumablesTab:Create(mainFrame, container)
     EasyReminders.Filters.consumables[key] = checked
     ConsumablesTab:RebuildScrollBox()
   end)
+
+   local minTimeLabel = EasyReminders.AceGUI:Create("Label")
+  minTimeLabel:SetText("  " .. L["Min Time Left (min)"])
+  minTimeLabel:SetWidth(120)
+  container:AddChild(minTimeLabel)
+  local minTimer = EasyReminders.AceGUI:Create("EditBox")
+  minTimer:SetWidth(70)
+  minTimer:SetText(tostring(EasyReminders.charDB.potionsMinTime or 0))
+  container:AddChild(minTimer)
+  minTimer:SetCallback("OnEnterPressed", function(_,_,text)
+    local num = tonumber(text)
+    if num then
+      EasyReminders.charDB.potionsMinTime = num
+    else
+      EasyReminders.charDB.potionsMinTime = 0
+    end
+    EasyReminders.ConsumableCheck:BuildTrackingList()
+    EasyReminders:CheckBuffs()
+  end)
   
   ConsumablesTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)
 
@@ -130,26 +149,6 @@ function ConsumablesTab:RebuildScrollBox()
         EasyReminders.ConsumableCheck:BuildTrackingList()
         EasyReminders:CheckBuffs()
       end)
-
-      local minTimer = EasyReminders.AceGUI:Create("EditBox")
-      minTimer:SetWidth(70)
-      minTimer:SetText(tostring(EasyReminders.charDB.potions[data.itemID].minTimer or 0))
-      scrollBox:AddChild(minTimer)
-      minTimer:SetCallback("OnTextChanged", function(_,_,text)
-        local num = tonumber(text)
-        if num then
-          EasyReminders.charDB.potions[data.itemID].minTimer = num
-        else
-          EasyReminders.charDB.potions[data.itemID].minTimer = 0
-        end
-        EasyReminders.ConsumableCheck:BuildTrackingList()
-        EasyReminders:CheckBuffs()
-      end)
-      local minTimeLabel = EasyReminders.AceGUI:Create("Label")
-      minTimeLabel:SetText(L["min"])
-      minTimeLabel:SetWidth(20)
-      scrollBox:AddChild(minTimeLabel)
-
 
       if data["canDelete"] then 
 

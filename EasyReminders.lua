@@ -31,6 +31,8 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.food = EasyReminders.charDB.food or {}
     EasyReminders.charDB.buff = EasyReminders.charDB.buff or {}
     EasyReminders.charDB.holiday = EasyReminders.charDB.holiday or {}
+    
+    EasyReminders.charDB.potionsMinTime = EasyReminders.charDB.potionsMinTime or 0
 
     if EasyReminders.globalDB.enabled == nil then
         EasyReminders.globalDB.enable = true
