@@ -43,7 +43,7 @@ EasyReminders.Data.Food = {
     [255848] = {["itemID"] = 255848, ["otherIds"] = {267000, 268680}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Flora Frenzy
     [255847] = {["itemID"] = 255847, ["otherIds"] = {268679}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Impossibly Royal Roast
     [242275] = {["itemID"] = 242275, ["otherIds"] = {242747}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Royal Roast
-
+    [255846] = {["itemID"] = 255846, ["otherIds"] = {266996}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Flora Frenzy
 }
 
 EasyReminders.Data.FoodIcons = {[136000] = true, [132805] = true, [133950] = true}
