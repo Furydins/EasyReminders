@@ -7,13 +7,13 @@ local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 EasyReminders.Filters = EasyReminders.Filters or {}
 
-EasyReminders.Filters.food = {["MIDNIGHT"] = (_G.GetMaxLevelForExpansionLevel(_G.GetExpansionLevel()) or 90) >= 90,  
-                   ["TWW"] = (_G.GetMaxLevelForExpansionLevel(_G.GetExpansionLevel()) or 80) < 90,
-                   ["CUSTOM"] = true,
-                   ["OTHER"] = true,}
-
 -- function that draws the widgets for the first tab
 function WellFedTab:Create(mainFrame, container)
+
+  EasyReminders.Filters.food = {["MIDNIGHT"] = EasyReminders.charDB.filterFood.MIDNIGHT,  
+                   ["TWW"] = EasyReminders.charDB.filterFood.TWW,
+                   ["CUSTOM"] = EasyReminders.charDB.filterFood.CUSTOM,
+                   ["OTHER"] = EasyReminders.charDB.filterFood.OTHER}
 
   local addItemButton = EasyReminders.AceGUI:Create("Button")
   container:AddChild(addItemButton)
@@ -41,6 +41,7 @@ function WellFedTab:Create(mainFrame, container)
   container:AddChild(filterDropdown)
   filterDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
     EasyReminders.Filters.food[key] = checked
+    EasyReminders.charDB.filterFood[key] = checked
     WellFedTab:RebuildScrollBox()
   end)
 

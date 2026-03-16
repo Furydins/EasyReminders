@@ -31,8 +31,9 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.food = EasyReminders.charDB.food or {}
     EasyReminders.charDB.buff = EasyReminders.charDB.buff or {}
     EasyReminders.charDB.holiday = EasyReminders.charDB.holiday or {}
-    
-    EasyReminders.charDB.potionsMinTime = EasyReminders.charDB.potionsMinTime or 0
+    EasyReminders.charDB.filterConsumables = EasyReminders.charDB.filterConsumables or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
+    EasyReminders.charDB.filterFood = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
+    EasyReminders.charDB.filterHolidays = EasyReminders.charDB.filterHolidays or {["MAJOR"] = true, ["MICRO"] = true, ["BRAWL"] = true, ["TIMEWALKING"] = true, ["SKYRIDING"] = true, ["OTHER"] = true}
 
     if EasyReminders.globalDB.enabled == nil then
         EasyReminders.globalDB.enable = true

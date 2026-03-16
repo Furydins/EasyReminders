@@ -6,18 +6,17 @@ local HolidayTab = EasyReminders.UI.HolidayTab
 EasyReminders.Filters = EasyReminders.Filters or {}
 EasyReminders.Filters.holidays = EasyReminders.Filters.holidays or {}
 
-EasyReminders.Filters.holidays = {["MAJOR"] = true,  
-                   ["MICRO"] = true,  
-                   ["BRAWL"] = true,
-                   ["TIMEWALKING"] = true,
-                   ["SKYRIDING"] = true,
-                   ["OTHER"] = true,}
-
-
 local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 -- function that draws the widgets for the first tab
 function HolidayTab:Create(mainFrame, container)
+
+  EasyReminders.Filters.holidays = {["MAJOR"] = EasyReminders.charDB.filterHolidays.MAJOR,  
+                   ["MICRO"] = EasyReminders.charDB.filterHolidays.MICRO,  
+                   ["BRAWL"] = EasyReminders.charDB.filterHolidays.BRAWL,
+                   ["TIMEWALKING"] = EasyReminders.charDB.filterHolidays.TIMEWALKING,
+                   ["SKYRIDING"] = EasyReminders.charDB.filterHolidays.SKYRIDING,
+                   ["OTHER"] = EasyReminders.charDB.filterHolidays.OTHER}
 
   local titleContainer = EasyReminders.AceGUI:Create("SimpleGroup")
   titleContainer:SetFullWidth(true)
@@ -44,6 +43,7 @@ local filterDropdown = EasyReminders.AceGUI:Create("Dropdown")
   container:AddChild(filterDropdown)
   filterDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
     EasyReminders.Filters.holidays[key] = checked
+    EasyReminders.charDB.filterHolidays[key] = checked
     HolidayTab:RebuildScrollBox()
   end)
 
