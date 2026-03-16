@@ -94,7 +94,6 @@ function ConsumableCheck:CheckBuffs(missingBuffs)
      _G.AuraUtil.ForEachAura("player", "HELPFUL", nil, function(_, _, _, _, duration, expires, _, _, _, spellID)
         if not (_G.issecretvalue and _G.issecretvalue(spellID)) then
             local remainingTime = (duration > 0 and expires and (expires - _G.GetTime())) or nil
-            EasyReminders:Print("Found Buff: ", spellID, duration, expires, remainingTime, EasyReminders.charDB.potionsMinTime * 60)
             foundbuffs[spellID] = { ["found"] = true, ["remainingTime"] = remainingTime }
         end
      end)

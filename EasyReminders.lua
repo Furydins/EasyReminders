@@ -31,12 +31,16 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.food = EasyReminders.charDB.food or {}
     EasyReminders.charDB.buff = EasyReminders.charDB.buff or {}
     EasyReminders.charDB.holiday = EasyReminders.charDB.holiday or {}
+    EasyReminders.charDB.gear = EasyReminders.charDB.gear or {}
+    EasyReminders.charDB.gearConsumables = EasyReminders.charDB.gearConsumables or {}
     EasyReminders.charDB.potionsMinTime = EasyReminders.charDB.potionsMinTime or 0
     EasyReminders.charDB.foodMinTime = EasyReminders.charDB.foodMinTime or 0
     EasyReminders.charDB.buffMinTime = EasyReminders.charDB.buffMinTime or 0
+    EasyReminders.charDB.gearMinTime = EasyReminders.charDB.gearMinTime or 0
 
     EasyReminders.charDB.filterConsumables = EasyReminders.charDB.filterConsumables or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
     EasyReminders.charDB.filterFood = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
+    EasyReminders.charDB.filterGear = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
     EasyReminders.charDB.filterHolidays = EasyReminders.charDB.filterHolidays or {["MAJOR"] = true, ["MICRO"] = true, ["BRAWL"] = true, ["TIMEWALKING"] = true, ["SKYRIDING"] = true, ["OTHER"] = true}
 
     if EasyReminders.globalDB.enabled == nil then
@@ -45,6 +49,7 @@ function EasyReminders:OnInitialize()
     EasyReminders.globalDB.customConsumables = EasyReminders.globalDB.customConsumables or {}
     EasyReminders.globalDB.customFood = EasyReminders.globalDB.customFood or {}
     EasyReminders.globalDB.customBuffs = EasyReminders.globalDB.customBuffs or {}
+    EasyReminders.globalDB.customGearConsumables = EasyReminders.globalDB.customGearConsumables or {}
     EasyReminders.globalDB.orientation = EasyReminders.globalDB.orientation or "VERTICAL"
     if EasyReminders.globalDB.ignoreLegacyInstances == nil then
         EasyReminders.globalDB.ignoreLegacyInstances = false
@@ -62,6 +67,7 @@ function EasyReminders:OnInitialize()
     EasyReminders.ConsumableCache = EasyReminders:ConcatenateTables(EasyReminders.Data.Consumables, EasyReminders.globalDB.customConsumables)
     EasyReminders.FoodCache = EasyReminders:ConcatenateTables(EasyReminders.Data.Food, EasyReminders.globalDB.customFood)
     EasyReminders.BuffCache = EasyReminders:ConcatenateTables(EasyReminders.Data.Buffs, EasyReminders.globalDB.customBuffs)
+    EasyReminders.GearConsumablesCache = EasyReminders:ConcatenateTables(EasyReminders.Data.GearConsumables, EasyReminders.globalDB.customGearConsumables)
     
     EasyReminders:RegisterEvents()
 
@@ -80,6 +86,12 @@ function EasyReminders:OnInitialize()
         EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil}
     end
     for i, data in pairs(EasyReminders.FoodCache)  do
+        local itemID = data.itemID
+        local itemName = C_Item.GetItemNameByID(itemID)
+        local itemIcon = C_Item.GetItemIconByID(itemID)
+        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil}
+    end
+       for i, data in pairs(EasyReminders.GearConsumablesCache) do
         local itemID = data.itemID
         local itemName = C_Item.GetItemNameByID(itemID)
         local itemIcon = C_Item.GetItemIconByID(itemID)
