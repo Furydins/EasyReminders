@@ -97,17 +97,17 @@ function WellFedCheck:CheckBuffs(missingBuffs)
      local foundbuffs = nil
      local timeleft = nil
 
-     _G.AuraUtil.ForEachAura("player", "HELPFUL", nil, function(name, icon, _, _, _, expires, _, _, _, spellID)
+     _G.AuraUtil.ForEachAura("player", "HELPFUL", nil, function(name, icon, _, _, duration, expires, _, _, _, spellID)
         if not (_G.issecretvalue and _G.issecretvalue(spellID)) then
             local spellInfo = C_Spell.GetSpellInfo(spellID)
             if spellInfo and EasyReminders.Data.FoodIcons[spellInfo.iconID] then
                 foundbuffs = spellID
-                timeleft = expires - _G.GetTime()
+                timeleft = (duration > 0 and expires and (expires - _G.GetTime())) or nil
             end
         end
      end)
 
-     if not foundbuffs or timeleft < (EasyReminders.charDB.foodMinTime * 60) then 
+     if not foundbuffs or (timeleft and timeleft < (EasyReminders.charDB.foodMinTime * 60)) then 
         for itemID, _ in pairs(trackingList) do
             if bagContentsCache[itemID] ~= nil then
                 local itemIcon 

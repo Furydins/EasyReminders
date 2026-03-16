@@ -31,9 +31,9 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.food = EasyReminders.charDB.food or {}
     EasyReminders.charDB.buff = EasyReminders.charDB.buff or {}
     EasyReminders.charDB.holiday = EasyReminders.charDB.holiday or {}
-     EasyReminders.charDB.potionsMinTime = EasyReminders.charDB.potionsMinTime or 0
-      EasyReminders.charDB.foodMinTime = EasyReminders.charDB.foodMinTime or 0
-
+    EasyReminders.charDB.potionsMinTime = EasyReminders.charDB.potionsMinTime or 0
+    EasyReminders.charDB.foodMinTime = EasyReminders.charDB.foodMinTime or 0
+    EasyReminders.charDB.buffMinTime = EasyReminders.charDB.buffMinTime or 0
 
     EasyReminders.charDB.filterConsumables = EasyReminders.charDB.filterConsumables or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
     EasyReminders.charDB.filterFood = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
