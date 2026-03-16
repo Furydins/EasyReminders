@@ -45,6 +45,25 @@ function WellFedTab:Create(mainFrame, container)
     WellFedTab:RebuildScrollBox()
   end)
 
+  local minTimeLabel = EasyReminders.AceGUI:Create("Label")
+  minTimeLabel:SetText("  " .. L["Min Time Left (min)"])
+  minTimeLabel:SetWidth(120)
+  container:AddChild(minTimeLabel)
+  local minTimer = EasyReminders.AceGUI:Create("EditBox")
+  minTimer:SetWidth(70)
+  minTimer:SetText(tostring(EasyReminders.charDB.foodMinTime or 0))
+  container:AddChild(minTimer)
+  minTimer:SetCallback("OnEnterPressed", function(_,_,text)
+    local num = tonumber(text)
+    if num then
+      EasyReminders.charDB.foodMinTime = num
+    else
+      EasyReminders.charDB.foodMinTime = 0
+    end
+    EasyReminders.WellFedCheck:BuildTrackingList()
+    EasyReminders:CheckBuffs()
+  end)
+
   WellFedTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)
 
   WellFedTab:RebuildScrollBox()

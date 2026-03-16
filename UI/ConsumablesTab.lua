@@ -47,7 +47,7 @@ function ConsumablesTab:Create(mainFrame, container)
     ConsumablesTab:RebuildScrollBox()
   end)
 
-   local minTimeLabel = EasyReminders.AceGUI:Create("Label")
+  local minTimeLabel = EasyReminders.AceGUI:Create("Label")
   minTimeLabel:SetText("  " .. L["Min Time Left (min)"])
   minTimeLabel:SetWidth(120)
   container:AddChild(minTimeLabel)
