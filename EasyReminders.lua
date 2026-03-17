@@ -16,6 +16,7 @@ EasyReminders.DataCache = {}
 EasyReminders.ConsumableCache = {}
 EasyReminders.FoodCache = {}
 EasyReminders.BuffCache = {}
+EasyReminders.GearConsumablesCache = {}
 
 local HolidayFrame = nil
 

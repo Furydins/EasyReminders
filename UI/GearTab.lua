@@ -78,19 +78,26 @@ function GearTab:RebuildScrollBox()
 
   local _, class, _ = _G.UnitClass("player")
 
+  local seperator1 = EasyReminders.AceGUI:Create("Heading")
+  seperator1:SetText(L["Permanent Enchants and Gems"])
+  seperator1:SetFullWidth(true)
+  scrollBox:AddChild(seperator1)
+
 
   -- Main enchants and Gems
-  for key, data in pairs(EasyReminders.Data.Gear)  do
+  for i = 1, #EasyReminders.Data.GearSlots do
+    local data = EasyReminders.Data.GearSlots[i]
+
     if data.enchantable or data.gemable or data.consumable then
       local itemIcon = C_Item.GetItemIcon({equipmentSlotIndex = data.slotID})
 
       local slotName = EasyReminders.AceGUI:Create("Label")
-      buffName:SetText(data.slotName)
-      buffName:SetFont(EasyReminders.Font, 12, "")
-      buffName:SetWidth(440)
-      buffName:SetImage("itemIcon")
-      buffName:SetImageSize(16,16)
-      scrollBox:AddChild(buffName)
+      slotName:SetText(data.slotName)
+      slotName:SetFont(EasyReminders.Font, 12, "")
+      slotName:SetWidth(440)
+      slotName:SetImage("itemIcon")
+      slotName:SetImageSize(16,16)
+      scrollBox:AddChild(slotName)
 
       local activeDropdown = EasyReminders.AceGUI:Create("Dropdown")
       activeDropdown:SetWidth(150)
@@ -125,13 +132,13 @@ function GearTab:RebuildScrollBox()
     end
   end
 
-  local seperator - EasyReminders.AceGUI:Create("Heading")
-  seperator:SetText(L["Gear Consumables (Weightstones, Oils, etc)"])
-  seperator:SetFullWidth(true)
-  scrollBox:AddChild(seperator)
+  local seperator2 = EasyReminders.AceGUI:Create("Heading")
+  seperator2:SetText(L["Temporary Buffs and Consumables"])
+  seperator2:SetFullWidth(true)
+  scrollBox:AddChild(seperator2)
 
   -- Consumable Enhancements like Oils and Weightstones
-  for key, data in pairs(EasyReminders.Data.GearConsumables)  do
+  for key, data in pairs( EasyReminders.GearConsumablesCache)  do
    if not data.class or data.class == class then
 
      -- itemID, itemName, itemIcon, spellInfo
@@ -139,8 +146,11 @@ function GearTab:RebuildScrollBox()
 
       local itemName = cacheEntry[2] or C_Item.GetItemNameByID(data.itemID)
       local itemIcon = cacheEntry[3] or C_Item.GetItemIconByID(data.itemID)
-      local spellInfo = cacheEntry[4] or C_Spell.GetSpellInfo(data.buffID)
-      local slotName = EasyReminders.Data.Gear[data.slotID].slotName
+      if data.slotID then
+        local slotName = EasyReminders.Data.GearSlots[data.slotID].slotName
+      else 
+        slotName = "Missing Slot" 
+      end
 
       -- Prime item Data
       if data.otherIds then
@@ -153,13 +163,13 @@ function GearTab:RebuildScrollBox()
         end
       end
 
-      local itemName = EasyReminders.AceGUI:Create("Label")
-      itemName:SetText(itemName or L["Loading..."])
-      itemName:SetFont(EasyReminders.Font, 12, "")
-      itemName:SetWidth(220)
-      itemName:SetImage(itemIcon)
-      itemName:SetImageSize(16,16)
-      scrollBox:AddChild(itemName)
+      local itemNameLabel = EasyReminders.AceGUI:Create("Label")
+      itemNameLabel:SetText(itemName or L["Loading..."])
+      itemNameLabel:SetFont(EasyReminders.Font, 12, "")
+      itemNameLabel:SetWidth(440)
+      itemNameLabel:SetImage(itemIcon)
+      itemNameLabel:SetImageSize(16,16)
+      scrollBox:AddChild(itemNameLabel)
 
       local activeDropdown = EasyReminders.AceGUI:Create("Dropdown")
       activeDropdown:SetWidth(150)
@@ -170,7 +180,7 @@ function GearTab:RebuildScrollBox()
         ["Outside"] = L["Outside"],
       })
 
-    EasyReminders.charDB.gearConsumables[data.itemID] = EasyReminders.charDB.gearConsumables[data.itemID] or {}
+      EasyReminders.charDB.gearConsumables[data.itemID] = EasyReminders.charDB.gearConsumables[data.itemID] or {}
       activeDropdown:SetMultiselect(true)
       activeDropdown:SetItemValue("Raid", EasyReminders.charDB.gearConsumables[data.itemID].raid or false)
       activeDropdown:SetItemValue("Dungeon", EasyReminders.charDB.gearConsumables[data.itemID].dungeon or false)
@@ -190,6 +200,18 @@ function GearTab:RebuildScrollBox()
         -- EasyReminders.GearCheck:BuildTrackingList()
         EasyReminders:CheckBuffs()
       end)
+
+      if data["canDelete"] then 
+
+        local delete = EasyReminders.AceGUI:Create("Icon")
+        delete:SetImage("Interface\\AddOns\\WoWPro\\Textures\\Delete")
+        delete:SetImageSize(16,16)
+        delete:SetWidth(20)
+        delete:SetCallback("OnClick", function()
+          GearTab:RemoveConfirm(data.itemID, itemName)
+        end)
+        scrollBox:AddChild(delete)
+      end
 
     end
   end
@@ -237,9 +259,9 @@ function GearTab:RemoveReminder(itemID)
   EasyReminders.charDB.gearConsumables[itemID] = nil
 
   if EasyReminders.Data.GearConsumables[itemID] then
-    EasyReminders.GearConsumableCache[itemID] = EasyReminders.Data.GearConsumables[itemID]
+    EasyReminders.GearConsumablesCache[itemID] = EasyReminders.Data.GearConsumables[itemID]
   else
-    EasyReminders.GearConsumableCache[itemID] = nil
+    EasyReminders.GearConsumablesCache[itemID] = nil
   end
 
   -- EasyReminders.GearCheck:BuildTrackingList()
