@@ -36,10 +36,13 @@ Localization\Locales.xml
 EasyReminders.lua
 Data\Data.xml
 UI\Ui.xml
+ItemLinkParser.lua
 BagCache.lua
 ConsumableCheck.lua
 WellFedCheck.lua
 BuffCheck.lua
+EnchantCheck.lua
+GemCheck.lua
 
 
 

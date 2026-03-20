@@ -210,6 +210,8 @@ function EasyReminders:CheckBuffs()
     EasyReminders.ConsumableCheck:CheckBuffs(missingBuffs)
     EasyReminders.WellFedCheck:CheckBuffs(missingBuffs)
     EasyReminders.BuffCheck:CheckBuffs(missingBuffs)
+    EasyReminders.EnchantCheck:CheckEnchants(missingBuffs)
+    EasyReminders.GemCheck:CheckGems(missingBuffs)
     EasyReminders.UI.NotificationWindow:UpdateNotifications(missingBuffs)
 
     if not HolidayFrame then 

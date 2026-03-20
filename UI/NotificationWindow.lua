@@ -55,8 +55,6 @@ function NotificationWindow:UpdateNotifications(missingBuffs)
     end
     
     for buffID, iconID in pairs(missingBuffs) do
-        itemData = EasyReminders.DataCache[itemID]
-
         local icon = EasyReminders.AceGUI:Create("Label")
         icon:SetImage(iconID)
         icon:SetImageSize(64,64)
