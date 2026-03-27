@@ -14,7 +14,7 @@ EasyReminders.Data.GearSlots = {
     [7] = {["slotID"] = 7, ["slotName"] = _G.LEGSSLOT, ["slotNameID"] = "LEGSSLOT", ["enchantable"] = true, },
     [8] = {["slotID"] = 8, ["slotName"] = _G.FEETSLOT, ["slotNameID"] = "FEETSLOT", ["enchantable"] = true, },
     [9] = {["slotID"] = 9, ["slotName"] = _G.WRISTSLOT, ["slotNameID"] = "WRISTSLOT", ["gemable"] = true},
-    [10] = {["slotID"] = 10, ["slotName"] = _G.HANDSSLOT, ["slotNameID"] = "HANDSSLOT", ["enchantable"] = true},
+    [10] = {["slotID"] = 10, ["slotName"] = _G.HANDSSLOT, ["slotNameID"] = "HANDSSLOT"},
     [11] = {["slotID"] = 11, ["slotName"] = _G.FINGER0SLOT, ["slotNameID"] = "FINGER0SLOT", ["enchantable"] = true, ["gemable"] = true},
     [12] = {["slotID"] = 12, ["slotName"] = _G.FINGER1SLOT, ["slotNameID"] = "FINGER1SLOT", ["enchantable"] = true, ["gemable"] = true},
     [13] = {["slotID"] = 13, ["slotName"] = _G.TRINKET0SLOT, ["slotNameID"] = "TRINKET0SLOT"},
