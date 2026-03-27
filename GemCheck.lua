@@ -2,21 +2,9 @@ EasyReminders.GemCheck = EasyReminders.GemCheck or {}
 
 local GemCheck = EasyReminders.GemCheck
 
-local TrackingList = {}
 local missingBuffs = {}
 
 --   dataCache[data.itemID] = {data.buffID, itemName, itemIcon, spellInfo, potionName, buffName, foodName}
-
-function GemCheck:BuildTrackingList()
-
-  TrackingList.gem = {}
-  for index, data in pairs(EasyReminders.Data.GearSlots) do
-
-    if EasyReminders.charDB.gear[data.slotID].gem then
-      TrackingList.gem[data.buffID] = true
-    end
-  end
-end
 
 function GemCheck:CheckGems(missingGems)
 
@@ -40,7 +28,7 @@ function GemCheck:CheckGems(missingGems)
     end
 
     for index, data in pairs(EasyReminders.Data.GearSlots) do
-      if data.enchantable and EasyReminders.charDB.gear[data.slotID].gem and not foundGems[data.slotID] then
+      if data.gemable and EasyReminders.charDB.gear[data.slotID] and EasyReminders.charDB.gear[data.slotID].gem and not foundGems[data.slotID] then
         local _, slotTexture, _ = GetInventorySlotInfo(data.slotNameID)
         local itemTexture = itemIconInfo[data.slotID]
         missingGems[data.slotName] = itemTexture or slotTexture

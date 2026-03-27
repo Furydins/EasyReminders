@@ -62,7 +62,7 @@ function GearTab:Create(mainFrame, container)
     else
         EasyReminders.charDB.gearMinTime = 0
     end
-    -- EasyReminders.GearCheck:BuildTrackingList()
+
     EasyReminders:CheckBuffs()
     end)
 
@@ -125,7 +125,7 @@ function GearTab:RebuildScrollBox()
         elseif "Consumable" == key then
           EasyReminders.charDB.gear[data.slotID].consumable = checked
         end
-        -- EasyReminders.GearCheck:BuildTrackingList()
+
         EasyReminders:CheckBuffs()
       end)
 
@@ -197,7 +197,6 @@ function GearTab:RebuildScrollBox()
         elseif "Outside" == key then
           EasyReminders.charDB.gearConsumables[data.itemID].outside = checked
         end
-        -- EasyReminders.GearCheck:BuildTrackingList()
         EasyReminders:CheckBuffs()
       end)
 
@@ -264,7 +263,6 @@ function GearTab:RemoveReminder(itemID)
     EasyReminders.GearConsumablesCache[itemID] = nil
   end
 
-  -- EasyReminders.GearCheck:BuildTrackingList()
   EasyReminders:CheckBuffs()
   GearTab:RebuildScrollBox()
  

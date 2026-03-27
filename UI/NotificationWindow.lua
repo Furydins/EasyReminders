@@ -43,8 +43,9 @@ function NotificationWindow:UpdateNotifications(missingBuffs)
 
     local optionsdb = EasyReminders.globalDB
     local toShow = 0
-
-    frame:ReleaseChildren()
+    if frame then
+        frame:ReleaseChildren()
+    end
 
     if optionsdb.anchor then
       local anchor = EasyReminders.AceGUI:Create("Label")
