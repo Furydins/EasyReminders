@@ -2,8 +2,6 @@ EasyReminders.GemCheck = EasyReminders.GemCheck or {}
 
 local GemCheck = EasyReminders.GemCheck
 
-local missingBuffs = {}
-
 --   dataCache[data.itemID] = {data.buffID, itemName, itemIcon, spellInfo, potionName, buffName, foodName}
 
 function GemCheck:CheckGems(missingGems)

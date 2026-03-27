@@ -20,17 +20,17 @@ EasyReminders.Data.GearSlots = {
     [13] = {["slotID"] = 13, ["slotName"] = _G.TRINKET0SLOT, ["slotNameID"] = "TRINKET0SLOT"},
     [14] = {["slotID"] = 14, ["slotName"] = _G.TRINKET1SLOT, ["slotNameID"] = "TRINKET1SLOT"},
     [15] = {["slotID"] = 15, ["slotName"] = _G.BACKSLOT, ["slotNameID"] = "BACKSLOT", ["enchantable"] = true},
-    [16] = {["slotID"] = 16, ["slotName"] = _G.MAINHANDSLOT, ["slotNameID"] = "MAINHANDSLOT"},
+    [16] = {["slotID"] = 16, ["slotName"] = _G.MAINHANDSLOT, ["slotNameID"] = "MAINHANDSLOT", ["enchantable"] = true},
     [17] = {["slotID"] = 17, ["slotName"] = _G.SECONDARYHANDSLOT, ["slotNameID"] = "SECONDARYHANDSLOT"},
 }
 
 EasyReminders.Data.GearConsumables = {
 
-    [237369] = {["itemID"] = 237369, ["slotID"] = 16, ["otherIds"] = {237367}}, --  Refulgent Wheighstone
-    [237370] = {["itemID"] = 237370, ["slotID"] = 16, ["otherIds"] = {237371}}, --  Refulgent Whetstone
-    [237372] = {["itemID"] = 237372, ["slotID"] = 16, ["otherIds"] = {237373}}, --  Refulgent Razorstone
-    [243734] = {["itemID"] = 243734, ["slotID"] = 16, ["otherIds"] = {243733}}, -- Thalassian Phoenix Oil
-    [243738] = {["itemID"] = 243738, ["slotID"] = 16, ["otherIds"] = {243737}}, -- Smugglers Enchanted Edge
-    [243736] = {["itemID"] = 243736, ["slotID"] = 16, ["otherIds"] = {243735}}, -- Oil of Dawn
+    [237369] = {["itemID"] = 237369, ["slotID"] = 16, ["buffIDs"] = {7907, 7908}, ["otherIds"] = {237367}}, --  Refulgent Wheighstone
+    [237370] = {["itemID"] = 237370, ["slotID"] = 16, ["buffIDs"] = {7905, 7906}, ["otherIds"] = {237371}}, --  Refulgent Whetstone
+    [237372] = {["itemID"] = 237372, ["slotID"] = 16, ["buffIDs"] = {7909, 7910}, ["otherIds"] = {237373}}, --  Refulgent Razorstone
+    [243734] = {["itemID"] = 243734, ["slotID"] = 16, ["buffIDs"] = {8051, 8052}, ["otherIds"] = {243733}}, -- Thalassian Phoenix Oil
+    [243738] = {["itemID"] = 243738, ["slotID"] = 16, ["buffIDs"] = {8055, 8056}, ["otherIds"] = {243737}}, -- Smugglers Enchanted Edge
+    [243736] = {["itemID"] = 243736, ["slotID"] = 16, ["buffIDs"] = {8053, 8054}, ["otherIds"] = {243735}}, -- Oil of Dawn
 }
 

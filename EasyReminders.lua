@@ -103,6 +103,7 @@ function EasyReminders:OnInitialize()
     EasyReminders.ConsumableCheck:BuildTrackingList()
     EasyReminders.WellFedCheck:BuildTrackingList()
     EasyReminders.BuffCheck:BuildTrackingList()
+    EasyReminders.TemporaryEnchantCheck:BuildTrackingList()
 
     EasyReminders:CreateTimer()
 
@@ -212,6 +213,7 @@ function EasyReminders:CheckBuffs()
     EasyReminders.BuffCheck:CheckBuffs(missingBuffs)
     EasyReminders.EnchantCheck:CheckEnchants(missingBuffs)
     EasyReminders.GemCheck:CheckGems(missingBuffs)
+    EasyReminders.TemporaryEnchantCheck:CheckEnchants(missingBuffs)
     EasyReminders.UI.NotificationWindow:UpdateNotifications(missingBuffs)
 
     if not HolidayFrame then 
@@ -232,7 +234,11 @@ function EasyReminders:CheckBuffs()
             C_Item.GetItemNameByID(data.itemID)
         end
     end
-
+    for i, data in pairs(EasyReminders.GearConsumablesCache)  do
+        if not EasyReminders.DataCache[data.itemID] or not EasyReminders.DataCache[data.itemID][2] then
+            C_Item.GetItemNameByID(data.itemID)
+        end
+    end
     
 end
 

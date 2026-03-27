@@ -43,6 +43,7 @@ WellFedCheck.lua
 BuffCheck.lua
 EnchantCheck.lua
 GemCheck.lua
+TemporaryEnchantCheck.lua
 
 
 
