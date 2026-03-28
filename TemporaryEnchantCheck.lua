@@ -92,7 +92,10 @@ function TemporaryEnchantCheck:CheckEnchants(missingEnchants)
     trackingList = TrackingList.outside
   end
 
-  hasMainHandEnchant, mainHandExpiration, _, mainHandEnchantID, hasOffHandEnchant, offHandExpiration, _, offHandEnchantID, _, _, _, _ = _G.GetWeaponEnchantInfo()
+  if trackingList and not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
+      and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
+
+     hasMainHandEnchant, mainHandExpiration, _, mainHandEnchantID, hasOffHandEnchant, offHandExpiration, _, offHandEnchantID, _, _, _, _ = _G.GetWeaponEnchantInfo()
 
     for itemID, data in pairs(trackingList) do
     
@@ -124,4 +127,5 @@ function TemporaryEnchantCheck:CheckEnchants(missingEnchants)
             end
         end
     end
+  end
 end
