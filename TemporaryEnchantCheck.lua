@@ -58,6 +58,9 @@ function TemporaryEnchantCheck:CheckEnchants(missingEnchants)
 
   local trackingList = nil
   local bagContentsCache = EasyReminders.BagCache:GetBagCache()
+
+  local _, instanceType, difficultyID, _, _, _, _, _, _, _ = _G.GetInstanceInfo()
+  local _, _, isHeroic, isChallengeMode, displayHeroic, displayMythic, _, isLFR, _, _ = _G.GetDifficultyInfo(difficultyID)
    
   if C_Loot.IsLegacyLootModeEnabled() and EasyReminders.globalDB.ignoreLegacyInstances then
     trackingList = TrackingList.outside
