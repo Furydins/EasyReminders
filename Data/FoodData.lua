@@ -44,6 +44,13 @@ EasyReminders.Data.Food = {
     [255847] = {["itemID"] = 255847, ["otherIds"] = {268679}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Impossibly Royal Roast
     [242275] = {["itemID"] = 242275, ["otherIds"] = {242747}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Royal Roast
     [255846] = {["itemID"] = 255846, ["otherIds"] = {266996}, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Harndar Celebration
+
+    -- MIDNIGHT Tea
+    [242298] = {["itemID"] = 242298, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Argeantleaf tea
+    [242301] = {["itemID"] = 242301, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Azeroot Tea
+    [242297] = {["itemID"] = 242297, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Manalily tea
+    [242299] = {["itemID"] = 242299, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, --Sanguithorn Tea
+    [242300] = {["itemID"] = 242300, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT}, -- Tranquility Bloom Tea
 }
 
 EasyReminders.Data.FoodIcons = {[136000] = true, [132805] = true, [133950] = true, [651601] = true}

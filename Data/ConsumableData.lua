@@ -16,6 +16,8 @@ EasyReminders.Data.Consumables = {
     [243191] = {["itemID"] = 243191,  ["buffID"] = 1234969, ["expansion"] = EasyReminders.Data.Expansions.TWW},  -- Ethereal Augment Rune
     [224572] = {["itemID"] = 224572,  ["buffID"] = 453250, ["expansion"] = EasyReminders.Data.Expansions.TWW},  -- Crystallized Augment Rune
 
+
+
     -- Midnight Flasks
     [241325] = {["itemID"] = 241325, ["otherIds"] = {241324, 245930, 245931}, ["buffID"] = 1235110, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT},  -- Flask of the Blood Knights,
     [241323] = {["itemID"] = 241323, ["otherIds"] = {241322, 245932, 245933}, ["buffID"] = 1235108, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT},  -- Flask of the Magisters,
@@ -25,6 +27,12 @@ EasyReminders.Data.Consumables = {
 
     -- Midnight Runes
     [259085] = {["itemID"] = 259085, ["buffID"] = 1264426, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT},  -- Void-Touched Augment Rune,
+
+    -- Midnight Phials
+
+    [241311] = {["itemID"] = 241311,  ["otherIds"] = {241310}, ["buffID"] = 1236767, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT},  -- Haranir Phial of Finesse,
+    [241313] = {["itemID"] = 241313,  ["otherIds"] = {241312}, ["buffID"] = 1239755, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT},  -- Haranir Phial of Inginuity,
+    [241317] = {["itemID"] = 241317,  ["otherIds"] = {241316}, ["buffID"] = 1236763, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT},  -- Haranir Phial of Finesse,
 
     --- Extras
     [171364] = {["itemID"] = 171364, ["buffID"] = 136583, ["otherBuffs"] = {46668}, ["expansion"] = EasyReminders.Data.Expansions.OTHER}, -- Darkmoon Faire Top Hats,
