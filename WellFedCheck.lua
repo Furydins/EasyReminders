@@ -60,9 +60,7 @@ function WellFedCheck:CheckBuffs(missingBuffs)
   local _, instanceType, difficultyID, _, _, _, _, _, _, _ = _G.GetInstanceInfo()
   local _, _, isHeroic, isChallengeMode, displayHeroic, displayMythic, _, isLFR, _, _ = _G.GetDifficultyInfo(difficultyID)
 
-  if C_Loot.IsLegacyLootModeEnabled() and EasyReminders.globalDB.ignoreLegacyInstances then
-    trackingList = TrackingList.outside
-  elseif "raid" == instanceType then
+  if "raid" == instanceType then
     trackingList = TrackingList.outside
     if EasyReminders.globalDB.minimumRaidDifficulty == "LFR" then
       trackingList = TrackingList.raid
@@ -73,6 +71,9 @@ function WellFedCheck:CheckBuffs(missingBuffs)
     elseif EasyReminders.globalDB.minimumRaidDifficulty == "MYTHIC" and (displayMythic) then
       trackingList = TrackingList.raid
     end
+    if C_Loot.IsLegacyLootModeEnabled() and EasyReminders.globalDB.ignoreLegacyRaids then
+      trackingList = TrackingList.outside
+    end
   elseif "party" == instanceType then
      trackingList = TrackingList.outside
     if EasyReminders.globalDB.minimumDungeonDifficulty == "NORMAL" then
@@ -82,6 +83,9 @@ function WellFedCheck:CheckBuffs(missingBuffs)
     elseif EasyReminders.globalDB.minimumDungeonDifficulty == "MYTHIC" and (displayMythic) then
       trackingList = TrackingList.dungeon
     end 
+    if C_Loot.IsLegacyLootModeEnabled() and EasyReminders.globalDB.ignoreLegacyDungeons and (not displayMythic or not EasyReminders.DungeonUtils:IsDungeonInSeason()) then
+      trackingList = TrackingList.outside
+    end
   elseif "pvp" == instanceType then 
     trackingList = TrackingList.pvp
   elseif "scenario" == instanceType  then

@@ -35,23 +35,37 @@ function Options:GetOptions()
                   end
                 end,
           },
-          legacy = {
+          legacyDungeon = {
               type = 'toggle',
               order = 2,
-              name = L["Ignore Legacy Instances"],
-              desc = L["When enabled will not show reminders for raids and dungeons where legacy loot mode is enabled"],
+              name = L["Ignore Legacy Dungeons"],
+              desc = L["When enabled will not show reminders for dungeons where legacy loot mode is enabled"],
               width = "full",
-              get = function(info)  return optionsdb.ignoreLegacyInstances end,
-              set = function(info,val) if optionsdb.ignoreLegacyInstances
-                  then optionsdb.ignoreLegacyInstances = false
-                  else optionsdb.ignoreLegacyInstances = true 
+              get = function(info)  return optionsdb.ignoreLegacyDungeons end,
+              set = function(info,val) if optionsdb.ignoreLegacyDungeons
+                  then optionsdb.ignoreLegacyDungeons = false
+                  else optionsdb.ignoreLegacyDungeons = true 
+                  end
+                  EasyReminders:CheckBuffs()
+                end,
+          },
+          legacy = {
+              type = 'toggle',
+              order = 3,
+              name = L["Ignore Legacy Raids"],
+              desc = L["When enabled will not show reminders for raids where legacy loot mode is enabled"],
+              width = "full",
+              get = function(info)  return optionsdb.ignoreLegacyRaids end,
+              set = function(info,val) if optionsdb.ignoreLegacyRaids
+                  then optionsdb.ignoreLegacyRaids = false
+                  else optionsdb.ignoreLegacyRaids = true 
                   end
                   EasyReminders:CheckBuffs()
                 end,
           },
           dungeon = {
               type = 'select',
-              order = 3,
+              order = 4,
               name = L["Minimum Dungeon Difficulty"],
               desc = L["Ignore dungeons below the selected diffculty"],
               values = { ["NORMAL"] = L["Normal"], ["HEROIC"] = L["Heroic"], ["MYTHIC"] = L["Mythic"] },
@@ -66,7 +80,7 @@ function Options:GetOptions()
             },
             raid = {
               type = 'select',
-              order = 4,
+              order = 5,
               name = L["Minimum Raid Difficulty"],
               desc = L["Ignore raids below the selected diffculty"],
               values = { ["LFR"] = L["LFR"], ["NORMAL"] = L["Normal"], ["HEROIC"] = L["Heroic"], ["MYTHIC"] = L["Mythic"] },
@@ -81,12 +95,12 @@ function Options:GetOptions()
           },
            header3 = {
               type = 'header',
-              order = 5,
+              order = 6,
               name = L["Display"],
           },
           anchor = {
               type = 'toggle',
-              order = 6,
+              order = 7,
               name = L["Show Notification Anchor"],
               desc = L["Shows a visible anchor to make moving the notification frame easier"],
               width = "full",
@@ -100,7 +114,7 @@ function Options:GetOptions()
           },
           lock = {
               type = 'toggle',
-              order = 7,
+              order = 8,
               name = L["Lock Notification Window"],
               desc = L["Prevents movement of the bar"],
               width = "full",
@@ -114,7 +128,7 @@ function Options:GetOptions()
           },
           outline = {
               type = 'select',
-              order = 8,
+              order = 9,
               name = L["Orientation"],
               desc = L["Controls the direction the notifications will grow"],
               values = { ["VERTICAL"] = L["Vertical"], ["HORIZONTAL"] = L["Horizontal"] },

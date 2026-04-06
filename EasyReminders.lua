@@ -52,8 +52,19 @@ function EasyReminders:OnInitialize()
     EasyReminders.globalDB.customBuffs = EasyReminders.globalDB.customBuffs or {}
     EasyReminders.globalDB.customGearConsumables = EasyReminders.globalDB.customGearConsumables or {}
     EasyReminders.globalDB.orientation = EasyReminders.globalDB.orientation or "VERTICAL"
-    if EasyReminders.globalDB.ignoreLegacyInstances == nil then
-        EasyReminders.globalDB.ignoreLegacyInstances = false
+    if EasyReminders.globalDB.ignoreLegacyDungeons == nil then
+        if EasyReminders.globalDB.ignoreLegacyInstances ~= nil then
+            EasyReminders.globalDB.ignoreLegacyDungeons = EasyReminders.globalDB.ignoreLegacyInstances
+        else
+            EasyReminders.globalDB.ignoreLegacyDungeons = false 
+        end
+    end
+    if EasyReminders.globalDB.ignoreLegacyRaids == nil then
+        if EasyReminders.globalDB.ignoreLegacyInstances ~= nil then
+            EasyReminders.globalDB.ignoreLegacyRaids = EasyReminders.globalDB.ignoreLegacyInstances
+        else
+            EasyReminders.globalDB.ignoreLegacyRaids = false
+        end
     end
      if EasyReminders.globalDB.minimumDungeonDifficulty == nil then
         EasyReminders.globalDB.minimumDungeonDifficulty = "NORMAL"
