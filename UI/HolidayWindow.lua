@@ -30,7 +30,7 @@ end
 -- [0] = {["name"] = "holidayOne", ["holidayIndex"] = 100, ["duration"] = EasyReminders.Data.Duration.MONTHLY},
 local function GetCalendarData(calendarEvent)
     for i, data in pairs(EasyReminders.Data.Holidays) do
-        if data.holidayID == calendarEvent.eventID or hasValue(data.otherIds or {}, calendarEvent.eventID) then
+        if data and (data.holidayID == calendarEvent.eventID or hasValue(data.otherIds or {}, calendarEvent.eventID)) then
             local result = {}
             result.name = calendarEvent.title
             result.holidayIndex = i

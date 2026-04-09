@@ -66,7 +66,7 @@ function HolidayTab:RebuildScrollBox()
   for i=1,#EasyReminders.Data.Holidays do
 
        local holidayData = EasyReminders.Data.Holidays[i]
-       if EasyReminders.Filters.holidays[holidayData.category] then
+       if holidayData and EasyReminders.Filters.holidays[holidayData.category] then
 
         ---
         local holidayName = EasyReminders.AceGUI:Create("Label")
