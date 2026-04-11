@@ -33,11 +33,11 @@ end
 local function SelectGroup(container, event, group)
    container:ReleaseChildren()
    if group == "tab1" then
-      EasyReminders.UI.BuffTab:Create(mainFrame, container)
-  elseif group == "tab2" then
       EasyReminders.UI.ConsumablesTab:Create(mainFrame, container)
-   elseif group == "tab3" then
+  elseif group == "tab2" then
       EasyReminders.UI.WellFedTab:Create(mainFrame, container)
+   elseif group == "tab3" then
+      EasyReminders.UI.BuffTab:Create(mainFrame, container)
    elseif group == "tab4" then
       EasyReminders.UI.GearTab:Create(mainFrame, container)
    elseif group == "tab5" then
@@ -79,7 +79,7 @@ function MainWindow:CreateMainWindow()
     tab:SetFullWidth(true)
     tab:SetLayout("Flow")
     -- Setup which tabs to show
-    tab:SetTabs({ {text=L["Buffs"], value="tab1"}, {text=L["Consumables"], value="tab2"}, {text=L["Well Fed"], value="tab3"}, 
+    tab:SetTabs({ {text=L["Consumables"], value="tab1"}, {text=L["Well Fed"], value="tab2"}, {text=L["Buffs"], value="tab3"},
              {text=L["Gear"], value = "tab4"}, {text=L["Events"], value = "tab5"} })
     -- Register callback
     tab:SetCallback("OnGroupSelected", SelectGroup)
