@@ -57,7 +57,7 @@ function TrackingUtils:SelectTrackingList(outside, delve, dungeon, raid, pvp)
     end
   elseif "pvp" == instanceType then 
     trackingList = pvp
-  elseif "scenario" == instanceType and (difficultyID == 208 or mapID == 3150 or mapID == 3170) then
+  elseif "scenario" == instanceType and (difficultyID == 208 or mapID == 3150 or mapID == 3170) then -- TODO: remove ritual site tarcking once no longer relevant
     trackingList = delve
   else
     trackingList = outside
