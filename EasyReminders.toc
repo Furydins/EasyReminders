@@ -1,8 +1,8 @@
-## Interface: 120001
+## Interface: 120001, 120005
 ## Title: EasyReminders
 ## Notes: Reminds you to apply buffs and more
 ## Author: FurydinWow
-## Version: 2026.03.16.A
+## Version: 2026.04.21.A
 ## SavedVariables: EasyRemindersDB
 ## SavedVariablesPerCharacter: EasyRemindersCharDB
 ## AddonCompartmentFunc: EasyReminders_OpenGUI
@@ -34,12 +34,17 @@ Libs\LibDBIcon-1.0\lib.xml
 Localization\Locales.xml
 
 EasyReminders.lua
+TrackingUtils.lua
 Data\Data.xml
 UI\Ui.xml
+ItemLinkParser.lua
 BagCache.lua
 ConsumableCheck.lua
 WellFedCheck.lua
 BuffCheck.lua
+EnchantCheck.lua
+GemCheck.lua
+TemporaryEnchantCheck.lua
 
 
 

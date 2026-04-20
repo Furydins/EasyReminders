@@ -43,8 +43,9 @@ function NotificationWindow:UpdateNotifications(missingBuffs)
 
     local optionsdb = EasyReminders.globalDB
     local toShow = 0
-
-    frame:ReleaseChildren()
+    if frame then
+        frame:ReleaseChildren()
+    end
 
     if optionsdb.anchor then
       local anchor = EasyReminders.AceGUI:Create("Label")
@@ -55,8 +56,6 @@ function NotificationWindow:UpdateNotifications(missingBuffs)
     end
     
     for buffID, iconID in pairs(missingBuffs) do
-        itemData = EasyReminders.DataCache[itemID]
-
         local icon = EasyReminders.AceGUI:Create("Label")
         icon:SetImage(iconID)
         icon:SetImageSize(64,64)

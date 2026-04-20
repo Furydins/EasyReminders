@@ -31,13 +31,13 @@ function ConsumableCheck:BuildTrackingList()
           TrackingList.outside[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
         end
         if EasyReminders.charDB.potions[data.itemID].dungeon then
-          TrackingList.dungeon[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
+          TrackingList.dungeon[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs}
         end
         if EasyReminders.charDB.potions[data.itemID].raid then
           TrackingList.raid[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
         end
         if EasyReminders.charDB.potions[data.itemID].pvp then
-          TrackingList.pvp[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
+          TrackingList.pvp[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs}
         end
         if EasyReminders.charDB.potions[data.itemID].delve then
           TrackingList.delve[buffID] = { ["itemIDs"] = itemIDs, ["otherBuffs"] = data.otherBuffs }
@@ -50,40 +50,8 @@ function ConsumableCheck:CheckBuffs(missingBuffs)
 
 
   local bagContentsCache = EasyReminders.BagCache:GetBagCache()
-  local trackingList = nil
 
-  local _, instanceType, difficultyID, _, _, _, _, _, _, _ = _G.GetInstanceInfo()
-  local _, _, isHeroic, isChallengeMode, displayHeroic, displayMythic, _, isLFR, _, _ = _G.GetDifficultyInfo(difficultyID)
-
-  if C_Loot.IsLegacyLootModeEnabled() and EasyReminders.globalDB.ignoreLegacyInstances then
-    trackingList = TrackingList.outside
-  elseif "raid" == instanceType then
-    trackingList = TrackingList.outside
-    if EasyReminders.globalDB.minimumRaidDifficulty == "LFR" then
-      trackingList = TrackingList.raid
-    elseif EasyReminders.globalDB.minimumRaidDifficulty == "NORMAL" and (not isLFR) then
-      trackingList = TrackingList.raid
-    elseif EasyReminders.globalDB.minimumRaidDifficulty == "HEROIC" and (displayHeroic or displayMythic) then
-      trackingList = TrackingList.raid
-    elseif EasyReminders.globalDB.minimumRaidDifficulty == "MYTHIC" and (displayMythic) then
-      trackingList = TrackingList.raid
-    end
-  elseif "party" == instanceType then
-     trackingList = TrackingList.outside
-    if EasyReminders.globalDB.minimumDungeonDifficulty == "NORMAL" then
-      trackingList = TrackingList.dungeon
-    elseif EasyReminders.globalDB.minimumDungeonDifficulty == "HEROIC" and (displayHeroic or displayMythic) then
-      trackingList = TrackingList.dungeon
-    elseif EasyReminders.globalDB.minimumDungeonDifficulty == "MYTHIC" and (displayMythic) then
-      trackingList = TrackingList.dungeon
-    end 
-  elseif "pvp" == instanceType then 
-    trackingList = TrackingList.pvp
-  elseif "scenario" == instanceType and difficultyID == 208 then
-    trackingList = TrackingList.delve
-  else
-    trackingList = TrackingList.outside
-  end
+  local trackingList = EasyReminders.TrackingUtils:SelectTrackingList(TrackingList.outside, TrackingList.delve, TrackingList.dungeon, TrackingList.raid, TrackingList.pvp)
 
   -- check if we can scan auras
 
@@ -91,13 +59,14 @@ function ConsumableCheck:CheckBuffs(missingBuffs)
       and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
      local foundbuffs = {}
 
-     _G.AuraUtil.ForEachAura("player", "HELPFUL", nil, function(_, _, _, _, _, _, _, _, _, spellID)
+     _G.AuraUtil.ForEachAura("player", "HELPFUL", nil, function(_, _, _, _, duration, expires, _, _, _, spellID)
         if not (_G.issecretvalue and _G.issecretvalue(spellID)) then
-            foundbuffs[spellID] = true 
+            local remainingTime = (duration > 0 and expires and (expires - _G.GetTime())) or nil
+            foundbuffs[spellID] = { ["found"] = true, ["remainingTime"] = remainingTime }
         end
      end)
      for buffID, data in pairs(trackingList) do       
-        if not foundbuffs[buffID] then
+        if (not foundbuffs[buffID]) or (foundbuffs[buffID].remainingTime and foundbuffs[buffID].remainingTime <= (EasyReminders.charDB.potionsMinTime * 60)) then
           for i, itemID in pairs(data.itemIDs) do
             if bagContentsCache[itemID] ~= nil then
               local filtered = false

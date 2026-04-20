@@ -13,6 +13,26 @@ function BuffTab:Create(mainFrame, container)
   addItemButton:SetText(L["Add Buff"])
   addItemButton:SetCallback("OnClick", function(widget) EasyReminders.UI.BuffDialog:Create(mainFrame) end)
 
+  
+  local minTimeLabel = EasyReminders.AceGUI:Create("Label")
+  minTimeLabel:SetText("  " .. L["Min Time Left (min)"])
+  minTimeLabel:SetWidth(120)
+  container:AddChild(minTimeLabel)
+  local minTimer = EasyReminders.AceGUI:Create("EditBox")
+  minTimer:SetWidth(70)
+  minTimer:SetText(tostring(EasyReminders.charDB.buffMinTime or 0))
+  container:AddChild(minTimer)
+  minTimer:SetCallback("OnEnterPressed", function(_,_,text)
+    local num = tonumber(text)
+    if num then
+      EasyReminders.charDB.buffMinTime = num
+    else
+      EasyReminders.charDB.buffMinTime = 0
+    end
+    EasyReminders.BuffCheck:BuildTrackingList()
+    EasyReminders:CheckBuffs()
+    end)
+
   BuffTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)
 
   BuffTab:RebuildScrollBox()

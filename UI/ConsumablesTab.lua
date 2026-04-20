@@ -6,15 +6,15 @@ local ConsumablesTab = EasyReminders.UI.ConsumablesTab
 EasyReminders.Filters = EasyReminders.Filters or {}
 EasyReminders.Filters.consumables = EasyReminders.Filters.consumables or {}
 
-EasyReminders.Filters.consumables = {["MIDNIGHT"] = (_G.GetMaxLevelForExpansionLevel(_G.GetExpansionLevel()) or 90) >= 90,  
-                   ["TWW"] = (_G.GetMaxLevelForExpansionLevel(_G.GetExpansionLevel()) or 80) < 90,  
-                   ["CUSTOM"] = true,
-                   ["OTHER"] = true,}
-
 local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 -- function that draws the widgets for the first tab
 function ConsumablesTab:Create(mainFrame, container)
+
+  EasyReminders.Filters.consumables = {["MIDNIGHT"] = EasyReminders.charDB.filterConsumables.MIDNIGHT,
+                   ["TWW"] = EasyReminders.charDB.filterConsumables.TWW,  
+                   ["CUSTOM"] = EasyReminders.charDB.filterConsumables.CUSTOM,
+                   ["OTHER"] = EasyReminders.charDB.filterConsumables.OTHER}
 
   local addItemButton = EasyReminders.AceGUI:Create("Button")
   container:AddChild(addItemButton)
@@ -40,9 +40,30 @@ function ConsumablesTab:Create(mainFrame, container)
   filterDropdown:SetItemValue(EasyReminders.Data.Expansions.CUSTOM, EasyReminders.Filters.consumables.CUSTOM)
   filterDropdown:SetItemValue(EasyReminders.Data.Expansions.OTHER, EasyReminders.Filters.consumables.OTHER)
   container:AddChild(filterDropdown)
+
   filterDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
     EasyReminders.Filters.consumables[key] = checked
+    EasyReminders.charDB.filterConsumables[key] = checked
     ConsumablesTab:RebuildScrollBox()
+  end)
+
+  local minTimeLabel = EasyReminders.AceGUI:Create("Label")
+  minTimeLabel:SetText("  " .. L["Min Time Left (min)"])
+  minTimeLabel:SetWidth(120)
+  container:AddChild(minTimeLabel)
+  local minTimer = EasyReminders.AceGUI:Create("EditBox")
+  minTimer:SetWidth(70)
+  minTimer:SetText(tostring(EasyReminders.charDB.potionsMinTime or 0))
+  container:AddChild(minTimer)
+  minTimer:SetCallback("OnEnterPressed", function(_,_,text)
+    local num = tonumber(text)
+    if num then
+      EasyReminders.charDB.potionsMinTime = num
+    else
+      EasyReminders.charDB.potionsMinTime = 0
+    end
+    EasyReminders.ConsumableCheck:BuildTrackingList()
+    EasyReminders:CheckBuffs()
   end)
   
   ConsumablesTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)

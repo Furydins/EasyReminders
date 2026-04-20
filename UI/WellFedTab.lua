@@ -7,13 +7,13 @@ local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
 EasyReminders.Filters = EasyReminders.Filters or {}
 
-EasyReminders.Filters.food = {["MIDNIGHT"] = (_G.GetMaxLevelForExpansionLevel(_G.GetExpansionLevel()) or 90) >= 90,  
-                   ["TWW"] = (_G.GetMaxLevelForExpansionLevel(_G.GetExpansionLevel()) or 80) < 90,
-                   ["CUSTOM"] = true,
-                   ["OTHER"] = true,}
-
 -- function that draws the widgets for the first tab
 function WellFedTab:Create(mainFrame, container)
+
+  EasyReminders.Filters.food = {["MIDNIGHT"] = EasyReminders.charDB.filterFood.MIDNIGHT,  
+                   ["TWW"] = EasyReminders.charDB.filterFood.TWW,
+                   ["CUSTOM"] = EasyReminders.charDB.filterFood.CUSTOM,
+                   ["OTHER"] = EasyReminders.charDB.filterFood.OTHER}
 
   local addItemButton = EasyReminders.AceGUI:Create("Button")
   container:AddChild(addItemButton)
@@ -41,7 +41,27 @@ function WellFedTab:Create(mainFrame, container)
   container:AddChild(filterDropdown)
   filterDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
     EasyReminders.Filters.food[key] = checked
+    EasyReminders.charDB.filterFood[key] = checked
     WellFedTab:RebuildScrollBox()
+  end)
+
+  local minTimeLabel = EasyReminders.AceGUI:Create("Label")
+  minTimeLabel:SetText("  " .. L["Min Time Left (min)"])
+  minTimeLabel:SetWidth(120)
+  container:AddChild(minTimeLabel)
+  local minTimer = EasyReminders.AceGUI:Create("EditBox")
+  minTimer:SetWidth(70)
+  minTimer:SetText(tostring(EasyReminders.charDB.foodMinTime or 0))
+  container:AddChild(minTimer)
+  minTimer:SetCallback("OnEnterPressed", function(_,_,text)
+    local num = tonumber(text)
+    if num then
+      EasyReminders.charDB.foodMinTime = num
+    else
+      EasyReminders.charDB.foodMinTime = 0
+    end
+    EasyReminders.WellFedCheck:BuildTrackingList()
+    EasyReminders:CheckBuffs()
   end)
 
   WellFedTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)

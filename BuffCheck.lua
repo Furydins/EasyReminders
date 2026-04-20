@@ -50,51 +50,23 @@ function BuffCheck:CheckBuffs(missingBuffs)
    
   local _, class, _ = _G.UnitClass("player")
 
-  local _, instanceType, difficultyID, _, _, _, _, _, _, _ = _G.GetInstanceInfo()
-  local _, _, isHeroic, isChallengeMode, displayHeroic, displayMythic, _, isLFR, _, _ = _G.GetDifficultyInfo(difficultyID)
-
-  if C_Loot.IsLegacyLootModeEnabled() and EasyReminders.globalDB.ignoreLegacyInstances then
-    trackingList = TrackingList.outside
-  elseif "raid" == instanceType then
-    trackingList = TrackingList.outside
-    if EasyReminders.globalDB.minimumRaidDifficulty == "LFR" then
-      trackingList = TrackingList.raid
-    elseif EasyReminders.globalDB.minimumRaidDifficulty == "NORMAL" and (not isLFR) then
-      trackingList = TrackingList.raid
-    elseif EasyReminders.globalDB.minimumRaidDifficulty == "HEROIC" and (displayHeroic or displayMythic) then
-      trackingList = TrackingList.raid
-    elseif EasyReminders.globalDB.minimumRaidDifficulty == "MYTHIC" and (displayMythic) then
-      trackingList = TrackingList.raid
-    end
-  elseif "party" == instanceType then
-     trackingList = TrackingList.outside
-    if EasyReminders.globalDB.minimumDungeonDifficulty == "NORMAL" then
-      trackingList = TrackingList.dungeon
-    elseif EasyReminders.globalDB.minimumDungeonDifficulty == "HEROIC" and (displayHeroic or displayMythic) then
-      trackingList = TrackingList.dungeon
-    elseif EasyReminders.globalDB.minimumDungeonDifficulty == "MYTHIC" and (displayMythic) then
-      trackingList = TrackingList.dungeon
-    end 
-  elseif "scenario" == instanceType  and difficultyID == 208 then
-    trackingList = TrackingList.delve
-  else
-    trackingList = TrackingList.outside
-  end
+  local trackingList = EasyReminders.TrackingUtils:SelectTrackingList(TrackingList.outside, TrackingList.delve, TrackingList.dungeon, TrackingList.raid, TrackingList.pvp)
 
   if not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
       and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
      local foundbuffs = {}
 
-     _G.AuraUtil.ForEachAura("player", "HELPFUL", nil, function(_, _, _, _, _, _, _, _, _, spellID)
+     _G.AuraUtil.ForEachAura("player", "HELPFUL", nil, function(_, _, _, _, duration, expires, _, _, _, spellID)
         if not (_G.issecretvalue and _G.issecretvalue(spellID)) then
-            foundbuffs[spellID] = true 
-       end
+            local remainingTime = (duration > 0 and expires and (expires - _G.GetTime())) or nil
+            foundbuffs[spellID] = { ["found"] = true, ["remainingTime"] = remainingTime }
+        end
      end)
     for spellID, buffIDs in pairs(trackingList) do
       local expectedClass = EasyReminders.BuffCache[spellID].class
         if not expectedClass or expectedClass == class then
             for i, buffID in pairs(buffIDs) do
-                if not foundbuffs[buffID] then
+                if (not foundbuffs[buffID]) or (foundbuffs[buffID].remainingTime and foundbuffs[buffID].remainingTime <= (EasyReminders.charDB.buffMinTime * 60)) then
                     local spellInfo = C_Spell.GetSpellInfo(buffID)
                     missingBuffs[spellID] = spellInfo.iconID  -- we just want to show the parent Icon
                 end

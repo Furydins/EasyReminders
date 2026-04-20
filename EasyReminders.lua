@@ -16,6 +16,7 @@ EasyReminders.DataCache = {}
 EasyReminders.ConsumableCache = {}
 EasyReminders.FoodCache = {}
 EasyReminders.BuffCache = {}
+EasyReminders.GearConsumablesCache = {}
 
 local HolidayFrame = nil
 
@@ -31,6 +32,17 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.food = EasyReminders.charDB.food or {}
     EasyReminders.charDB.buff = EasyReminders.charDB.buff or {}
     EasyReminders.charDB.holiday = EasyReminders.charDB.holiday or {}
+    EasyReminders.charDB.gear = EasyReminders.charDB.gear or {}
+    EasyReminders.charDB.gearConsumables = EasyReminders.charDB.gearConsumables or {}
+    EasyReminders.charDB.potionsMinTime = EasyReminders.charDB.potionsMinTime or 0
+    EasyReminders.charDB.foodMinTime = EasyReminders.charDB.foodMinTime or 0
+    EasyReminders.charDB.buffMinTime = EasyReminders.charDB.buffMinTime or 0
+    EasyReminders.charDB.gearMinTime = EasyReminders.charDB.gearMinTime or 0
+
+    EasyReminders.charDB.filterConsumables = EasyReminders.charDB.filterConsumables or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
+    EasyReminders.charDB.filterFood = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
+    EasyReminders.charDB.filterGear = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
+    EasyReminders.charDB.filterHolidays = EasyReminders.charDB.filterHolidays or {["MAJOR"] = true, ["MICRO"] = true, ["BRAWL"] = true, ["TIMEWALKING"] = true, ["SKYRIDING"] = true, ["OTHER"] = true}
 
     if EasyReminders.globalDB.enabled == nil then
         EasyReminders.globalDB.enable = true
@@ -38,9 +50,21 @@ function EasyReminders:OnInitialize()
     EasyReminders.globalDB.customConsumables = EasyReminders.globalDB.customConsumables or {}
     EasyReminders.globalDB.customFood = EasyReminders.globalDB.customFood or {}
     EasyReminders.globalDB.customBuffs = EasyReminders.globalDB.customBuffs or {}
+    EasyReminders.globalDB.customGearConsumables = EasyReminders.globalDB.customGearConsumables or {}
     EasyReminders.globalDB.orientation = EasyReminders.globalDB.orientation or "VERTICAL"
-    if EasyReminders.globalDB.ignoreLegacyInstances == nil then
-        EasyReminders.globalDB.ignoreLegacyInstances = false
+    if EasyReminders.globalDB.ignoreLegacyDungeons == nil then
+        if EasyReminders.globalDB.ignoreLegacyInstances ~= nil then
+            EasyReminders.globalDB.ignoreLegacyDungeons = EasyReminders.globalDB.ignoreLegacyInstances
+        else
+            EasyReminders.globalDB.ignoreLegacyDungeons = false 
+        end
+    end
+    if EasyReminders.globalDB.ignoreLegacyRaids == nil then
+        if EasyReminders.globalDB.ignoreLegacyInstances ~= nil then
+            EasyReminders.globalDB.ignoreLegacyRaids = EasyReminders.globalDB.ignoreLegacyInstances
+        else
+            EasyReminders.globalDB.ignoreLegacyRaids = false
+        end
     end
      if EasyReminders.globalDB.minimumDungeonDifficulty == nil then
         EasyReminders.globalDB.minimumDungeonDifficulty = "NORMAL"
@@ -55,6 +79,7 @@ function EasyReminders:OnInitialize()
     EasyReminders.ConsumableCache = EasyReminders:ConcatenateTables(EasyReminders.Data.Consumables, EasyReminders.globalDB.customConsumables)
     EasyReminders.FoodCache = EasyReminders:ConcatenateTables(EasyReminders.Data.Food, EasyReminders.globalDB.customFood)
     EasyReminders.BuffCache = EasyReminders:ConcatenateTables(EasyReminders.Data.Buffs, EasyReminders.globalDB.customBuffs)
+    EasyReminders.GearConsumablesCache = EasyReminders:ConcatenateTables(EasyReminders.Data.GearConsumables, EasyReminders.globalDB.customGearConsumables)
     
     EasyReminders:RegisterEvents()
 
@@ -78,11 +103,18 @@ function EasyReminders:OnInitialize()
         local itemIcon = C_Item.GetItemIconByID(itemID)
         EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil}
     end
+       for i, data in pairs(EasyReminders.GearConsumablesCache) do
+        local itemID = data.itemID
+        local itemName = C_Item.GetItemNameByID(itemID)
+        local itemIcon = C_Item.GetItemIconByID(itemID)
+        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil}
+    end
 
 
     EasyReminders.ConsumableCheck:BuildTrackingList()
     EasyReminders.WellFedCheck:BuildTrackingList()
     EasyReminders.BuffCheck:BuildTrackingList()
+    EasyReminders.TemporaryEnchantCheck:BuildTrackingList()
 
     EasyReminders:CreateTimer()
 
@@ -190,6 +222,9 @@ function EasyReminders:CheckBuffs()
     EasyReminders.ConsumableCheck:CheckBuffs(missingBuffs)
     EasyReminders.WellFedCheck:CheckBuffs(missingBuffs)
     EasyReminders.BuffCheck:CheckBuffs(missingBuffs)
+    EasyReminders.EnchantCheck:CheckEnchants(missingBuffs)
+    EasyReminders.GemCheck:CheckGems(missingBuffs)
+    EasyReminders.TemporaryEnchantCheck:CheckEnchants(missingBuffs)
     EasyReminders.UI.NotificationWindow:UpdateNotifications(missingBuffs)
 
     if not HolidayFrame then 
@@ -210,7 +245,11 @@ function EasyReminders:CheckBuffs()
             C_Item.GetItemNameByID(data.itemID)
         end
     end
-
+    for i, data in pairs(EasyReminders.GearConsumablesCache)  do
+        if not EasyReminders.DataCache[data.itemID] or not EasyReminders.DataCache[data.itemID][2] then
+            C_Item.GetItemNameByID(data.itemID)
+        end
+    end
     
 end
 

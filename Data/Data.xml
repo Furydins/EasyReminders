@@ -5,4 +5,5 @@
     <Script file="FoodData.lua"/>
     <Script file="BuffsData.lua"/>
     <Script file="HolidayData.lua"/>
+    <Script file="GearData.lua"/>
 </Ui>
