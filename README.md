@@ -20,6 +20,12 @@ Check of a missing "Well Fed" buff and will display if you have selected food it
 
 <img width="941" height="705" alt="image" src="https://github.com/user-attachments/assets/01ef1f5f-0875-4c76-929d-ab2bcc025d86" />
 
+#### Gear Reminders
+Checks for missing enchants and gems
+Checks for missing temporary weapon enhancemts (oils, stones, etc)
+
+<img width="1014" height="671" alt="image" src="https://github.com/user-attachments/assets/b7b3da13-4373-4a16-9c78-a67c07cd5155" />
+
 #### Calendar Reminders
 Reminds you when major holiday events are active.
 Can be paused untill the next day or the next time the event starts.
