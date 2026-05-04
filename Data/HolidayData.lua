@@ -66,6 +66,7 @@ EasyReminders.Data.Holidays = {
     [34] = {["name"] = L["Legion Timewalking"], ["holidayID"] = 1263, otherIds = {1265, 1267, 1269, 1271}, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
     [35] = {["name"] = L["BfA Timewalking"], ["holidayID"] = 1666, otherIds = {1667, 1668, 1669}, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
     [36] = {["name"] = L["Shadowlands Timewalking"], ["holidayID"] = 1703, otherIds = {1704, 1705, 1706, 1707, 1708, 1709, 1710}, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
+    [54] = {["name"] = L["Dragonflight Timewalking"], ["holidayID"] = 1719, otherIds = {1720, 1721, 1722}, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
 
     -- Brawls
     [37] = {["name"] = L["Brawl: Arathi Blizzard"], ["holidayID"] = 666, otherIds = {673, 680, 687, 737}, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
@@ -129,22 +130,24 @@ EasyReminders.Data.HolidayOrder = {
     [35] = 34, -- Legion Timewalking
     [36] = 35, -- BfA Timewalking
     [37] = 36, -- Shadowlands Timewalking
+    [38] = 54, -- Dragonflight Timewalking
 
-    [38] = 37, -- Brawl: Arathi Blizzard
-    [39] = 38, -- Brawl: Classic Ashran
-    [40] = 40, -- Brawl: Cooking Impossible
-    [41] = 41, -- Brawl: Deep Six
-    [42] = 42, -- Brawl: Cooking Impossible
-    [43] = 43, -- Brawl: Deepwind Dunk
-    [44] = 44, -- Brawl: Gravity Lapse
-    [45] = 45, -- Brawl: Packed House
-    [46] = 46, -- Brawl: Shado-Pan Showdown
-    [47] = 47, -- Brawl: Southshore v Tarren Mill
-    [48] = 48, -- Brawl: Temple of Hotmogu
-    [49] = 49, -- Brawl: Warsong Scramble
+    [39] = 37, -- Brawl: Arathi Blizzard
+    [40] = 38, -- Brawl: Classic Ashran
+    [41] = 40, -- Brawl: Cooking Impossible
+    [42] = 41, -- Brawl: Deep Six
+    [43] = 42, -- Brawl: Cooking Impossible
+    [44] = 43, -- Brawl: Deepwind Dunk
+    [45] = 44, -- Brawl: Gravity Lapse
+    [46] = 45, -- Brawl: Packed House
+    [47] = 46, -- Brawl: Shado-Pan Showdown
+    [48] = 47, -- Brawl: Southshore v Tarren Mill
+    [49] = 48, -- Brawl: Temple of Hotmogu
+    [50] = 49, -- Brawl: Warsong Scramble
 
-    [50] = 50, -- Skyriding Cup - Kalimdor
-    [51] = 51, -- Skyriding Cup - Eastern Kingdoms
-    [52] = 52, -- Skyriding Cup - Outland
-    [53] = 53, -- Skyriding Cup - Northrend
+    [51] = 50, -- Skyriding Cup - Kalimdor
+    [52] = 51, -- Skyriding Cup - Eastern Kingdoms
+    [53] = 52, -- Skyriding Cup - Outland
+    [54] = 53, -- Skyriding Cup - Northrend
+
 }
