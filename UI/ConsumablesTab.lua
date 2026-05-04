@@ -98,7 +98,8 @@ function ConsumablesTab:RebuildScrollBox()
             if not EasyReminders.DataCache[otherID] then
               local otherItemName = C_Item.GetItemNameByID(otherID)
               local otherItemIcon = C_Item.GetItemIconByID(otherID)
-              EasyReminders.DataCache[otherID] = {otherID, otherItemName, otherItemIcon, nil}
+              local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(otherID)
+              EasyReminders.DataCache[otherID] = {otherID, otherItemName, otherItemIcon, itemStackCount}
             end
         end
       end

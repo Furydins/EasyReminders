@@ -95,21 +95,30 @@ function EasyReminders:OnInitialize()
         local itemID = data.itemID
         local itemName = C_Item.GetItemNameByID(itemID)
         local itemIcon = C_Item.GetItemIconByID(itemID)
-        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil}
+        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemId)
+        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, itemStackCount}
     end
     for i, data in pairs(EasyReminders.FoodCache)  do
         local itemID = data.itemID
         local itemName = C_Item.GetItemNameByID(itemID)
         local itemIcon = C_Item.GetItemIconByID(itemID)
-        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil}
+        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemId)
+        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, itemStackCount}
     end
-       for i, data in pairs(EasyReminders.GearConsumablesCache) do
+    for i, data in pairs(EasyReminders.GearConsumablesCache) do
         local itemID = data.itemID
         local itemName = C_Item.GetItemNameByID(itemID)
         local itemIcon = C_Item.GetItemIconByID(itemID)
-        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil}
+        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemId)
+        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, itemStackCount}
     end
-
+    for i, data in pairs(EasyReminders.charDB.shopping) do
+        local itemID = i
+        local itemName = C_Item.GetItemNameByID(itemID)
+        local itemIcon = C_Item.GetItemIconByID(itemID)
+        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemId)
+        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, itemStackCount}
+    end
 
     EasyReminders.ConsumableCheck:BuildTrackingList()
     EasyReminders.WellFedCheck:BuildTrackingList()
@@ -204,7 +213,8 @@ function EasyReminders:RefreshItem(itemID, success)
   if success and (EasyReminders.ConsumableCache[itemID] or EasyReminders.FoodCache[itemID]) then
     local itemName = C_Item.GetItemNameByID(itemID)
     local itemIcon = C_Item.GetItemIconByID(itemID)
-    EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil}
+    local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemId)
+    EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, itemStackCount}
   end
 end
 

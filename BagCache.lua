@@ -13,9 +13,19 @@ function BagCache:RefreshBags()
             -- Loop through all slots in the current bag
             for slot = 1, C_Container.GetContainerNumSlots(bag) do
                 -- Get the item link for the current slot
-                local itemID = C_Container.GetContainerItemID(bag, slot)
-                if itemID then
-                    bagContentsCache[itemID] = true
+                local itemInfo = C_Container.GetContainerItemInfo(bag, slot)
+
+                if itemInfo then
+                    local itemID = itemInfo.itemID
+                    local stackCount = itemInfo.stackCount or 0
+                    bagContentsCache[itemID] = stackCount
+
+                    if not EasyReminders.DataCache[itemId] or not EasyReminders.DataCache[itemId][2] then
+                        local itemName = C_Item.GetItemNameByID(itemId)
+                        local itemIcon = C_Item.GetItemIconByID(itemId)
+                        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemId)
+                        EasyReminders.DataCache[itemId] = {itemId, itemName, itemIcon, itemStackCount}
+                    end
                 end
             end
         end
