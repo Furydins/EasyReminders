@@ -41,6 +41,8 @@ local function SelectGroup(container, event, group)
    elseif group == "tab4" then
       EasyReminders.UI.GearTab:Create(mainFrame, container)
    elseif group == "tab5" then
+      EasyReminders.UI.ShoppingTab:Create(mainFrame, container)
+   elseif group == "tab6" then
       EasyReminders.UI.HolidayTab:Create(mainFrame, container)
    end
 end
@@ -80,7 +82,7 @@ function MainWindow:CreateMainWindow()
     tab:SetLayout("Flow")
     -- Setup which tabs to show
     tab:SetTabs({ {text=L["Consumables"], value="tab1"}, {text=L["Well Fed"], value="tab2"}, {text=L["Buffs"], value="tab3"},
-             {text=L["Gear"], value = "tab4"}, {text=L["Events"], value = "tab5"} })
+             {text=L["Gear"], value = "tab4"}, {text=L["Shopping"], value = "tab5"}, {text=L["Events"], value = "tab6"} })
     -- Register callback
     tab:SetCallback("OnGroupSelected", SelectGroup)
     -- Set initial Tab (this will fire the OnGroupSelected callback)

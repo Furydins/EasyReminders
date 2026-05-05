@@ -20,11 +20,11 @@ function BagCache:RefreshBags()
                     local stackCount = itemInfo.stackCount or 0
                     bagContentsCache[itemID] = stackCount
 
-                    if not EasyReminders.DataCache[itemId] or not EasyReminders.DataCache[itemId][2] then
-                        local itemName = C_Item.GetItemNameByID(itemId)
-                        local itemIcon = C_Item.GetItemIconByID(itemId)
-                        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemId)
-                        EasyReminders.DataCache[itemId] = {itemId, itemName, itemIcon, itemStackCount}
+                    if not EasyReminders.DataCache[itemID] or not EasyReminders.DataCache[itemID][2] then
+                        local itemName = C_Item.GetItemNameByID(itemID)
+                        local itemIcon = C_Item.GetItemIconByID(itemID)
+                        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemID)
+                        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil, itemStackCount}
                     end
                 end
             end

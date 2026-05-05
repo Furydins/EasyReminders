@@ -34,6 +34,7 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.holiday = EasyReminders.charDB.holiday or {}
     EasyReminders.charDB.gear = EasyReminders.charDB.gear or {}
     EasyReminders.charDB.gearConsumables = EasyReminders.charDB.gearConsumables or {}
+    EasyReminders.charDB.shopping = EasyReminders.charDB.shopping or {}
     EasyReminders.charDB.potionsMinTime = EasyReminders.charDB.potionsMinTime or 0
     EasyReminders.charDB.foodMinTime = EasyReminders.charDB.foodMinTime or 0
     EasyReminders.charDB.buffMinTime = EasyReminders.charDB.buffMinTime or 0
@@ -43,6 +44,7 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.filterFood = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
     EasyReminders.charDB.filterGear = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
     EasyReminders.charDB.filterHolidays = EasyReminders.charDB.filterHolidays or {["MAJOR"] = true, ["MICRO"] = true, ["BRAWL"] = true, ["TIMEWALKING"] = true, ["SKYRIDING"] = true, ["OTHER"] = true}
+    EasyReminders.charDB.shoppingNotifications = EasyReminders.charDB.shoppingNotifications or {["LOGIN"] = false, ["INSTANCE_EXIT"] = false, ["ON_USE"] = true}
 
     if EasyReminders.globalDB.enabled == nil then
         EasyReminders.globalDB.enable = true
@@ -95,29 +97,29 @@ function EasyReminders:OnInitialize()
         local itemID = data.itemID
         local itemName = C_Item.GetItemNameByID(itemID)
         local itemIcon = C_Item.GetItemIconByID(itemID)
-        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemId)
-        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, itemStackCount}
+        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemID)
+        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil, itemStackCount}
     end
     for i, data in pairs(EasyReminders.FoodCache)  do
         local itemID = data.itemID
         local itemName = C_Item.GetItemNameByID(itemID)
         local itemIcon = C_Item.GetItemIconByID(itemID)
-        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemId)
-        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, itemStackCount}
+        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemID)
+        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil, itemStackCount}
     end
     for i, data in pairs(EasyReminders.GearConsumablesCache) do
         local itemID = data.itemID
         local itemName = C_Item.GetItemNameByID(itemID)
         local itemIcon = C_Item.GetItemIconByID(itemID)
-        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemId)
-        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, itemStackCount}
+        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemID)
+        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil, itemStackCount}
     end
     for i, data in pairs(EasyReminders.charDB.shopping) do
         local itemID = i
         local itemName = C_Item.GetItemNameByID(itemID)
         local itemIcon = C_Item.GetItemIconByID(itemID)
-        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemId)
-        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, itemStackCount}
+        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemID)
+        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil, itemStackCount}
     end
 
     EasyReminders.ConsumableCheck:BuildTrackingList()
@@ -213,8 +215,8 @@ function EasyReminders:RefreshItem(itemID, success)
   if success and (EasyReminders.ConsumableCache[itemID] or EasyReminders.FoodCache[itemID]) then
     local itemName = C_Item.GetItemNameByID(itemID)
     local itemIcon = C_Item.GetItemIconByID(itemID)
-    local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemId)
-    EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, itemStackCount}
+    local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemID)
+    EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil, itemStackCount}
   end
 end
 

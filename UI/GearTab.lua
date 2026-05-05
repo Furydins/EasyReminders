@@ -158,7 +158,7 @@ function GearTab:RebuildScrollBox()
               local otherItemName = C_Item.GetItemNameByID(otherID)
               local otherItemIcon = C_Item.GetItemIconByID(otherID)
               local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(otherID)
-              EasyReminders.DataCache[otherID] = {otherID, otherItemName, otherItemIcon, itemStackCount}
+              EasyReminders.DataCache[otherID] = {otherID, otherItemName, otherItemIcon, nil, itemStackCount}
             end
         end
       end

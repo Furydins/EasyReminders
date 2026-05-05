@@ -15,4 +15,5 @@
     <Script file="WellFedDialog.lua"/>
     <Script file="BuffDialog.lua"/>
     <Script file="GearDialog.lua"/>
+    <Script file="ShoppingTab.lua"/>
 </Ui>
