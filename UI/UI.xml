@@ -7,13 +7,14 @@
     <Script file="BuffTab.lua"/>
     <Script file="HolidayTab.lua"/>
     <Script file="GearTab.lua"/>
+    <Script file="ShoppingTab.lua"/>
     <Script file="Options.lua"/>
     <Script file="MainWindow.lua"/>
     <Script file="NotificationWindow.lua"/>
+    <Script file="HolidayWindow.lua"/>
     <Script file="HolidayWindow.lua"/>
     <Script file="ConsumablesDialog.lua"/>
     <Script file="WellFedDialog.lua"/>
     <Script file="BuffDialog.lua"/>
     <Script file="GearDialog.lua"/>
-    <Script file="ShoppingTab.lua"/>
 </Ui>

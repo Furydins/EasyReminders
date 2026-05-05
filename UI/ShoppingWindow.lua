@@ -1,0 +1,168 @@
+EasyReminders.UI = EasyReminders.UI or {}
+EasyReminders.UI.ShoppingWindow = EasyReminders.UI.ShoppingWindow or {}
+
+local ShoppingWindow = EasyReminders.UI.ShoppingWindow
+
+local frame
+local shownShoppingItems = {}
+
+local function hasValue(tab, value)
+    for k,v in pairs(tab) do
+        if v == value then
+            return true
+        end
+    end
+    return false
+end
+
+local function setCloseOnEscPress(window)
+   local oldCloseSpecialWindows = CloseSpecialWindows
+    CloseSpecialWindows = function()
+		if window:IsShown() then
+			window:Hide()
+			return true
+		end
+
+		return oldCloseSpecialWindows()
+	end
+end
+
+function ShoppingWindow:CreateShoppingWindow()
+
+    frame = EasyReminders.AceGUI:Create("Window")
+    frame:SetTitle(L["Shopping List"])
+    frame:SetWidth(500)
+    frame:SetHeight(150)
+    frame:SetLayout("List")
+    frame:SetAutoAdjustHeight(true)
+    frame.frame:SetFrameStrata("MEDIUM")
+     if not EasyReminders.globalDB.holidayLocation then
+        frame:SetPoint("TOP", _G.UIParent, "CENTER", -300, -300)
+    else
+        frame:SetPoint(EasyReminders.globalDB.holidayLocation[1], 
+                _G.UIParent, EasyReminders.globalDB.holidayLocation[3], EasyReminders.globalDB.holidayLocation[4], 
+               EasyReminders.globalDB.holidayLocation[5])
+    end
+    frame:SetPoint("TOP", _G.UIParent, "CENTER", -300, -300)
+    frame.frame:SetMovable(true)
+    HolidayWindow:StorePositon()
+    frame.frame:Hide()
+
+    --- drag suport
+
+   frame.frame:SetScript("OnMouseDown", function(this, button)
+        if button == "LeftButton" and not EasyReminders.globalDB.lock then
+            this:StartMoving()
+        end
+    end)
+    frame.frame:SetScript("OnMouseUp", function(this, button)
+        if button == "LeftButton" then
+            this:StopMovingOrSizing()
+            HolidayWindow:StorePositon()
+        end
+    end)
+  
+    return frame
+end
+
+local function GetMissingItems()
+    local missingItems = {}
+
+    local bagCache = EasyReminders.BagCache:GetBagCache()
+
+    for itemID, minQuantity in pairs(EasyReminders.charDB.shopping) do
+       local itemcount = bagCache[itemID] or 0
+        local cacheEntry = EasyReminders.DataCache[itemId] or {}
+        local itemName = cacheEntry[2] or C_Item.GetItemNameByID(itemId)
+        local itemIcon = cacheEntry[3] or C_Item.GetItemIconByID(itemId)
+       if itemcount < minQuantity then
+            missingItems[itemId] = {["name"] = itemName, ["icon"] = itemIcon, ["missingCount"] = minQuantity - itemcount}
+        end
+    end
+
+    return missingItems
+end
+
+function ShoppingWindow:UpdateNotifications(type)
+
+    -- Punt if not the right notification type
+    if not EasyReminders.charDB.shoppingNotifications[type] then
+      return 
+    end       
+
+    if not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
+      and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
+
+        local missingItems = GetMissingItems()
+        if #missingItems > 0 then
+
+            local shouldShow = false
+
+            frame:ReleaseChildren()
+
+            shownShoppingItems = {}    
+            local masterDismiss = EasyReminders.AceGUI:Create("Button")
+            masterDismiss:SetText(L["Dismiss All"])
+            masterDismiss:SetWidth(480)
+            masterDismiss:SetCallback("OnClick", function(widget)
+                HolidayWindow:DimissAll(shownShoppingItems)
+                frame.frame:Hide()
+            end)
+            frame:AddChild(masterDismiss)
+
+            
+            for i, data in pairs(missingItems) do
+                local group = EasyReminders.AceGUI:Create("SimpleGroup")
+                group:SetLayout("flow")
+                group:SetFullWidth(true)
+                frame:AddChild(group)
+
+                local itemName = EasyReminders.AceGUI:Create("Label")
+                itemName:SetText( data.name)
+                itemName:SetImage(data.icon)
+                itemName:SetFont(EasyReminders.Font, 12, "")
+                itemName:SetWidth(300)
+                group:AddChild(itemName)
+
+
+                local dismissButton = EasyReminders.AceGUI:Create("Button")
+                dismissButton:SetText(L["Dismiss"])
+                dismissButton:SetWidth(140)
+                group:AddChild(dismissButton)
+                dismissButton:SetCallback("OnClick", function(widget)
+                    group.frame:Hide()
+                end)
+                table.insert(shownShoppingItems, group)
+                shouldShow = true
+
+        end
+
+        if shouldShow then
+            frame.frame:Show()
+        end
+    end
+end
+
+function ShoppingWindow:DimissAll(shownItems)
+     for i, data in pairs(shownItems) do
+       data.frame:Hide()
+    end
+end
+
+function ShoppingWindow:HideShoppingWindow()
+    if frame then
+        frame.frame:Hide()
+    end
+end
+
+function ShoppingWindow:StorePositon()
+    if EasyReminders.globalDB.shoppingLocation == nil then
+        EasyReminders.globalDB.shoppingLocation = {}
+    end
+    point, relativeTo, relativePoint, offsetX, offsetY = frame:GetPoint()
+    EasyReminders.globalDB.shoppingLocation[1] = point
+    EasyReminders.globalDB.shoppingLocation[3] = relativePoint
+    EasyReminders.globalDB.shoppingLocation[4] = offsetX
+    EasyReminders.globalDB.shoppingLocation[5] = offsetY
+end
+
