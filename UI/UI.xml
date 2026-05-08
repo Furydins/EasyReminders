@@ -12,7 +12,7 @@
     <Script file="MainWindow.lua"/>
     <Script file="NotificationWindow.lua"/>
     <Script file="HolidayWindow.lua"/>
-    <Script file="HolidayWindow.lua"/>
+    <Script file="ShoppingWindow.lua"/>
     <Script file="ConsumablesDialog.lua"/>
     <Script file="WellFedDialog.lua"/>
     <Script file="BuffDialog.lua"/>

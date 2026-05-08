@@ -61,7 +61,7 @@ function WellFedTab:Create(mainFrame, container)
       EasyReminders.charDB.foodMinTime = 0
     end
     EasyReminders.WellFedCheck:BuildTrackingList()
-    EasyReminders:CheckBuffs()
+    EasyReminders:CheckBuffs("REFRESH")
   end)
 
   WellFedTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)
@@ -128,7 +128,7 @@ function WellFedTab:RebuildScrollBox()
           EasyReminders.charDB.food[data.itemID].outside = checked
         end
         EasyReminders.WellFedCheck:BuildTrackingList()
-        EasyReminders:CheckBuffs()
+        EasyReminders:CheckBuffs("REFRESH")
       end)
 
       if data["canDelete"] then 
@@ -194,7 +194,7 @@ function WellFedTab:RemoveReminder(itemID)
   end
 
   EasyReminders.WellFedCheck:BuildTrackingList()
-  EasyReminders:CheckBuffs()
+  EasyReminders:CheckBuffs("REFRESH")
   WellFedTab:RebuildScrollBox()
  
 end

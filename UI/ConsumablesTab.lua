@@ -63,7 +63,7 @@ function ConsumablesTab:Create(mainFrame, container)
       EasyReminders.charDB.potionsMinTime = 0
     end
     EasyReminders.ConsumableCheck:BuildTrackingList()
-    EasyReminders:CheckBuffs()
+    EasyReminders:CheckBuffs("REFRESH")
   end)
   
   ConsumablesTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)
@@ -149,7 +149,7 @@ function ConsumablesTab:RebuildScrollBox()
           EasyReminders.charDB.potions[data.itemID].outside = checked
         end
         EasyReminders.ConsumableCheck:BuildTrackingList()
-        EasyReminders:CheckBuffs()
+        EasyReminders:CheckBuffs("REFRESH")
       end)
 
       if data["canDelete"] then 
@@ -215,7 +215,7 @@ function ConsumablesTab:RemoveReminder(itemID)
   end
 
   EasyReminders.ConsumableCheck:BuildTrackingList()
-  EasyReminders:CheckBuffs()
+  EasyReminders:CheckBuffs("REFRESH")
   ConsumablesTab:RebuildScrollBox()
  
 end

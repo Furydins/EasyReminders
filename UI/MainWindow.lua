@@ -71,7 +71,7 @@ function MainWindow:CreateMainWindow()
    enable:SetValue(EasyReminders.globalDB.enabled)
    enable:SetCallback("OnValueChanged", function(_, _, value)
        EasyReminders.globalDB.enabled = value
-       EasyReminders:CheckBuffs()
+       EasyReminders:CheckBuffs("LOGIN")
    end)
    topGroup:AddChild(enable)
 

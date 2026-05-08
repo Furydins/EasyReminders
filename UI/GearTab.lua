@@ -63,7 +63,7 @@ function GearTab:Create(mainFrame, container)
         EasyReminders.charDB.gearMinTime = 0
     end
     EasyReminders.TemporaryEnchantCheck:BuildTrackingList()
-    EasyReminders:CheckBuffs()
+    EasyReminders:CheckBuffs("REFRESH")
     end)
 
     GearTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)
@@ -125,7 +125,7 @@ function GearTab:RebuildScrollBox()
         elseif "Consumable" == key then
           EasyReminders.charDB.gear[data.slotID].consumable = checked
         end
-        EasyReminders:CheckBuffs()
+        EasyReminders:CheckBuffs("REFRESH")
       end)
 
     end
@@ -198,7 +198,7 @@ function GearTab:RebuildScrollBox()
           EasyReminders.charDB.gearConsumables[data.itemID].outside = checked
         end
         EasyReminders.TemporaryEnchantCheck:BuildTrackingList()
-        EasyReminders:CheckBuffs()
+        EasyReminders:CheckBuffs("REFRESH")
       end)
 
       if data["canDelete"] then 
@@ -265,7 +265,7 @@ function GearTab:RemoveReminder(itemID)
   end
 
   EasyReminders.TemporaryEnchantCheck:BuildTrackingList()
-  EasyReminders:CheckBuffs()
+  EasyReminders:CheckBuffs("REFRESH")
   GearTab:RebuildScrollBox()
  
 end

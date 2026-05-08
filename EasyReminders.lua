@@ -19,6 +19,9 @@ EasyReminders.BuffCache = {}
 EasyReminders.GearConsumablesCache = {}
 
 local HolidayFrame = nil
+local ShoppingFrame = nil
+
+local inInstance, instanceType
 
 local loadFrame
 
@@ -144,7 +147,7 @@ function EasyReminders:OnInitialize()
                EasyReminders.globalDB.enabled = not EasyReminders.globalDB.enabled
                EasyReminders:Print(L["Toggled Easy Reminders: "] .. (not EasyReminders.globalDB.enabled and L["Enabled"] or L["Disabled"]))
                EasyReminders.UI.MainWindow:UpdateEnable(EasyReminders.globalDB.enabled)
-               EasyReminders:CheckBuffs()
+               EasyReminders:CheckBuffs("REFRESH")
             elseif button == "RightButton" then
                _G.Settings.OpenToCategory( EasyReminders.optionsPage)
 
@@ -184,7 +187,7 @@ function EasyReminders_OpenGUI()
 end
 
 function EasyReminders:CreateTimer()
-     EasyReminders.UpdateTimer = _G.C_Timer.NewTicker(10, function() EasyReminders:CheckBuffs() end)
+     EasyReminders.UpdateTimer = _G.C_Timer.NewTicker(10, function() EasyReminders:CheckBuffs("TIMER") end)
 end
 
 function EasyReminders:RegisterEvents()
@@ -192,22 +195,41 @@ function EasyReminders:RegisterEvents()
     f:RegisterEvent("UNIT_INVENTORY_CHANGED")
     f:RegisterEvent("PLAYER_ENTERING_WORLD")
     f:RegisterEvent("UNIT_AURA")
-    f:RegisterEvent("PLAYER_REGEN_ENABLED")
+    f:RegisterEvent("ZONE_CHANGED")
+    f:RegisterEvent("ZONE_CHANGED_INDOORS")
+    f:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+    f:RegisterEvent("PLAYER_ENTERING_BATTLEGROUND")
     f:SetScript("OnEvent", EasyReminders.EventHandler)
 end
 
 function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
     if "PLAYER_ENTERING_WORLD" == event then
+        local newInInstance = _G.IsInInstance()
         if arg1 or arg2 then
             EasyReminders.BagCache:RefreshBags()
+            EasyReminders:CheckBuffs("LOGIN")
+        elseif not newInInstance and inInstance then
+            EasyReminders:CheckBuffs("INSTANCE_EXIT")
+        else 
+            EasyReminders:CheckBuffs("ZONE_CHANGE")
         end
-        EasyReminders:CheckBuffs()
+        inInstance = newInInstance
     elseif "UNIT_INVENTORY_CHANGED" == event and "player" == arg1 then
         EasyReminders.BagCache:RefreshBags()
+        EasyReminders:CheckBuffs("ON_USE")
     elseif "UNIT_AURA" == event and "player" == arg1 then
-        EasyReminders:CheckBuffs()
+        EasyReminders:CheckBuffs("BUFF_CHANGE")
     elseif "PLAYER_REGEN_ENABLED" == event then
-        EasyReminders:CheckBuffs()
+        EasyReminders:CheckBuffs("COMBAT_EXIT")
+    elseif "ZONE_CHANGED" == event or "ZONE_CHANGED_INDOORS" == event or "ZONE_CHANGED_NEW_AREA" == event 
+        or "PLAYER_ENTERING_BATTLEGROUND" == event then
+        local newInInstance = _G.IsInInstance()
+        if not newInInstance and inInstance then
+            EasyReminders:CheckBuffs("INSTANCE_EXIT")
+        else 
+            EasyReminders:CheckBuffs("ZONE_CHANGE")
+        end
+        inInstance = newInInstance
     end
 end
 
@@ -220,12 +242,13 @@ function EasyReminders:RefreshItem(itemID, success)
   end
 end
 
-function EasyReminders:CheckBuffs()
+function EasyReminders:CheckBuffs(cause)
 
     -- Early out if disabled
     if not EasyReminders.globalDB.enabled then
         EasyReminders.UI.NotificationWindow:UpdateNotifications({})
         EasyReminders.UI.HolidayWindow:HideHolidayWindow()
+        EasyRemiders.UI.ShoppingWindow:HideShoppingWindow()
         return
     end
 
@@ -242,8 +265,13 @@ function EasyReminders:CheckBuffs()
     if not HolidayFrame then 
         HolidayFrame = EasyReminders.UI.HolidayWindow:CreateHolidayWindow()
     end
+
+    if not ShoppingFrame then
+        ShoppingFrame = EasyReminders.UI.ShoppingWindow:CreateShoppingWindow()
+    end
     
     EasyReminders.UI.HolidayWindow:UpdateNotifications()
+    EasyReminders.UI.ShoppingWindow:UpdateNotifications(cause)
 
     -- reprime cache if needed:
 

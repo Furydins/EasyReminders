@@ -30,7 +30,7 @@ function BuffTab:Create(mainFrame, container)
       EasyReminders.charDB.buffMinTime = 0
     end
     EasyReminders.BuffCheck:BuildTrackingList()
-    EasyReminders:CheckBuffs()
+    EasyReminders:CheckBuffs("REFRESH")
     end)
 
   BuffTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)
@@ -85,7 +85,7 @@ function BuffTab:RebuildScrollBox()
           EasyReminders.charDB.buff[data.buffID].outside = checked
         end
         EasyReminders.BuffCheck:BuildTrackingList()
-        EasyReminders:CheckBuffs()
+        EasyReminders:CheckBuffs(REFRESH)
       end)
 
       if data["canDelete"] then 
@@ -149,7 +149,7 @@ function BuffTab:RemoveReminder(buffID)
   end
 
   EasyReminders.BuffCheck:BuildTrackingList()
-  EasyReminders:CheckBuffs()
+  EasyReminders:CheckBuffs("REFRESH")
   BuffTab:RebuildScrollBox()
  
 end

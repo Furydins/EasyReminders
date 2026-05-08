@@ -46,7 +46,7 @@ function Options:GetOptions()
                   then optionsdb.ignoreLegacyDungeons = false
                   else optionsdb.ignoreLegacyDungeons = true 
                   end
-                  EasyReminders:CheckBuffs()
+                  EasyReminders:CheckBuffs("REFRESH")
                 end,
           },
           legacy = {
@@ -60,7 +60,7 @@ function Options:GetOptions()
                   then optionsdb.ignoreLegacyRaids = false
                   else optionsdb.ignoreLegacyRaids = true 
                   end
-                  EasyReminders:CheckBuffs()
+                  EasyReminders:CheckBuffs("REFRESH")
                 end,
           },
           dungeon = {
@@ -75,7 +75,7 @@ function Options:GetOptions()
               get = function(info)  return EasyReminders.globalDB.minimumDungeonDifficulty end,
               set = function(info,val) 
                     EasyReminders.globalDB.minimumDungeonDifficulty = val
-                    EasyReminders:CheckBuffs()
+                    EasyReminders:CheckBuffs("REFRESH")
                   end,
             },
             raid = {
@@ -90,7 +90,7 @@ function Options:GetOptions()
               get = function(info)  return EasyReminders.globalDB.minimumRaidDifficulty end,
               set = function(info,val) 
                     EasyReminders.globalDB.minimumRaidDifficulty = val
-                    EasyReminders:CheckBuffs()
+                    EasyReminders:CheckBuffs("REFRESH")
                   end,
           },
            header3 = {
@@ -109,7 +109,7 @@ function Options:GetOptions()
                   then optionsdb.anchor = false
                   else optionsdb.anchor = true 
                   end
-                  EasyReminders:CheckBuffs()
+                  EasyReminders:CheckBuffs("REFRESH")
                 end,
           },
           lock = {
@@ -123,7 +123,7 @@ function Options:GetOptions()
                   then optionsdb.lock = false
                   else optionsdb.lock = true 
                   end
-                  EasyReminders:CheckBuffs()
+                  EasyReminders:CheckBuffs("REFRESH")
                 end,
           },
           outline = {
