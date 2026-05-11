@@ -54,7 +54,7 @@ EasyReminders.Data.Holidays = {
     [25] = {["name"] = L["Trial of Style"], ["holidayID"] = 691,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [26] = {["name"] = L["Great Gnomeregan Run"], ["holidayID"] = 696,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [27] = {["name"] = L["Moonkin Festival"], ["holidayID"] = 694,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
-    [39] = {["name"] = L["Darkspear Dash"], ["holidayID"] = 1793, ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
+    [55] = {["name"] = L["Darkspear Dash"], ["holidayID"] = 1793, ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
 
     -- Timewwalking
     [28] = {["name"] = L["Classic Timewalking"], ["holidayID"] = 1508, otherIds = {1583, 1584, 1585}, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
@@ -119,7 +119,7 @@ EasyReminders.Data.HolidayOrder = {
     [25] = 25, -- Trial of Style
     [26] = 26, -- Great Gnomeregan Run
     [27] = 27, -- Moonkin Festival
-    [28] = 39, -- Darkspear Dash
+    [28] = 55, -- Darkspear Dash
 
     [29] = 28, -- Classic Timewalking
     [30] = 29, -- BC Timewalking
