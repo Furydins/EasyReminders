@@ -80,49 +80,66 @@ function ShoppingTab:RebuildScrollBox()
   local scrollBox = ShoppingTab.ScrollBox
   scrollBox:ReleaseChildren()
 
+  local trackedEntries = {}
+  for itemId, minQuantity in pairs(EasyReminders.charDB.shopping) do
+    if minQuantity and minQuantity > 0 then
+      local cacheEntry = EasyReminders.DataCache[itemId] or {}
+      local itemName = cacheEntry[2] or C_Item.GetItemNameByID(itemId)
+      local itemIcon = cacheEntry[3] or C_Item.GetItemIconByID(itemId)
+      table.insert(trackedEntries, {itemId = itemId, itemName = itemName, itemIcon = itemIcon})
+    end
+  end
+
+  table.sort(trackedEntries, function(a, b)
+    local nameA = a.itemName or ""
+    local nameB = b.itemName or ""
+    if nameA ~= nameB then
+      return nameA < nameB
+    end
+    return a.itemId < b.itemId
+  end)
+
   -- tracked Items
   local seperator1 = EasyReminders.AceGUI:Create("Heading")
   seperator1:SetText(L["Tracked Items"])
   seperator1:SetFullWidth(true)
   scrollBox:AddChild(seperator1)
 
-  for itemId, minQuantity in pairs(EasyReminders.charDB.shopping) do
-    if EasyReminders.charDB.shopping[itemId] and EasyReminders.charDB.shopping[itemId] > 0 then
-
-        local cacheEntry = EasyReminders.DataCache[itemId] or {}
-        local itemName = cacheEntry[2] or C_Item.GetItemNameByID(itemId)
-        local itemIcon = cacheEntry[3] or C_Item.GetItemIconByID(itemId)
-
-       addEntry(itemId, itemName, itemIcon, scrollBox)
-    end
+  for _, entry in ipairs(trackedEntries) do
+    addEntry(entry.itemId, entry.itemName, entry.itemIcon, scrollBox)
   end
 
   -- Bag items
+  local bagEntries = {}
   local bagCache = EasyReminders.BagCache:GetBagCache()
+  for itemId, itemCount in pairs(bagCache) do
+    local cacheEntry = EasyReminders.DataCache[itemId] or {}
+    local itemName = cacheEntry[2] or C_Item.GetItemNameByID(itemId)
+    local itemIcon = cacheEntry[3] or C_Item.GetItemIconByID(itemId)
+    local itemStackCount = cacheEntry[5]
+    if not itemStackCount then
+      _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemId)
+    end
+    if itemStackCount and itemStackCount > 1 and not (EasyReminders.charDB.shopping[itemId] and EasyReminders.charDB.shopping[itemId] > 0) then
+      table.insert(bagEntries, {itemId = itemId, itemName = itemName, itemIcon = itemIcon})
+    end
+  end
 
+  table.sort(bagEntries, function(a, b)
+    local nameA = a.itemName or ""
+    local nameB = b.itemName or ""
+    if nameA ~= nameB then
+      return nameA < nameB
+    end
+    return a.itemId < b.itemId
+  end)
 
   local seperator2 = EasyReminders.AceGUI:Create("Heading")
   seperator2:SetText(L["Bag Items"])
   seperator2:SetFullWidth(true)
   scrollBox:AddChild(seperator2)
 
-  for itemId, itemCount in pairs(bagCache) do
-
-    -- itemID, itemName, itemIcon, spellInfo
-    local cacheEntry = EasyReminders.DataCache[itemId] or {}
-
-    local itemName = cacheEntry[2] or C_Item.GetItemNameByID(itemId)
-    local itemIcon = cacheEntry[3] or C_Item.GetItemIconByID(itemId)
-    local itemStackCount = cacheEntry[5] 
-    if not itemStackCount then
-        _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemId)
-    end
-
-    if itemStackCount and itemStackCount > 1 and not (EasyReminders.charDB.shopping[itemId] and EasyReminders.charDB.shopping[itemId] > 0) then
-        addEntry(itemId, itemName, itemIcon, scrollBox)
-    end
+  for _, entry in ipairs(bagEntries) do
+    addEntry(entry.itemId, entry.itemName, entry.itemIcon, scrollBox)
   end
-
-
-
 end

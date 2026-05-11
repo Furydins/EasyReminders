@@ -74,6 +74,8 @@ function WellFedTab:RebuildScrollBox()
   local scrollBox = WellFedTab.ScrollBox
   scrollBox:ReleaseChildren()
 
+  local entries = {}
+
   for key, data in pairs(EasyReminders.FoodCache)  do
 
     if not data.expansion then
@@ -86,64 +88,86 @@ function WellFedTab:RebuildScrollBox()
 
       local itemName = cacheEntry[2] or C_Item.GetItemNameByID(data.itemID)
       local itemIcon = cacheEntry[3] or C_Item.GetItemIconByID(data.itemID)
-      if data.otherIds then
-        for key, otherID in pairs(data.otherIds) do
-          C_Item.GetItemIconByID(otherID)
-        end
-      end
 
-      ---
-      local foodName = EasyReminders.AceGUI:Create("Label")
-      foodName:SetText(itemName or L["Loading..."])
-      foodName:SetFont(EasyReminders.Font, 12, "")
-      foodName:SetWidth(440)
-      foodName:SetImage(itemIcon)
-      foodName:SetImageSize(16,16)
-      scrollBox:AddChild(foodName)
-
-      local activeDropdown = EasyReminders.AceGUI:Create("Dropdown")
-      activeDropdown:SetWidth(150)
-      activeDropdown:SetList({
-        ["Raid"] = L["Raid"],
-        ["Dungeon"] = L["Dungeon"],
-        ["Delve"] = L["Delve"],
-        ["Outside"] = L["Outside"],
+      table.insert(entries, {
+        data = data,
+        itemName = itemName,
+        itemIcon = itemIcon,
       })
+    end
 
-      EasyReminders.charDB.food[data.itemID] = EasyReminders.charDB.food[data.itemID] or {}
-      activeDropdown:SetMultiselect(true)
-      activeDropdown:SetItemValue("Raid", EasyReminders.charDB.food[data.itemID].raid or false)
-      activeDropdown:SetItemValue("Dungeon", EasyReminders.charDB.food[data.itemID].dungeon or false)
-      activeDropdown:SetItemValue("Delve", EasyReminders.charDB.food[data.itemID].delve or false)
-      activeDropdown:SetItemValue("Outside", EasyReminders.charDB.food[data.itemID].outside or false)
-      scrollBox:AddChild(activeDropdown)
-      activeDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
-        if "Raid" == key then
-          EasyReminders.charDB.food[data.itemID].raid = checked
-        elseif "Dungeon" == key then
-          EasyReminders.charDB.food[data.itemID].dungeon = checked
-        elseif "Delve" == key then
-          EasyReminders.charDB.food[data.itemID].delve = checked
-        elseif "Outside" == key then
-          EasyReminders.charDB.food[data.itemID].outside = checked
-        end
-        EasyReminders.WellFedCheck:BuildTrackingList()
-        EasyReminders:CheckBuffs("REFRESH")
-      end)
+  end
 
-      if data["canDelete"] then 
+  table.sort(entries, function(a, b)
+    local nameA = a.itemName or ""
+    local nameB = b.itemName or ""
+    if nameA ~= nameB then
+      return nameA < nameB
+    end
+    return (a.data.itemID or 0) < (b.data.itemID or 0)
+  end)
 
-        local delete = EasyReminders.AceGUI:Create("Icon")
-        delete:SetImage("Interface\\AddOns\\WoWPro\\Textures\\Delete")
-        delete:SetImageSize(16,16)
-        delete:SetWidth(20)
-        delete:SetCallback("OnClick", function()
-          WellFedTab:RemoveConfirm(data.itemID, itemName)
-        end)
-        scrollBox:AddChild(delete)
+  for _, entry in ipairs(entries) do
+    local data = entry.data
+    local itemName = entry.itemName
+    local itemIcon = entry.itemIcon
+
+    if data.otherIds then
+      for key, otherID in pairs(data.otherIds) do
+        C_Item.GetItemIconByID(otherID)
       end
     end
 
+    ---
+    local foodName = EasyReminders.AceGUI:Create("Label")
+    foodName:SetText(itemName or L["Loading..."])
+    foodName:SetFont(EasyReminders.Font, 12, "")
+    foodName:SetWidth(440)
+    foodName:SetImage(itemIcon)
+    foodName:SetImageSize(16,16)
+    scrollBox:AddChild(foodName)
+
+    local activeDropdown = EasyReminders.AceGUI:Create("Dropdown")
+    activeDropdown:SetWidth(150)
+    activeDropdown:SetList({
+      ["Raid"] = L["Raid"],
+      ["Dungeon"] = L["Dungeon"],
+      ["Delve"] = L["Delve"],
+      ["Outside"] = L["Outside"],
+    })
+
+    EasyReminders.charDB.food[data.itemID] = EasyReminders.charDB.food[data.itemID] or {}
+    activeDropdown:SetMultiselect(true)
+    activeDropdown:SetItemValue("Raid", EasyReminders.charDB.food[data.itemID].raid or false)
+    activeDropdown:SetItemValue("Dungeon", EasyReminders.charDB.food[data.itemID].dungeon or false)
+    activeDropdown:SetItemValue("Delve", EasyReminders.charDB.food[data.itemID].delve or false)
+    activeDropdown:SetItemValue("Outside", EasyReminders.charDB.food[data.itemID].outside or false)
+    scrollBox:AddChild(activeDropdown)
+    activeDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
+      if "Raid" == key then
+        EasyReminders.charDB.food[data.itemID].raid = checked
+      elseif "Dungeon" == key then
+        EasyReminders.charDB.food[data.itemID].dungeon = checked
+      elseif "Delve" == key then
+        EasyReminders.charDB.food[data.itemID].delve = checked
+      elseif "Outside" == key then
+        EasyReminders.charDB.food[data.itemID].outside = checked
+      end
+      EasyReminders.WellFedCheck:BuildTrackingList()
+      EasyReminders:CheckBuffs("REFRESH")
+    end)
+
+    if data["canDelete"] then 
+
+      local delete = EasyReminders.AceGUI:Create("Icon")
+      delete:SetImage("Interface\\AddOns\\WoWPro\\Textures\\Delete")
+      delete:SetImageSize(16,16)
+      delete:SetWidth(20)
+      delete:SetCallback("OnClick", function()
+        WellFedTab:RemoveConfirm(data.itemID, itemName)
+      end)
+      scrollBox:AddChild(delete)
+    end
   end
 end
 
