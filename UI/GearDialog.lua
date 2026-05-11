@@ -44,7 +44,7 @@ function GearDialog:FindItemByName()
     itemID:SetText(id)
     itemIcon:SetImage(icon)
   else
-      itemID:SetText("invalid!")
+      itemID:SetText(L["Invalid"])
   end
 
 end
@@ -69,7 +69,7 @@ function GearDialog:FindItemByID()
         GearDialog:PopulateItems(name, id)
       end
   else
-      itemID:SetText("invalid!")
+      itemID:SetText(L["Invalid"])
       itemName:SetText("")
       itemIcon:SetImage(nil)
   end
@@ -121,7 +121,7 @@ local function validateItems()
   if valid then
     return true
   else
-    additionalItems:SetText("invalid!")
+    additionalItems:SetText(L["Invalid"])
     return false
   end
 end
@@ -145,12 +145,12 @@ end
 function GearDialog:AddReminder()
 
   if not validateID(itemID:GetText()) or not itemName:GetText() then
-    statusText:SetText("Invalid Item")
+    statusText:SetText(L["Invalid Item"])
     return
   end
 
   if additionalItems:GetText() and string.len(additionalItems:GetText()) > 0 and not validateItems() then
-    statusText:SetText("Invalid Additonal Items")
+    statusText:SetText(L["Invalid Additional Items"])
     return
   end
 
@@ -169,7 +169,7 @@ function GearDialog:AddReminder()
 
   EasyReminders.UI.GearTab:RebuildScrollBox()
 
-  statusText:SetText("Success!")
+  statusText:SetText(L["Success!"])
   dialogFrame:Hide()
 
 end
@@ -189,7 +189,7 @@ function GearDialog:Create(mainFrame)
     -- Item details
 
     itemID = EasyReminders.AceGUI:Create("EditBox")
-    itemID:SetLabel("Item ID: ")
+    itemID:SetLabel(L["Item ID: "])
     itemID:SetMaxLetters(10)
     itemID:SetCallback("OnEnterPressed", function(widget) GearDialog:FindItemByID() end)
     dialogFrame:AddChild(itemID)
@@ -203,7 +203,7 @@ function GearDialog:Create(mainFrame)
 
 
     itemName = EasyReminders.AceGUI:Create("EditBox")
-    itemName:SetLabel("Item Name: ")
+    itemName:SetLabel(L["Item Name: "])
     itemName:SetMaxLetters(40)
     itemName:SetWidth(300)
     itemName:SetCallback("OnEnterPressed", function(widget) ConsumablesDialog:FindItemByName() end)

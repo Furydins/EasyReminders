@@ -33,7 +33,7 @@ function BuffDialog:FindSpellByID()
 
 
     if not spellInfo or not spellInfo.name then
-      name = "Not found"
+      name = L["Not found"]
     else
       name = spellInfo.name
     end
@@ -64,7 +64,7 @@ end
 function BuffDialog:AddReminder()
 
   if not validateID(buffID:GetText()) then
-    statusText:SetText("Invalid Item")
+    statusText:SetText(L["Invalid Item"])
     return
   end
 
@@ -78,7 +78,7 @@ function BuffDialog:AddReminder()
 
   EasyReminders.UI.BuffTab:RebuildScrollBox()
 
-  statusText:SetText("Success!")
+  statusText:SetText(L["Success!"])
   dialogFrame:Hide()
 
 end
@@ -98,7 +98,7 @@ function BuffDialog:Create(mainFrame)
     -- Item details
 
     buffID = EasyReminders.AceGUI:Create("EditBox")
-    buffID:SetLabel("Buff ID: ")
+    buffID:SetLabel(L["Buff ID: "])
     buffID:SetMaxLetters(10)
     buffID:SetCallback("OnEnterPressed", function(widget) BuffDialog:FindSpellByID() end)
     dialogFrame:AddChild(buffID)
@@ -124,7 +124,7 @@ function BuffDialog:Create(mainFrame)
     dialogFrame:AddChild(addItemButton)
     addItemButton:SetFullWidth(true)
     addItemButton:SetWidth(580)
-    addItemButton:SetText("Create Reminder")
+    addItemButton:SetText(L["Create Reminder"])
     addItemButton:SetCallback("OnClick", function(widget) BuffDialog:AddReminder() end)
 
     statusText = EasyReminders.AceGUI:Create("Label")

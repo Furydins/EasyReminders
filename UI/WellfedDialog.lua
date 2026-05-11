@@ -51,7 +51,7 @@ function WellFedDialog:FindItemByName()
     itemID:SetText(id)
     itemIcon:SetImage(icon)
   else
-      itemID:SetText("invalid!")
+      itemID:SetText(L["Invalid"])
   end
 
 end
@@ -70,7 +70,7 @@ function WellFedDialog:FindItemByID()
 
 
         if not name then
-          name = "Not found"
+          name = L["Not found"]
         end
 
         itemName:SetText(name)
@@ -97,7 +97,7 @@ end
 function WellFedDialog:AddReminder()
 
   if not validateID(itemID:GetText()) or not itemName:GetText() then
-    statusText:SetText("Invalid Item")
+    statusText:SetText(L["Invalid Item"])
     return
   end
 
@@ -112,7 +112,7 @@ function WellFedDialog:AddReminder()
 
   EasyReminders.UI.WellFedTab:RebuildScrollBox()
 
-  statusText:SetText("Success!")
+  statusText:SetText(L["Success!"])
   dialogFrame:Hide()
 
 end
@@ -132,7 +132,7 @@ function WellFedDialog:Create(mainFrame)
     -- Item details
 
     itemID = EasyReminders.AceGUI:Create("EditBox")
-    itemID:SetLabel("Item ID: ")
+    itemID:SetLabel(L["Item ID: "])
     itemID:SetMaxLetters(10)
     itemID:SetCallback("OnEnterPressed", function(widget) WellFedDialog:FindItemByID() end)
     dialogFrame:AddChild(itemID)
@@ -146,7 +146,7 @@ function WellFedDialog:Create(mainFrame)
 
 
     itemName = EasyReminders.AceGUI:Create("EditBox")
-    itemName:SetLabel("Item Name: ")
+    itemName:SetLabel(L["Item Name: "])
     itemName:SetMaxLetters(40)
     itemName:SetWidth(300)
     itemName:SetCallback("OnEnterPressed", function(widget) WellFedDialog:FindItemByName() end)
@@ -157,7 +157,7 @@ function WellFedDialog:Create(mainFrame)
     dialogFrame:AddChild(addItemButton)
     addItemButton:SetFullWidth(true)
     addItemButton:SetWidth(580)
-    addItemButton:SetText("Create Reminder")
+    addItemButton:SetText(L["Create Reminder"])
     addItemButton:SetCallback("OnClick", function(widget) WellFedDialog:AddReminder() end)
 
     statusText = EasyReminders.AceGUI:Create("Label")

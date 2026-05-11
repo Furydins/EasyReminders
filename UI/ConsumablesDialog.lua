@@ -34,7 +34,7 @@ function ConsumablesDialog:FindSpellByID()
 
 
     if not spellInfo or not spellInfo.name then
-      name = "Not found"
+      name = L["Not found"]
     else
       name = spellInfo.name
     end
@@ -48,7 +48,7 @@ function ConsumablesDialog:FindSpellByID()
       spellName:SetImage(nil)
     end
   else
-      spellID:SetText("invalid!")
+      spellID:SetText(L["Invalid"])
       spellName:SetText("")
       spellName:SetImage(nil)
       spellNameText = nil
@@ -86,7 +86,7 @@ function ConsumablesDialog:FindItemByName()
     itemID:SetText(id)
     itemIcon:SetImage(icon)
   else
-      itemID:SetText("invalid!")
+      itemID:SetText(L["Invalid"])
   end
 
 end
@@ -111,7 +111,7 @@ function ConsumablesDialog:FindItemByID()
         ConsumablesDialog:PopulateItems(name, id)
       end
   else
-      itemID:SetText("invalid!")
+      itemID:SetText(L["Invalid"])
       itemName:SetText("")
       itemIcon:SetImage(nil)
   end
@@ -126,7 +126,7 @@ function ConsumablesDialog:RetrieveFindByID(id, success)
   end
 
   if not name then
-    name = "Failed"
+    name = L["Not found"]
     itemName:SetText("")
     itemIcon:SetImage(nil)
   else
@@ -168,7 +168,7 @@ local function validateItems()
   if valid then
     return true
   else
-    additionalItems:SetText("invalid!")
+    additionalItems:SetText(L["Invalid"])
     return false
   end
 end
@@ -192,17 +192,17 @@ end
 function ConsumablesDialog:AddReminder()
 
   if not validateID(itemID:GetText()) or not itemName:GetText() then
-    statusText:SetText("Invalid Item")
+    statusText:SetText(L["Invalid Item"])
     return
   end
 
   if not validateID(spellID:GetText()) or not spellNameText then
-    statusText:SetText("Invalid Spell")
+    statusText:SetText(L["Invalid Spell"])
     return
   end
 
   if additionalItems:GetText() and string.len(additionalItems:GetText()) > 0 and not validateItems() then
-    statusText:SetText("Invalid Additonal Items")
+    statusText:SetText(L["Invalid Additional Items"])
     return
   end
 
@@ -221,7 +221,7 @@ function ConsumablesDialog:AddReminder()
 
   EasyReminders.UI.ConsumablesTab:RebuildScrollBox()
 
-  statusText:SetText("Success!")
+  statusText:SetText(L["Success!"])
   dialogFrame:Hide()
 
 end
@@ -241,7 +241,7 @@ function ConsumablesDialog:Create(mainFrame)
     -- Item details
 
     itemID = EasyReminders.AceGUI:Create("EditBox")
-    itemID:SetLabel("Item ID: ")
+    itemID:SetLabel(L["Item ID: "])
     itemID:SetMaxLetters(10)
     itemID:SetCallback("OnEnterPressed", function(widget) ConsumablesDialog:FindItemByID() end)
     dialogFrame:AddChild(itemID)
@@ -255,7 +255,7 @@ function ConsumablesDialog:Create(mainFrame)
 
 
     itemName = EasyReminders.AceGUI:Create("EditBox")
-    itemName:SetLabel("Item Name: ")
+    itemName:SetLabel(L["Item Name: "])
     itemName:SetMaxLetters(40)
     itemName:SetWidth(300)
     itemName:SetCallback("OnEnterPressed", function(widget) ConsumablesDialog:FindItemByName() end)
@@ -264,7 +264,7 @@ function ConsumablesDialog:Create(mainFrame)
       -- Buff details
 
     spellID = EasyReminders.AceGUI:Create("EditBox")
-    spellID:SetLabel("Spell ID: ")
+    spellID:SetLabel(L["Spell ID: "])
     spellID:SetMaxLetters(10)
     spellID:SetCallback("OnEnterPressed", function(widget) ConsumablesDialog:FindSpellByID() end)
     dialogFrame:AddChild(spellID)
@@ -280,7 +280,7 @@ function ConsumablesDialog:Create(mainFrame)
 
     ---- Extra items
     additionalItems = EasyReminders.AceGUI:Create("EditBox")
-    additionalItems:SetLabel("Additional Item Ids: ")
+    additionalItems:SetLabel(L["Additional Item Ids: "])
     additionalItems:SetFullWidth(true)
     additionalItems:SetMaxLetters(150)
     additionalItems:SetCallback("OnEnterPressed", function(widget) validateItems() end)
@@ -290,7 +290,7 @@ function ConsumablesDialog:Create(mainFrame)
     dialogFrame:AddChild(addItemButton)
     addItemButton:SetFullWidth(true)
     addItemButton:SetWidth(580)
-    addItemButton:SetText("Create Reminder")
+    addItemButton:SetText(L["Create Reminder"])
     addItemButton:SetCallback("OnClick", function(widget) ConsumablesDialog:AddReminder() end)
 
     statusText = EasyReminders.AceGUI:Create("Label")

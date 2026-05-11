@@ -47,11 +47,6 @@ function ShoppingTab:Create(mainFrame, container)
                 ["INSTANCE_EXIT"] = EasyReminders.charDB.shoppingNotifications.INSTANCE_EXIT,  
                 ["ON_USE"] = EasyReminders.charDB.shoppingNotifications.ON_USE,}
 
-    local addItemButton = EasyReminders.AceGUI:Create("Button")
-    container:AddChild(addItemButton)
-    addItemButton:SetText(L["Add Item"])
-    addItemButton:SetCallback("OnClick", function(widget) EasyReminders.UI.ShoppingDialog:Create(mainFrame) end)
-
     local notificationText = EasyReminders.AceGUI:Create("Label")
     notificationText:SetText(L["Notifications:"])
     notificationText:SetWidth(80)
@@ -76,10 +71,8 @@ function ShoppingTab:Create(mainFrame, container)
         EasyReminders.charDB.shoppingNotifications[key] = checked
     end)
     
-
     ShoppingTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)
 
-  
     ShoppingTab:RebuildScrollBox()
 end
 
