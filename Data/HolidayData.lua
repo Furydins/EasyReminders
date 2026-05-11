@@ -49,13 +49,13 @@ EasyReminders.Data.Holidays = {
     [20] = {["name"] = L["Spring Balloon Festival"], ["holidayID"] = 645,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO}, 
     [21] = {["name"] = L["Glowcap Festival"], ["holidayID"] = 648,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [22] = {["name"] = L["Thousand Boat Bash"], ["holidayID"] = 642,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
+    [55] = {["name"] = L["Darkspear Dash"], ["holidayID"] = 1793, ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [23] = {["name"] = L["Luminous Luminaries"], ["holidayID"] = 1062,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [24] = {["name"] = L["Auction House Dance Party"], ["holidayID"] = 692,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [25] = {["name"] = L["Trial of Style"], ["holidayID"] = 691,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [26] = {["name"] = L["Great Gnomeregan Run"], ["holidayID"] = 696,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [27] = {["name"] = L["Moonkin Festival"], ["holidayID"] = 694,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
-    [55] = {["name"] = L["Darkspear Dash"], ["holidayID"] = 1793, ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
-
+    
     -- Timewwalking
     [28] = {["name"] = L["Classic Timewalking"], ["holidayID"] = 1508, otherIds = {1583, 1584, 1585}, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
     [29] = {["name"] = L["BC Timewalking"], ["holidayID"] = 559, otherIds = {622, 623, 624}, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
@@ -114,12 +114,12 @@ EasyReminders.Data.HolidayOrder = {
     [20] = 20, -- Spring Balloon Festival
     [21] = 21, -- Glowcap Festival
     [22] = 22, -- Thousand Boat Bash
-    [23] = 23, -- Luminous Luminaries
-    [24] = 24, -- Auction House Dance Party
-    [25] = 25, -- Trial of Style
-    [26] = 26, -- Great Gnomeregan Run
-    [27] = 27, -- Moonkin Festival
-    [28] = 55, -- Darkspear Dash
+    [23] = 55, -- Darkspear Dash
+    [24] = 23, -- Luminous Luminaries
+    [25] = 24, -- Auction House Dance Party
+    [26] = 25, -- Trial of Style
+    [27] = 26, -- Great Gnomeregan Run
+    [28] = 27, -- Moonkin Festival
 
     [29] = 28, -- Classic Timewalking
     [30] = 29, -- BC Timewalking
