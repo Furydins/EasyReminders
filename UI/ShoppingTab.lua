@@ -121,8 +121,7 @@ function ShoppingTab:RebuildScrollBox()
       _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemId)
     end
     -- 224464 = Demonic Healthstone
-    if (itemId == 224464 and not EasyReminders.charDB.shopping[itemId] and EasyReminders.charDB.shopping[itemId] > 0) 
-        or (itemStackCount and itemStackCount > 1 and not (EasyReminders.charDB.shopping[itemId] and EasyReminders.charDB.shopping[itemId] > 0)) then
+    if (((itemId and itemId == 224464) or (itemStackCount and itemStackCount > 1)) and not (EasyReminders.charDB.shopping[itemId] and EasyReminders.charDB.shopping[itemId] > 0)) then
       table.insert(bagEntries, {itemId = itemId, itemName = itemName, itemIcon = itemIcon})
     end
   end
