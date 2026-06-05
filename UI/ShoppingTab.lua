@@ -67,7 +67,7 @@ function ShoppingTab:Create(mainFrame, container)
     container:AddChild(notificationDropdown)
 
     notificationDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
-        EasyReminders.Filters.consumables[key] = checked   
+        EasyReminders.Shopping.Notifcations[key] = checked   
         EasyReminders.charDB.shoppingNotifications[key] = checked
     end)
     
@@ -120,7 +120,9 @@ function ShoppingTab:RebuildScrollBox()
     if not itemStackCount then
       _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemId)
     end
-    if itemStackCount and itemStackCount > 1 and not (EasyReminders.charDB.shopping[itemId] and EasyReminders.charDB.shopping[itemId] > 0) then
+    -- 224464 = Demonic Healthstone
+    if (itemId == 224464 and not EasyReminders.charDB.shopping[itemId] and EasyReminders.charDB.shopping[itemId] > 0) 
+        or (itemStackCount and itemStackCount > 1 and not (EasyReminders.charDB.shopping[itemId] and EasyReminders.charDB.shopping[itemId] > 0)) then
       table.insert(bagEntries, {itemId = itemId, itemName = itemName, itemIcon = itemIcon})
     end
   end
