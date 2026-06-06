@@ -50,11 +50,12 @@ EasyReminders.Data.Holidays = {
     [21] = {["name"] = L["Glowcap Festival"], ["holidayID"] = 648,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [22] = {["name"] = L["Thousand Boat Bash"], ["holidayID"] = 642,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [55] = {["name"] = L["Darkspear Dash"], ["holidayID"] = 1793, ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
-    [23] = {["name"] = L["Luminous Luminaries"], ["holidayID"] = 1062,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
+    [23] = {["name"] = L["Luminous Luminaries"], ["holidayID"] = 1062,  otherIds = {1054}, ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [24] = {["name"] = L["Auction House Dance Party"], ["holidayID"] = 692,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [25] = {["name"] = L["Trial of Style"], ["holidayID"] = 691,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [26] = {["name"] = L["Great Gnomeregan Run"], ["holidayID"] = 696,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [27] = {["name"] = L["Moonkin Festival"], ["holidayID"] = 694,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
+    [55] = {["name"] = L["Wanderer's Festival"], ["holidayID"] = 1052,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     
     -- Timewwalking
     [28] = {["name"] = L["Classic Timewalking"], ["holidayID"] = 1508, otherIds = {1583, 1584, 1585}, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
@@ -71,6 +72,7 @@ EasyReminders.Data.Holidays = {
     -- Brawls
     [37] = {["name"] = L["Brawl: Arathi Blizzard"], ["holidayID"] = 666, otherIds = {673, 680, 687, 737}, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
     [38] = {["name"] = L["Brawl: Classic Ashran"], ["holidayID"] = 1120, otherIds = {1121, 1122, 1123, 1124}, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
+    -- 39 - Brawl: Compstomp - removed in 12.0.1
     [40] = {["name"] = L["Brawl: Cooking Impossible"], ["holidayID"] = 1047, otherIds = {1048, 1049, 1050, 1051}, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
     [41] = {["name"] = L["Brawl: Deep Six"], ["holidayID"] = 702, otherIds = {704, 105, 706, 736}, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
     [42] = {["name"] = L["Brawl: Cooking Impossible"], ["holidayID"] = 1047, otherIds = {1048, 1049, 1050, 1051}, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
@@ -120,34 +122,35 @@ EasyReminders.Data.HolidayOrder = {
     [26] = 25, -- Trial of Style
     [27] = 26, -- Great Gnomeregan Run
     [28] = 27, -- Moonkin Festival
+    [29] = 55, -- Wanderer's Festival
 
-    [29] = 28, -- Classic Timewalking
-    [30] = 29, -- BC Timewalking
-    [31] = 30, -- Wrath Timewalking
-    [32] = 31, -- Cataclysm Timewalking
-    [33] = 32, -- Mists Timewalking
-    [34] = 33, -- Warlords Timewalking
-    [35] = 34, -- Legion Timewalking
-    [36] = 35, -- BfA Timewalking
-    [37] = 36, -- Shadowlands Timewalking
-    [38] = 54, -- Dragonflight Timewalking
+    [30] = 28, -- Classic Timewalking
+    [31] = 29, -- BC Timewalking
+    [32] = 30, -- Wrath Timewalking
+    [33] = 31, -- Cataclysm Timewalking
+    [34] = 32, -- Mists Timewalking
+    [35] = 33, -- Warlords Timewalking
+    [36] = 34, -- Legion Timewalking
+    [37] = 35, -- BfA Timewalking
+    [38] = 36, -- Shadowlands Timewalking
+    [39] = 54, -- Dragonflight Timewalking
 
-    [39] = 37, -- Brawl: Arathi Blizzard
-    [40] = 38, -- Brawl: Classic Ashran
-    [41] = 40, -- Brawl: Cooking Impossible
-    [42] = 41, -- Brawl: Deep Six
-    [43] = 42, -- Brawl: Cooking Impossible
-    [44] = 43, -- Brawl: Deepwind Dunk
-    [45] = 44, -- Brawl: Gravity Lapse
-    [46] = 45, -- Brawl: Packed House
-    [47] = 46, -- Brawl: Shado-Pan Showdown
-    [48] = 47, -- Brawl: Southshore v Tarren Mill
-    [49] = 48, -- Brawl: Temple of Hotmogu
-    [50] = 49, -- Brawl: Warsong Scramble
+    [40] = 37, -- Brawl: Arathi Blizzard
+    [41] = 38, -- Brawl: Classic Ashran
+    [42] = 40, -- Brawl: Cooking Impossible
+    [43] = 41, -- Brawl: Deep Six
+    [44] = 42, -- Brawl: Cooking Impossible
+    [45] = 43, -- Brawl: Deepwind Dunk
+    [46] = 44, -- Brawl: Gravity Lapse
+    [47] = 45, -- Brawl: Packed House
+    [48] = 46, -- Brawl: Shado-Pan Showdown
+    [49] = 47, -- Brawl: Southshore v Tarren Mill
+    [50] = 48, -- Brawl: Temple of Hotmogu
+    [51] = 49, -- Brawl: Warsong Scramble
 
-    [51] = 50, -- Skyriding Cup - Kalimdor
-    [52] = 51, -- Skyriding Cup - Eastern Kingdoms
-    [53] = 52, -- Skyriding Cup - Outland
-    [54] = 53, -- Skyriding Cup - Northrend
+    [52] = 50, -- Skyriding Cup - Kalimdor
+    [53] = 51, -- Skyriding Cup - Eastern Kingdoms
+    [54] = 52, -- Skyriding Cup - Outland
+    [55] = 53, -- Skyriding Cup - Northrend
 
 }
