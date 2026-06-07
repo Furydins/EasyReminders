@@ -77,6 +77,7 @@ function ShoppingTab:Create(mainFrame, container)
 end
 
 function ShoppingTab:RebuildScrollBox()
+  EasyReminders.BagCache:RefreshBags()
   local scrollBox = ShoppingTab.ScrollBox
   scrollBox:ReleaseChildren()
 
