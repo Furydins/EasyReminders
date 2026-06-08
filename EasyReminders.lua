@@ -193,6 +193,7 @@ end
 function EasyReminders:RegisterEvents()
     local f = _G.CreateFrame("Frame", "EasyRemindersBackgroundFrame")
     f:RegisterEvent("UNIT_INVENTORY_CHANGED")
+    f:RegisterEvent("ITEM_COUNT_CHANGED")
     f:RegisterEvent("PLAYER_ENTERING_WORLD")
     f:RegisterEvent("UNIT_AURA")
     f:RegisterEvent("ZONE_CHANGED")
@@ -215,6 +216,9 @@ function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
         end
         inInstance = newInInstance
     elseif "UNIT_INVENTORY_CHANGED" == event and "player" == arg1 then
+        EasyReminders.BagCache:RefreshBags()
+        EasyReminders:CheckBuffs("ON_USE")
+    elseif "ITEM_COUNT_CHANGED" == event and "player" == arg1 then
         EasyReminders.BagCache:RefreshBags()
         EasyReminders:CheckBuffs("ON_USE")
     elseif "UNIT_AURA" == event and "player" == arg1 then

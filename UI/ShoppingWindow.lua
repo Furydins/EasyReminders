@@ -6,6 +6,8 @@ local ShoppingWindow = EasyReminders.UI.ShoppingWindow
 local frame
 local shownShoppingItems = {}
 
+local trackedItems = {}
+
 local function hasValue(tab, value)
     for k,v in pairs(tab) do
         if v == value then
@@ -82,13 +84,46 @@ local function GetMissingItems()
     return missingItems
 end
 
+local function recordTrackedItems()
+    trackedItems = {}
+    local bagCache = EasyReminders.BagCache:GetBagCache()
+    for itemId, minQuantity in pairs(EasyReminders.charDB.shopping) do
+        local itemcount = bagCache[itemId] or 0
+        trackedItems[itemId] = itemcount
+    end
+end
+
+local function wasTrackedItemUsed()
+    local bagCache = EasyReminders.BagCache:GetBagCache()
+    for itemId, oldCount in pairs(trackedItems) do
+        local newCount = bagCache[itemId] or 0
+        if newCount < oldCount then
+            return true
+        end
+    end
+    return false
+end
+
 function ShoppingWindow:UpdateNotifications(type)
+
+    local _type = type
+
+    -- Only check for ON_USE if one of our tarcked items was used
+    -- Otherwise we end up with false alarms
+    if EasyReminders.charDB.shoppingNotifications.ON_USE then
+        if wasTrackedItemUsed() then
+            type = "ON_USE"
+        elseif "ON_USE" == type then
+            type = "IGNORE"
+        end
+        recordTrackedItems()
+    end
 
     -- Punt if not the right notification type
     if not EasyReminders.charDB.shoppingNotifications[type] then
       return 
-    end       
-
+    end
+    
     if not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
       and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
 
