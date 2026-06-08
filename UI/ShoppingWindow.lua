@@ -108,25 +108,24 @@ end
 function ShoppingWindow:UpdateNotifications(type)
 
     local _type = type
-
-    -- Only check for ON_USE if one of our tarcked items was used
-    -- Otherwise we end up with false alarms
-    if EasyReminders.charDB.shoppingNotifications.ON_USE then
-        if wasTrackedItemUsed() then
-            type = "ON_USE"
-        elseif "ON_USE" == type then
-            type = "IGNORE"
-        end
-        recordTrackedItems()
-    end
-
-    -- Punt if not the right notification type
-    if not EasyReminders.charDB.shoppingNotifications[type] then
-      return 
-    end
-    
-    if not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
+      if not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
       and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
+
+        -- Only check for ON_USE if one of our tarcked items was used
+        -- Otherwise we end up with false alarms
+        if EasyReminders.charDB.shoppingNotifications.ON_USE then
+            if wasTrackedItemUsed() then
+                type = "ON_USE"
+            elseif "ON_USE" == type then
+                type = "IGNORE"
+            end
+            recordTrackedItems()
+        end
+
+        -- Punt if not the right notification type
+        if not EasyReminders.charDB.shoppingNotifications[type] then
+            return 
+        end
 
         local missingItems = GetMissingItems()
 
