@@ -69,6 +69,7 @@ end
 local function GetMissingItems()
     local missingItems = {}
 
+    EasyReminders.BagCache:RefreshBags()
     local bagCache = EasyReminders.BagCache:GetBagCache()
 
     for itemId, minQuantity in pairs(EasyReminders.charDB.shopping) do
