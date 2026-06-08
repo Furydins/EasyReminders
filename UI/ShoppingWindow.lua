@@ -171,6 +171,8 @@ function ShoppingWindow:UpdateNotifications(type)
 
         if shouldShow then
             frame.frame:Show()
+        else
+            frame.frame:Hide()
         end
     end
 end
