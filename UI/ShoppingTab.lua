@@ -34,8 +34,6 @@ local function addEntry(itemId, itemName, itemIcon, scrollBox)
             elseif num and num == 0 then
                     EasyReminders.charDB.shopping[itemId] = nil
             end
-            -- EasyReminders.ConsumableCheck:BuildTrackingList()
-            -- EasyReminders:CheckBuffs()
         end
     end)
 

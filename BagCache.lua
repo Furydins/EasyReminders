@@ -20,7 +20,7 @@ function BagCache:RefreshBags()
                     local stackCount = itemInfo.stackCount or 0
                     -- 224464 = Demonic Healthstone - use charges instead of count 
                     if itemID == 224464  and stackCount > 0 then
-                        stackCount = ,C_Item.GetItemCount(itemID, false, true) or stackCount
+                        stackCount = C_Item.GetItemCount(itemID, false, true) or stackCount
                     end
                     
                     bagContentsCache[itemID] = stackCount

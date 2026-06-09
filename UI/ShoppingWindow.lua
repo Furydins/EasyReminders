@@ -8,6 +8,9 @@ local shownShoppingItems = {}
 
 local trackedItems = {}
 
+local loginPending = false
+local zoneChangePending = false
+
 local function hasValue(tab, value)
     for k,v in pairs(tab) do
         if v == value then
@@ -87,18 +90,17 @@ end
 
 local function recordTrackedItems()
     trackedItems = {}
-    local bagCache = EasyReminders.BagCache:GetBagCache()
     for itemId, minQuantity in pairs(EasyReminders.charDB.shopping) do
-        local itemcount = bagCache[itemId] or 0
+        local itemcount =  C_Item.GetItemCount(itemId, false, true) or 0
         trackedItems[itemId] = itemcount
     end
 end
 
 local function wasTrackedItemUsed()
-    local bagCache = EasyReminders.BagCache:GetBagCache()
     for itemId, oldCount in pairs(trackedItems) do
-        local newCount = bagCache[itemId] or 0
-        if newCount < oldCount then
+        local newCount = C_Item.GetItemCount(itemId, false, true) or 0
+        if oldCount and (newCount < oldCount) then
+            EasyReminders:Print("Detected usage of " .. itemId  .. " count changed from " .. oldCount .. " to " .. newCount)
             return true
         end
     end
@@ -108,22 +110,43 @@ end
 function ShoppingWindow:UpdateNotifications(type)
 
     local _type = type
-      if not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
-      and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
+
+    -- Delay login check to allow time
+    -- to cache item names
+    if _type== "LOGIN" then
+        loginPending = true
+        return
+    elseif loginPending and type == "TIMER" then
+        _type= "LOGIN"
+        loginPending = false
+    end
+
+    -- Ignore timer events during zone change
+    -- as item counts may be inaccurate during that time
+    if _type == "ZONE_CHANGE" then
+        zoneChangePending = true
+        return
+    elseif zoneChangePending and type == "TIMER" then
+        zoneChangePending = false
+        return
+    end
+
+    if not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
+    and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
 
         -- Only check for ON_USE if one of our tarcked items was used
         -- Otherwise we end up with false alarms
         if EasyReminders.charDB.shoppingNotifications.ON_USE then
-            if wasTrackedItemUsed() then
-                type = "ON_USE"
+            if ("ON_USE" == type or "TIMER" == type or "BUFF_CHANGE" == type) and wasTrackedItemUsed() then
+                _type = "ON_USE"
             elseif "ON_USE" == type then
-                type = "IGNORE"
+                _type = "IGNORE"
             end
             recordTrackedItems()
         end
 
         -- Punt if not the right notification type
-        if not EasyReminders.charDB.shoppingNotifications[type] then
+        if not EasyReminders.charDB.shoppingNotifications[_type] then
             return 
         end
 
@@ -170,6 +193,7 @@ function ShoppingWindow:UpdateNotifications(type)
         end
 
         if shouldShow then
+            EasyReminders:Print("Showing shopping reminder because of " .. (type or "unknown") .. " modified to " .. (_type or "unknown"))
             frame.frame:Show()
         else
             frame.frame:Hide()
