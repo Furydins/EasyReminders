@@ -113,14 +113,14 @@ function ShoppingTab:RebuildScrollBox()
   local bagCache = EasyReminders.BagCache:GetBagCache()
   for itemId, itemCount in pairs(bagCache) do
     local cacheEntry = EasyReminders.DataCache[itemId] or {}
-    local itemName = cacheEntry[2] or C_Item.GetItemNameByID(itemId)
+    local itemName = cacheEntry[2] or C_Item.GetItemNameByID(itemId) or "Loading..."
     local itemIcon = cacheEntry[3] or C_Item.GetItemIconByID(itemId)
-    local itemStackCount = cacheEntry[5]
-    if not itemStackCount then
-      _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemId)
+    local itemStackMax = cacheEntry[5]
+    if not itemStackMax then
+      _,_,_,_,_,_,_,itemStackMax = C_Item.GetItemInfo(itemId) or 0
     end
-    -- 224464 = Demonic Healthstone
-    if (((itemId and itemId == 224464) or (itemStackCount and itemStackCount > 1)) and not (EasyReminders.charDB.shopping[itemId] and EasyReminders.charDB.shopping[itemId] > 0)) then
+    local stackOrChargeMax = C_Item.GetItemCount(itemId, false, true) or 0
+    if (itemStackMax > 1 or stackOrChargeMax > 1 ) and not (EasyReminders.charDB.shopping[itemId] and EasyReminders.charDB.shopping[itemId] > 0) then
       table.insert(bagEntries, {itemId = itemId, itemName = itemName, itemIcon = itemIcon})
     end
   end
