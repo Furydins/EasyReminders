@@ -9,7 +9,6 @@ local shownShoppingItems = {}
 local trackedItems = {}
 
 local loginPending = false
-local zoneChangePending = false
 
 local function hasValue(tab, value)
     for k,v in pairs(tab) do
@@ -121,23 +120,13 @@ function ShoppingWindow:UpdateNotifications(type)
         loginPending = false
     end
 
-    -- Ignore timer events during zone change
-    -- as item counts may be inaccurate during that time
-    if _type == "ZONE_CHANGE" then
-        zoneChangePending = true
-        return
-    elseif zoneChangePending and type == "TIMER" then
-        zoneChangePending = false
-        return
-    end
-
     if not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
     and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
 
         -- Only check for ON_USE if one of our tracked items was used
         -- Otherwise we end up with false alarms
         if EasyReminders.charDB.shoppingNotifications.ON_USE then
-            if ("ON_USE" == type or "TIMER" == type or "BUFF_CHANGE" == type) and wasTrackedItemUsed() then
+            if ("ON_USE" == type) and wasTrackedItemUsed() then
                 _type = "ON_USE"
             elseif "ON_USE" == type then
                 _type = "IGNORE"

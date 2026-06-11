@@ -205,10 +205,15 @@ end
 function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
     if "PLAYER_ENTERING_WORLD" == event then
         local newInInstance = _G.IsInInstance()
+        local _, instanceType = _G.GetInstanceInfo()
+    
+        if newInInstance and ("interior" == instanceType or "neighborhood" == instanceType) then
+            newInInstance = false
+        end
         if arg1 or arg2 then
             EasyReminders.BagCache:RefreshBags()
             EasyReminders:CheckBuffs("LOGIN")
-        elseif not newInInstance and inInstance then
+        elseif not newInInstance and inInstance then -- TODO: Exclude Garrison and hosue exits!
             EasyReminders:CheckBuffs("INSTANCE_EXIT")
         else 
             EasyReminders:CheckBuffs("ZONE_CHANGE")
@@ -224,6 +229,12 @@ function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
     elseif "ZONE_CHANGED" == event or "ZONE_CHANGED_INDOORS" == event or "ZONE_CHANGED_NEW_AREA" == event 
         or "PLAYER_ENTERING_BATTLEGROUND" == event then
         local newInInstance = _G.IsInInstance()
+        local _, instanceType = _G.GetInstanceInfo()
+
+        -- Do not count Homes
+        if newInInstance and ("interior" == instanceType or "neighborhood" == instanceType) then
+            newInInstance = false
+        end
         if not newInInstance and inInstance then
             EasyReminders:CheckBuffs("INSTANCE_EXIT")
         else 
