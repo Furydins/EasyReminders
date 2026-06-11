@@ -215,6 +215,53 @@ function GearTab:RebuildScrollBox()
 
     end
   end
+
+  -- class weapon imbues
+  local _, class, _ = _G.UnitClass("player")
+  for key, data in pairs(EasyReminders.Data.ClassEnchants)  do
+
+    if data.class == class then
+      local spellInfo = C_Spell.GetSpellInfo(data.spellID)
+
+      local buffName = EasyReminders.AceGUI:Create("Label")
+      buffName:SetText(spellInfo and spellInfo.name or L["Loading..."])
+      buffName:SetFont(EasyReminders.Font, 12, "")
+      buffName:SetWidth(440)
+      buffName:SetImage((spellInfo and spellInfo.iconID) or nil)
+      buffName:SetImageSize(16,16)
+      scrollBox:AddChild(buffName)
+
+      local activeDropdown = EasyReminders.AceGUI:Create("Dropdown")
+      activeDropdown:SetWidth(150)
+      activeDropdown:SetList({
+        ["Raid"] = L["Raid"],
+        ["Dungeon"] = L["Dungeon"],
+        ["Delve"] = L["Delve"],
+        ["Outside"] = L["Outside"],
+      })
+
+      EasyReminders.charDB.gearImbues[data.buffID] = EasyReminders.charDB.gearImbues[data.buffID] or {}
+      activeDropdown:SetMultiselect(true)
+      activeDropdown:SetItemValue("Raid", EasyReminders.charDB.gearImbues[data.buffID].raid or false)
+      activeDropdown:SetItemValue("Dungeon", EasyReminders.charDB.gearImbues[data.buffID].dungeon or false)
+      activeDropdown:SetItemValue("Delve", EasyReminders.charDB.gearImbues[data.buffID].delve or false)
+      activeDropdown:SetItemValue("Outside", EasyReminders.charDB.gearImbues[data.buffID].outside or false)
+      scrollBox:AddChild(activeDropdown)
+      activeDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
+        if "Raid" == key then
+          EasyReminders.charDB.gearImbues[data.buffID].raid = checked
+        elseif "Dungeon" == key then
+          EasyReminders.charDB.gearImbues[data.buffID].dungeon = checked
+        elseif "Delve" == key then
+          EasyReminders.charDB.gearImbues[data.buffID].delve = checked
+        elseif "Outside" == key then
+          EasyReminders.charDB.gearImbues[data.buffID].outside = checked
+        end
+        EasyReminders.TemporaryEnchantCheck:BuildTrackingList()
+        EasyReminders:CheckBuffs(REFRESH)
+      end)
+    end
+  end
 end
 
 function GearTab:RemoveConfirm(itemID, itemName)

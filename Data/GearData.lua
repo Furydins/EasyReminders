@@ -32,5 +32,11 @@ EasyReminders.Data.GearConsumables = {
     [243734] = {["itemID"] = 243734, ["slotID"] = 16, ["buffIDs"] = {8051, 8052}, ["otherIds"] = {243733}}, -- Thalassian Phoenix Oil
     [243738] = {["itemID"] = 243738, ["slotID"] = 16, ["buffIDs"] = {8055, 8056}, ["otherIds"] = {243737}}, -- Smugglers Enchanted Edge
     [243736] = {["itemID"] = 243736, ["slotID"] = 16, ["buffIDs"] = {8053, 8054}, ["otherIds"] = {243735}}, -- Oil of Dawn
+
+}
+
+EasyReminders.Data.ClassEnchants = {
+    [33757] = {["buffID"] = 5401, ["spellID"] = 33757, ["slotID"] = 16, ["class"] = "SHAMAN"},
+    [318038] =  {["buffID"] = 5400, ["spellID"] = 318038, ["slotID"] = 17, ["class"] = "SHAMAN"},
 }
 
