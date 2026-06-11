@@ -259,7 +259,7 @@ function EasyReminders:CheckBuffs(cause)
     if not EasyReminders.globalDB.enabled then
         EasyReminders.UI.NotificationWindow:UpdateNotifications({})
         EasyReminders.UI.HolidayWindow:HideHolidayWindow()
-        EasyRemiders.UI.ShoppingWindow:HideShoppingWindow()
+        EasyReminders.UI.ShoppingWindow:HideShoppingWindow()
         return
     end
 
