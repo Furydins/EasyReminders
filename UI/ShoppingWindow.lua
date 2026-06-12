@@ -99,7 +99,6 @@ local function wasTrackedItemUsed()
     for itemId, oldCount in pairs(trackedItems) do
         local newCount = C_Item.GetItemCount(itemId, false, true) or 0
         if oldCount and (newCount < oldCount) then
-            EasyReminders:Print("Detected usage of " .. itemId  .. " count changed from " .. oldCount .. " to " .. newCount)
             return true
         end
     end
@@ -182,7 +181,6 @@ function ShoppingWindow:UpdateNotifications(type)
         end
 
         if shouldShow then
-            EasyReminders:Print("Showing shopping reminder because of " .. (type or "unknown") .. " modified to " .. (_type or "unknown"))
             frame.frame:Show()
         else
             frame.frame:Hide()
