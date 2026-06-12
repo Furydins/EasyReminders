@@ -302,6 +302,11 @@ function EasyReminders:CheckBuffs(cause)
             C_Item.GetItemNameByID(data.itemID)
         end
     end
+     for itemId, _ in pairs(EasyReminders.charDB.shopping) do
+        if not EasyReminders.DataCache[itemId] or not EasyReminders.DataCache[itemId][2] then
+            C_Item.GetItemNameByID(itemId)
+        end
+    end
     
 end
 
