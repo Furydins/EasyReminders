@@ -63,7 +63,7 @@ function GearTab:Create(mainFrame, container)
         EasyReminders.charDB.gearMinTime = 0
     end
     EasyReminders.TemporaryEnchantCheck:BuildTrackingList()
-    EasyReminders:CheckBuffs()
+    EasyReminders:CheckBuffs("REFRESH")
     end)
 
     GearTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)
@@ -125,7 +125,7 @@ function GearTab:RebuildScrollBox()
         elseif "Consumable" == key then
           EasyReminders.charDB.gear[data.slotID].consumable = checked
         end
-        EasyReminders:CheckBuffs()
+        EasyReminders:CheckBuffs("REFRESH")
       end)
 
     end
@@ -157,7 +157,8 @@ function GearTab:RebuildScrollBox()
             if not EasyReminders.DataCache[otherID] then
               local otherItemName = C_Item.GetItemNameByID(otherID)
               local otherItemIcon = C_Item.GetItemIconByID(otherID)
-              EasyReminders.DataCache[otherID] = {otherID, otherItemName, otherItemIcon, nil}
+              local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(otherID)
+              EasyReminders.DataCache[otherID] = {otherID, otherItemName, otherItemIcon, nil, itemStackCount}
             end
         end
       end
@@ -197,7 +198,7 @@ function GearTab:RebuildScrollBox()
           EasyReminders.charDB.gearConsumables[data.itemID].outside = checked
         end
         EasyReminders.TemporaryEnchantCheck:BuildTrackingList()
-        EasyReminders:CheckBuffs()
+        EasyReminders:CheckBuffs("REFRESH")
       end)
 
       if data["canDelete"] then 
@@ -212,6 +213,53 @@ function GearTab:RebuildScrollBox()
         scrollBox:AddChild(delete)
       end
 
+    end
+  end
+
+  -- class weapon imbues
+  local _, class, _ = _G.UnitClass("player")
+  for key, data in pairs(EasyReminders.Data.ClassEnchants)  do
+
+    if data.class == class then
+      local spellInfo = C_Spell.GetSpellInfo(data.spellID)
+
+      local buffName = EasyReminders.AceGUI:Create("Label")
+      buffName:SetText(spellInfo and spellInfo.name or L["Loading..."])
+      buffName:SetFont(EasyReminders.Font, 12, "")
+      buffName:SetWidth(440)
+      buffName:SetImage((spellInfo and spellInfo.iconID) or nil)
+      buffName:SetImageSize(16,16)
+      scrollBox:AddChild(buffName)
+
+      local activeDropdown = EasyReminders.AceGUI:Create("Dropdown")
+      activeDropdown:SetWidth(150)
+      activeDropdown:SetList({
+        ["Raid"] = L["Raid"],
+        ["Dungeon"] = L["Dungeon"],
+        ["Delve"] = L["Delve"],
+        ["Outside"] = L["Outside"],
+      })
+
+      EasyReminders.charDB.gearImbues[data.buffID] = EasyReminders.charDB.gearImbues[data.buffID] or {}
+      activeDropdown:SetMultiselect(true)
+      activeDropdown:SetItemValue("Raid", EasyReminders.charDB.gearImbues[data.buffID].raid or false)
+      activeDropdown:SetItemValue("Dungeon", EasyReminders.charDB.gearImbues[data.buffID].dungeon or false)
+      activeDropdown:SetItemValue("Delve", EasyReminders.charDB.gearImbues[data.buffID].delve or false)
+      activeDropdown:SetItemValue("Outside", EasyReminders.charDB.gearImbues[data.buffID].outside or false)
+      scrollBox:AddChild(activeDropdown)
+      activeDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
+        if "Raid" == key then
+          EasyReminders.charDB.gearImbues[data.buffID].raid = checked
+        elseif "Dungeon" == key then
+          EasyReminders.charDB.gearImbues[data.buffID].dungeon = checked
+        elseif "Delve" == key then
+          EasyReminders.charDB.gearImbues[data.buffID].delve = checked
+        elseif "Outside" == key then
+          EasyReminders.charDB.gearImbues[data.buffID].outside = checked
+        end
+        EasyReminders.TemporaryEnchantCheck:BuildTrackingList()
+        EasyReminders:CheckBuffs(REFRESH)
+      end)
     end
   end
 end
@@ -264,7 +312,7 @@ function GearTab:RemoveReminder(itemID)
   end
 
   EasyReminders.TemporaryEnchantCheck:BuildTrackingList()
-  EasyReminders:CheckBuffs()
+  EasyReminders:CheckBuffs("REFRESH")
   GearTab:RebuildScrollBox()
  
 end

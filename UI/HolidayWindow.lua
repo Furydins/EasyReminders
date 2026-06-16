@@ -97,7 +97,6 @@ function HolidayWindow:CreateHolidayWindow()
                 _G.UIParent, EasyReminders.globalDB.holidayLocation[3], EasyReminders.globalDB.holidayLocation[4], 
                EasyReminders.globalDB.holidayLocation[5])
     end
-    frame:SetPoint("TOP", _G.UIParent, "CENTER", -300, -300)
     frame.frame:SetMovable(true)
     HolidayWindow:StorePositon()
     frame.frame:Hide()

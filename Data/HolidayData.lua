@@ -49,12 +49,14 @@ EasyReminders.Data.Holidays = {
     [20] = {["name"] = L["Spring Balloon Festival"], ["holidayID"] = 645,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO}, 
     [21] = {["name"] = L["Glowcap Festival"], ["holidayID"] = 648,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [22] = {["name"] = L["Thousand Boat Bash"], ["holidayID"] = 642,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
-    [23] = {["name"] = L["Luminous Luminaries"], ["holidayID"] = 1062,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
+    [55] = {["name"] = L["Darkspear Dash"], ["holidayID"] = 1793, ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
+    [23] = {["name"] = L["Luminous Luminaries"], ["holidayID"] = 1062,  otherIds = {1054}, ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [24] = {["name"] = L["Auction House Dance Party"], ["holidayID"] = 692,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [25] = {["name"] = L["Trial of Style"], ["holidayID"] = 691,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [26] = {["name"] = L["Great Gnomeregan Run"], ["holidayID"] = 696,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [27] = {["name"] = L["Moonkin Festival"], ["holidayID"] = 694,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
-
+    [55] = {["name"] = L["Wanderer's Festival"], ["holidayID"] = 1052,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
+    
     -- Timewwalking
     [28] = {["name"] = L["Classic Timewalking"], ["holidayID"] = 1508, otherIds = {1583, 1584, 1585}, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
     [29] = {["name"] = L["BC Timewalking"], ["holidayID"] = 559, otherIds = {622, 623, 624}, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
@@ -65,11 +67,12 @@ EasyReminders.Data.Holidays = {
     [34] = {["name"] = L["Legion Timewalking"], ["holidayID"] = 1263, otherIds = {1265, 1267, 1269, 1271}, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
     [35] = {["name"] = L["BfA Timewalking"], ["holidayID"] = 1666, otherIds = {1667, 1668, 1669}, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
     [36] = {["name"] = L["Shadowlands Timewalking"], ["holidayID"] = 1703, otherIds = {1704, 1705, 1706, 1707, 1708, 1709, 1710}, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
+    [54] = {["name"] = L["Dragonflight Timewalking"], ["holidayID"] = 1719, otherIds = {1720, 1721, 1722}, ["category"] = EasyReminders.Data.HolidayCategories.TIMEWALKING},
 
     -- Brawls
     [37] = {["name"] = L["Brawl: Arathi Blizzard"], ["holidayID"] = 666, otherIds = {673, 680, 687, 737}, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
     [38] = {["name"] = L["Brawl: Classic Ashran"], ["holidayID"] = 1120, otherIds = {1121, 1122, 1123, 1124}, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
-    -- [39] = {["name"] = L["Brawl: Comp Stomp"], ["holidayID"] = 1234, otherIds = {1235, 1236, 1237, 1238}, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
+    -- 39 - Brawl: Compstomp - removed in 12.0.1
     [40] = {["name"] = L["Brawl: Cooking Impossible"], ["holidayID"] = 1047, otherIds = {1048, 1049, 1050, 1051}, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
     [41] = {["name"] = L["Brawl: Deep Six"], ["holidayID"] = 702, otherIds = {704, 105, 706, 736}, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
     [42] = {["name"] = L["Brawl: Cooking Impossible"], ["holidayID"] = 1047, otherIds = {1048, 1049, 1050, 1051}, ["category"] = EasyReminders.Data.HolidayCategories.BRAWL},
@@ -89,3 +92,65 @@ EasyReminders.Data.Holidays = {
 
 }
 
+EasyReminders.Data.HolidayOrder = {
+    [1] = 1, -- Darkmoon Faire
+    [2] = 2, -- Lunar Festival
+    [3] = 3, -- Love is in the Air
+    [4] = 4, -- Noblegarden
+    [5] = 5, -- Children's Week
+    [6] = 6, -- Midsummer Fire Festival
+    [7] = 7, -- Pirates' Day
+    [8] = 8, -- Brewfest
+    [9] = 9, -- Harvest Festival
+    [10] = 10, -- Hallow's End
+    [11] = 11, -- Day of the Dead
+    [12] = 12, -- Anniversary Event
+    [13] = 13, -- Pilgrim's Bounty
+    [14] = 14, -- Feast of Winter Veil
+
+    [15] = 15, -- Call of the Scarab
+    [16] = 16, -- Hatching of the Hippogryphs
+    [17] = 17, -- Un'Goro Madness
+    [18] = 18, -- March of the Tadpoles
+    [19] = 19, -- Volunteer Guard Day
+    [20] = 20, -- Spring Balloon Festival
+    [21] = 21, -- Glowcap Festival
+    [22] = 22, -- Thousand Boat Bash
+    [23] = 55, -- Darkspear Dash
+    [24] = 23, -- Luminous Luminaries
+    [25] = 24, -- Auction House Dance Party
+    [26] = 25, -- Trial of Style
+    [27] = 26, -- Great Gnomeregan Run
+    [28] = 27, -- Moonkin Festival
+    [29] = 55, -- Wanderer's Festival
+
+    [30] = 28, -- Classic Timewalking
+    [31] = 29, -- BC Timewalking
+    [32] = 30, -- Wrath Timewalking
+    [33] = 31, -- Cataclysm Timewalking
+    [34] = 32, -- Mists Timewalking
+    [35] = 33, -- Warlords Timewalking
+    [36] = 34, -- Legion Timewalking
+    [37] = 35, -- BfA Timewalking
+    [38] = 36, -- Shadowlands Timewalking
+    [39] = 54, -- Dragonflight Timewalking
+
+    [40] = 37, -- Brawl: Arathi Blizzard
+    [41] = 38, -- Brawl: Classic Ashran
+    [42] = 40, -- Brawl: Cooking Impossible
+    [43] = 41, -- Brawl: Deep Six
+    [44] = 42, -- Brawl: Cooking Impossible
+    [45] = 43, -- Brawl: Deepwind Dunk
+    [46] = 44, -- Brawl: Gravity Lapse
+    [47] = 45, -- Brawl: Packed House
+    [48] = 46, -- Brawl: Shado-Pan Showdown
+    [49] = 47, -- Brawl: Southshore v Tarren Mill
+    [50] = 48, -- Brawl: Temple of Hotmogu
+    [51] = 49, -- Brawl: Warsong Scramble
+
+    [52] = 50, -- Skyriding Cup - Kalimdor
+    [53] = 51, -- Skyriding Cup - Eastern Kingdoms
+    [54] = 52, -- Skyriding Cup - Outland
+    [55] = 53, -- Skyriding Cup - Northrend
+
+}

@@ -19,6 +19,9 @@ EasyReminders.BuffCache = {}
 EasyReminders.GearConsumablesCache = {}
 
 local HolidayFrame = nil
+local ShoppingFrame = nil
+
+local inInstance, instanceType
 
 local loadFrame
 
@@ -34,6 +37,8 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.holiday = EasyReminders.charDB.holiday or {}
     EasyReminders.charDB.gear = EasyReminders.charDB.gear or {}
     EasyReminders.charDB.gearConsumables = EasyReminders.charDB.gearConsumables or {}
+    EasyReminders.charDB.gearImbues = EasyReminders.charDB.gearImbues or {}
+    EasyReminders.charDB.shopping = EasyReminders.charDB.shopping or {}
     EasyReminders.charDB.potionsMinTime = EasyReminders.charDB.potionsMinTime or 0
     EasyReminders.charDB.foodMinTime = EasyReminders.charDB.foodMinTime or 0
     EasyReminders.charDB.buffMinTime = EasyReminders.charDB.buffMinTime or 0
@@ -43,6 +48,7 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.filterFood = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
     EasyReminders.charDB.filterGear = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
     EasyReminders.charDB.filterHolidays = EasyReminders.charDB.filterHolidays or {["MAJOR"] = true, ["MICRO"] = true, ["BRAWL"] = true, ["TIMEWALKING"] = true, ["SKYRIDING"] = true, ["OTHER"] = true}
+    EasyReminders.charDB.shoppingNotifications = EasyReminders.charDB.shoppingNotifications or {["LOGIN"] = false, ["INSTANCE_EXIT"] = false, ["ON_USE"] = true}
 
     if EasyReminders.globalDB.enabled == nil then
         EasyReminders.globalDB.enable = true
@@ -95,21 +101,30 @@ function EasyReminders:OnInitialize()
         local itemID = data.itemID
         local itemName = C_Item.GetItemNameByID(itemID)
         local itemIcon = C_Item.GetItemIconByID(itemID)
-        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil}
+        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemID)
+        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil, itemStackCount}
     end
     for i, data in pairs(EasyReminders.FoodCache)  do
         local itemID = data.itemID
         local itemName = C_Item.GetItemNameByID(itemID)
         local itemIcon = C_Item.GetItemIconByID(itemID)
-        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil}
+        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemID)
+        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil, itemStackCount}
     end
-       for i, data in pairs(EasyReminders.GearConsumablesCache) do
+    for i, data in pairs(EasyReminders.GearConsumablesCache) do
         local itemID = data.itemID
         local itemName = C_Item.GetItemNameByID(itemID)
         local itemIcon = C_Item.GetItemIconByID(itemID)
-        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil}
+        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemID)
+        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil, itemStackCount}
     end
-
+    for i, data in pairs(EasyReminders.charDB.shopping) do
+        local itemID = i
+        local itemName = C_Item.GetItemNameByID(itemID)
+        local itemIcon = C_Item.GetItemIconByID(itemID)
+        local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemID)
+        EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil, itemStackCount}
+    end
 
     EasyReminders.ConsumableCheck:BuildTrackingList()
     EasyReminders.WellFedCheck:BuildTrackingList()
@@ -133,7 +148,7 @@ function EasyReminders:OnInitialize()
                EasyReminders.globalDB.enabled = not EasyReminders.globalDB.enabled
                EasyReminders:Print(L["Toggled Easy Reminders: "] .. (not EasyReminders.globalDB.enabled and L["Enabled"] or L["Disabled"]))
                EasyReminders.UI.MainWindow:UpdateEnable(EasyReminders.globalDB.enabled)
-               EasyReminders:CheckBuffs()
+               EasyReminders:CheckBuffs("REFRESH")
             elseif button == "RightButton" then
                _G.Settings.OpenToCategory( EasyReminders.optionsPage)
 
@@ -173,30 +188,60 @@ function EasyReminders_OpenGUI()
 end
 
 function EasyReminders:CreateTimer()
-     EasyReminders.UpdateTimer = _G.C_Timer.NewTicker(10, function() EasyReminders:CheckBuffs() end)
+     EasyReminders.UpdateTimer = _G.C_Timer.NewTicker(10, function() EasyReminders:CheckBuffs("TIMER") end)
 end
 
 function EasyReminders:RegisterEvents()
     local f = _G.CreateFrame("Frame", "EasyRemindersBackgroundFrame")
-    f:RegisterEvent("UNIT_INVENTORY_CHANGED")
+    f:RegisterEvent("BAG_UPDATE_DELAYED")
     f:RegisterEvent("PLAYER_ENTERING_WORLD")
     f:RegisterEvent("UNIT_AURA")
-    f:RegisterEvent("PLAYER_REGEN_ENABLED")
+    f:RegisterEvent("ZONE_CHANGED")
+    f:RegisterEvent("ZONE_CHANGED_INDOORS")
+    f:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+    f:RegisterEvent("PLAYER_ENTERING_BATTLEGROUND")
     f:SetScript("OnEvent", EasyReminders.EventHandler)
 end
 
 function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
     if "PLAYER_ENTERING_WORLD" == event then
+        local newInInstance = _G.IsInInstance()
+        local _, instanceType = _G.GetInstanceInfo()
+    
+        if newInInstance and ("interior" == instanceType or "neighborhood" == instanceType) then
+            newInInstance = false
+        end
         if arg1 or arg2 then
             EasyReminders.BagCache:RefreshBags()
+            EasyReminders:CheckBuffs("LOGIN")
+        elseif not newInInstance and inInstance then -- TODO: Exclude Garrison and hosue exits!
+            EasyReminders:CheckBuffs("INSTANCE_EXIT")
+        else 
+            EasyReminders:CheckBuffs("ZONE_CHANGE")
         end
-        EasyReminders:CheckBuffs()
-    elseif "UNIT_INVENTORY_CHANGED" == event and "player" == arg1 then
+        inInstance = newInInstance
+    elseif "BAG_UPDATE_DELAYED" == event then
         EasyReminders.BagCache:RefreshBags()
+        EasyReminders:CheckBuffs("ON_USE")
     elseif "UNIT_AURA" == event and "player" == arg1 then
-        EasyReminders:CheckBuffs()
+        EasyReminders:CheckBuffs("BUFF_CHANGE")
     elseif "PLAYER_REGEN_ENABLED" == event then
-        EasyReminders:CheckBuffs()
+        EasyReminders:CheckBuffs("COMBAT_EXIT")
+    elseif "ZONE_CHANGED" == event or "ZONE_CHANGED_INDOORS" == event or "ZONE_CHANGED_NEW_AREA" == event 
+        or "PLAYER_ENTERING_BATTLEGROUND" == event then
+        local newInInstance = _G.IsInInstance()
+        local _, instanceType = _G.GetInstanceInfo()
+
+        -- Do not count Homes
+        if newInInstance and ("interior" == instanceType or "neighborhood" == instanceType) then
+            newInInstance = false
+        end
+        if not newInInstance and inInstance then
+            EasyReminders:CheckBuffs("INSTANCE_EXIT")
+        else 
+            EasyReminders:CheckBuffs("ZONE_CHANGE")
+        end
+        inInstance = newInInstance
     end
 end
 
@@ -204,16 +249,18 @@ function EasyReminders:RefreshItem(itemID, success)
   if success and (EasyReminders.ConsumableCache[itemID] or EasyReminders.FoodCache[itemID]) then
     local itemName = C_Item.GetItemNameByID(itemID)
     local itemIcon = C_Item.GetItemIconByID(itemID)
-    EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil}
+    local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(itemID)
+    EasyReminders.DataCache[itemID] = {itemID, itemName, itemIcon, nil, itemStackCount}
   end
 end
 
-function EasyReminders:CheckBuffs()
+function EasyReminders:CheckBuffs(cause)
 
     -- Early out if disabled
     if not EasyReminders.globalDB.enabled then
         EasyReminders.UI.NotificationWindow:UpdateNotifications({})
         EasyReminders.UI.HolidayWindow:HideHolidayWindow()
+        EasyReminders.UI.ShoppingWindow:HideShoppingWindow()
         return
     end
 
@@ -230,8 +277,13 @@ function EasyReminders:CheckBuffs()
     if not HolidayFrame then 
         HolidayFrame = EasyReminders.UI.HolidayWindow:CreateHolidayWindow()
     end
+
+    if not ShoppingFrame then
+        ShoppingFrame = EasyReminders.UI.ShoppingWindow:CreateShoppingWindow()
+    end
     
     EasyReminders.UI.HolidayWindow:UpdateNotifications()
+    EasyReminders.UI.ShoppingWindow:UpdateNotifications(cause)
 
     -- reprime cache if needed:
 
@@ -248,6 +300,11 @@ function EasyReminders:CheckBuffs()
     for i, data in pairs(EasyReminders.GearConsumablesCache)  do
         if not EasyReminders.DataCache[data.itemID] or not EasyReminders.DataCache[data.itemID][2] then
             C_Item.GetItemNameByID(data.itemID)
+        end
+    end
+     for itemId, _ in pairs(EasyReminders.charDB.shopping) do
+        if not EasyReminders.DataCache[itemId] or not EasyReminders.DataCache[itemId][2] then
+            C_Item.GetItemNameByID(itemId)
         end
     end
     
