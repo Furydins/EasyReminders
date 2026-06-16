@@ -26,6 +26,14 @@ Checks for missing temporary weapon enhancemts (oils, stones, etc)
 
 <img width="1014" height="671" alt="image" src="https://github.com/user-attachments/assets/b7b3da13-4373-4a16-9c78-a67c07cd5155" />
 
+#### Shopping Reminders
+Tracks stackable items in your bags
+Alerts you if tracked items fall below your chosen minimum limit
+Configurable Alerts on instance exit, item use or login
+
+<img width="940" height="703" alt="image" src="https://github.com/user-attachments/assets/05b18e45-cc3d-4d64-aa9b-908cc6ab1163" />
+
+
 #### Calendar Reminders
 Reminds you when major holiday events are active.
 Can be paused untill the next day or the next time the event starts.
@@ -35,10 +43,10 @@ Can be paused untill the next day or the next time the event starts.
 #### Configurable
 Seperate settings for raid, dungeons, delves and outdoors
 
-<img width="703" height="275" alt="image" src="https://github.com/user-attachments/assets/1a26a1d2-0acd-4dcb-8d0c-00305a0dafbe" />
-
 #### Customizable
 You can add your own buffs, consumables and food
+
+<img width="703" height="275" alt="image" src="https://github.com/user-attachments/assets/1a26a1d2-0acd-4dcb-8d0c-00305a0dafbe" />
 
 #### How to find spell and item IDs
 
