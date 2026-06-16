@@ -22,13 +22,16 @@ Check of a missing "Well Fed" buff and will display if you have selected food it
 
 #### Gear Reminders
 Checks for missing enchants and gems
+
 Checks for missing temporary weapon enhancemts (oils, stones, etc)
 
 <img width="1014" height="671" alt="image" src="https://github.com/user-attachments/assets/b7b3da13-4373-4a16-9c78-a67c07cd5155" />
 
 #### Shopping Reminders
 Tracks stackable items in your bags
+
 Alerts you if tracked items fall below your chosen minimum limit
+
 Configurable Alerts on instance exit, item use or login
 
 <img width="940" height="703" alt="image" src="https://github.com/user-attachments/assets/05b18e45-cc3d-4d64-aa9b-908cc6ab1163" />
