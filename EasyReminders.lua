@@ -35,6 +35,7 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.food = EasyReminders.charDB.food or {}
     EasyReminders.charDB.buff = EasyReminders.charDB.buff or {}
     EasyReminders.charDB.holiday = EasyReminders.charDB.holiday or {}
+    EasyReminders.charDB.group = EasyReminders.charDB.group or {}
     EasyReminders.charDB.gear = EasyReminders.charDB.gear or {}
     EasyReminders.charDB.gearConsumables = EasyReminders.charDB.gearConsumables or {}
     EasyReminders.charDB.gearImbues = EasyReminders.charDB.gearImbues or {}
