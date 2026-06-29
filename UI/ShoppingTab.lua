@@ -9,6 +9,7 @@ local ShoppingTab = EasyReminders.UI.ShoppingTab
 EasyReminders.Data.Shopping = EasyReminders.Data.Shopping or {}
 EasyReminders.Data.Shopping.LOGIN = "LOGIN"
 EasyReminders.Data.Shopping.INSTANCE_EXIT = "INSTANCE_EXIT" 
+EasyReminders.Data.Shopping.NEAR_AH = "NEAR_AH"
 EasyReminders.Data.Shopping.ON_USE = "ON_USE"
 
 local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
@@ -55,12 +56,14 @@ function ShoppingTab:Create(mainFrame, container)
     notificationDropdown:SetList({
         [EasyReminders.Data.Shopping.LOGIN] = L["On Login"],
         [EasyReminders.Data.Shopping.INSTANCE_EXIT] = L["On Instance Exit"],
+        [EasyReminders.Data.Shopping.NEAR_AH] = L["Near Auction House"],
         [EasyReminders.Data.Shopping.ON_USE] = L["On Item Use"],
 
     })
     notificationDropdown:SetMultiselect(true)
     notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.LOGIN, EasyReminders.Shopping.Notifcations.LOGIN)
     notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.INSTANCE_EXIT, EasyReminders.Shopping.Notifcations.INSTANCE_EXIT)
+    notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.NEAR_AH, EasyReminders.Shopping.Notifcations.NEAR_AH)
     notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.ON_USE,EasyReminders.Shopping.Notifcations.ON_USE)
     container:AddChild(notificationDropdown)
 

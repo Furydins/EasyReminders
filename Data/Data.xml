@@ -6,4 +6,5 @@
     <Script file="BuffsData.lua"/>
     <Script file="HolidayData.lua"/>
     <Script file="GearData.lua"/>
+    <Script file="LocationData.lua"/>
 </Ui>
