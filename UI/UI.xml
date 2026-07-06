@@ -6,6 +6,7 @@
     <Script file="WellFedTab.lua"/>
     <Script file="BuffTab.lua"/>
     <Script file="HolidayTab.lua"/>
+    <Script file="GroupTab.lua"/>
     <Script file="GearTab.lua"/>
     <Script file="ShoppingTab.lua"/>
     <Script file="Options.lua"/>
