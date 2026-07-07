@@ -27,6 +27,19 @@ local function hasValue(tab, value)
     return false
 end
 
+local function cleanupOldEvents()
+    for key,data in pairs(EasyReminders.charDB.groupShown) do
+        if date.eventTime then
+            local eventTime = date.eventTime
+            local eventTable = {year = eventTime.year, month = eventTime.month, day = eventTime.monthDay, hour = eventTime.hour, min = eventTime.minute, sec = 0}
+            local timeInMinutes = (_G.time(eventTable) - _G.GetServerTime()) / 60
+            if timeInMinutes < -120 then
+                EasyReminders.charDB.groupShown[key] = nil
+            end
+        end
+    end
+end
+
 -- [0] = {["name"] = "holidayOne", ["holidayIndex"] = 100, ["duration"] = EasyReminders.Data.Duration.MONTHLY},
 local function GetCalendarData(calendarEvent)
 
@@ -64,8 +77,39 @@ local function GetCalendarData(calendarEvent)
     return nil
 end
 
+local function GetEventKey(holidayData)
+    local startTime = holidayData.startTime
+    local endTime = holidayData.endTime
+
+    local startKey = startTime and (
+        (startTime.year or "") .. "-" ..
+        (startTime.month or "") .. "-" ..
+        (startTime.monthDay or "") .. " " ..
+        (startTime.hour or "") .. ":" ..
+        (startTime.minute or "")
+    ) or ""
+
+    local endKey = endTime and (
+        (endTime.year or "") .. "-" ..
+        (endTime.month or "") .. "-" ..
+        (endTime.monthDay or "") .. " " ..
+        (endTime.hour or "") .. ":" ..
+        (endTime.minute or "")
+    ) or ""
+
+    return table.concat({
+        holidayData.calendarType or "",
+        holidayData.eventID or "",
+        holidayData.clubID or "",
+        holidayData.name or "",
+        startKey,
+        endKey,
+    }, "|")
+end
+
 local function GetActiveHolidays()
     local activeEvents = {}
+    local seenEvents = {}
     local today = C_DateAndTime.GetCurrentCalendarTime()
     local currentDateTime = _G.time({
         year = today.year,
@@ -93,31 +137,37 @@ local function GetActiveHolidays()
             local holidayData = GetCalendarData(calendarEvent)
 
             if holidayData then
-                if calendarEvent.calendarType == "GUILD_EVENT" or calendarEvent.calendarType == "COMMUNITY_EVENT" 
-                or calendarEvent.calendarType == "PLAYER" then
-                    table.insert(activeEvents, holidayData)
-                elseif calendarEvent.calendarType == "HOLIDAY" then
-                    local startTime = calendarEvent.startTime
-                    local startTable = {
-                        year = startTime.year,
-                        month = startTime.month,
-                        day = startTime.monthDay,
-                        hour = startTime.hour,
-                        min = startTime.minute,
-                        sec = 0,
-                    }
-                    local endTime = calendarEvent.endTime
-                    local endTable = {
-                        year = endTime.year,
-                        month = endTime.month,
-                        day = endTime.monthDay,
-                        hour = endTime.hour,
-                        min = endTime.minute,
-                        sec = 0,
-                    }
+                local eventKey = GetEventKey(holidayData)
+                if not seenEvents[eventKey] then
 
-                    if (_G.time(startTable) <= _G.GetServerTime() and _G.time(endTable) > _G.GetServerTime()) then
+                    if calendarEvent.calendarType == "GUILD_EVENT" or calendarEvent.calendarType == "COMMUNITY_EVENT" 
+                    or calendarEvent.calendarType == "PLAYER" then
+                        seenEvents[eventKey] = true
                         table.insert(activeEvents, holidayData)
+                    elseif calendarEvent.calendarType == "HOLIDAY" then
+                        local startTime = calendarEvent.startTime
+                        local startTable = {
+                            year = startTime.year,
+                            month = startTime.month,
+                            day = startTime.monthDay,
+                            hour = startTime.hour,
+                            min = startTime.minute,
+                            sec = 0,
+                        }
+                        local endTime = calendarEvent.endTime
+                        local endTable = {
+                            year = endTime.year,
+                            month = endTime.month,
+                            day = endTime.monthDay,
+                            hour = endTime.hour,
+                            min = endTime.minute,
+                            sec = 0,
+                        }
+
+                        if (_G.time(startTable) <= _G.GetServerTime() and _G.time(endTable) > _G.GetServerTime()) then
+                            seenEvents[eventKey] = true
+                            table.insert(activeEvents, holidayData)
+                        end
                     end
                 end
             end
@@ -186,35 +236,32 @@ local function groupEventInScope(name, holidayData)
 
     local canShow = false
 
-    if not EasyReminders.charDB.groupShown[holidayData.eventID] then
-        EasyReminders.charDB.groupShown[holidayData.eventID] = {}
-    end
-    local shown = EasyReminders.charDB.groupShown[holidayData.eventID]
+    local eventKey = GetEventKey(holidayData)
 
-    if EasyReminders.charDB.group[name].settings.ONE_DAY and timeInMinutes <= 1440 and not shown.ONE_DAY then
+    if not EasyReminders.charDB.groupShown[eventKey] then
+        EasyReminders.charDB.groupShown[eventKey] = {}
+    end
+    local shown = EasyReminders.charDB.groupShown[eventKey]
+
+    if EasyReminders.charDB.group[name].settings.ONE_DAY and (timeInMinutes <= 1440 and timeInMinutes >= -60) and not shown.ONE_DAY then
        canShow = true
     end
 
-    if EasyReminders.charDB.group[name].settings.THREE_HOUR and timeInMinutes <= 180 and not shown.THREE_HOUR then
+    if EasyReminders.charDB.group[name].settings.THREE_HOUR and (timeInMinutes <= 180 and timeInMinutes >= -60) and not shown.THREE_HOUR then
        canShow = true
     end
     
-    if EasyReminders.charDB.group[name].settings.TWO_HOUR and timeInMinutes <= 120 and not shown.TWO_HOUR then
+    if EasyReminders.charDB.group[name].settings.TWO_HOUR and (timeInMinutes <= 120 and timeInMinutes >= -60) and not shown.TWO_HOUR then
         canShow = true
     end
-    if EasyReminders.charDB.group[name].settings.ONE_HOUR and timeInMinutes <= 60 and not shown.ONE_HOUR then
+    if EasyReminders.charDB.group[name].settings.ONE_HOUR and (timeInMinutes <= 60 and timeInMinutes >= -60) and not shown.ONE_HOUR then
         canShow = true
     end
-    if EasyReminders.charDB.group[name].settings.QUARTER_HOUR and timeInMinutes <= 15 and not shown.QUARTER_HOUR then
+    if EasyReminders.charDB.group[name].settings.QUARTER_HOUR and (timeInMinutes <= 15 and timeInMinutes >= -60)and not shown.QUARTER_HOUR then
         canShow = true
     end
     if EasyReminders.charDB.group[name].settings.START and (timeInMinutes <= 0 and timeInMinutes >= -60) and not shown.START then
         canShow = true
-    end
-
-    -- clean up old events
-    if timeInMinutes < -60 then
-        EasyReminders.charDB.groupShown[holidayData.eventID] = nil
     end
 
     return canShow
@@ -223,8 +270,9 @@ end
 
 local function GroupEventShown(holidayData)
 
-    if not EasyReminders.charDB.groupShown[holidayData.eventID] then
-        EasyReminders.charDB.groupShown[holidayData.eventID] = {}
+    local eventKey = GetEventKey(holidayData)
+    if not EasyReminders.charDB.groupShown[eventKey] then
+        EasyReminders.charDB.groupShown[eventKey] = {}
     end
 
     local clubInfo = C_Club.GetClubInfo(holidayData.clubID) or {name = "Personal"}
@@ -237,27 +285,28 @@ local function GroupEventShown(holidayData)
 
     local timeInMinutes = (_G.time(startTable) - _G.GetServerTime()) / 60
 
-    if EasyReminders.charDB.group[name].settings.ONE_DAY and timeInMinutes <= 1440 then
-        EasyReminders.charDB.groupShown[holidayData.eventID].ONE_DAY = true
+    if EasyReminders.charDB.group[name].settings.ONE_DAY and (timeInMinutes <= 1440 and timeInMinutes >= -60) then
+        EasyReminders.charDB.groupShown[eventKey].ONE_DAY = true
     end
 
-    if EasyReminders.charDB.group[name].settings.THREE_HOUR and timeInMinutes <= 180 then
-        EasyReminders.charDB.groupShown[holidayData.eventID].THREE_HOUR = true
+    if EasyReminders.charDB.group[name].settings.THREE_HOUR and (timeInMinutes <= 180 and timeInMinutes >= -60) then
+        EasyReminders.charDB.groupShown[eventKey].THREE_HOUR = true
     end
     
-    if EasyReminders.charDB.group[name].settings.TWO_HOUR and timeInMinutes <= 120  then
-        EasyReminders.charDB.groupShown[holidayData.eventID].TWO_HOUR = true
+    if EasyReminders.charDB.group[name].settings.TWO_HOUR and (timeInMinutes <= 120 and timeInMinutes >= -60) then
+        EasyReminders.charDB.groupShown[eventKey].TWO_HOUR = true
     end
-    if EasyReminders.charDB.group[name].settings.ONE_HOUR and timeInMinutes <= 60 then
-        EasyReminders.charDB.groupShown[holidayData.eventID].ONE_HOUR = true
+    if EasyReminders.charDB.group[name].settings.ONE_HOUR and (timeInMinutes <= 60 and timeInMinutes >= -60) then
+        EasyReminders.charDB.groupShown[eventKey].ONE_HOUR = true
     end
-    if EasyReminders.charDB.group[name].settings.QUARTER_HOUR and timeInMinutes <= 15 then
-        EasyReminders.charDB.groupShown[holidayData.eventID].QUARTER_HOUR = true
+    if EasyReminders.charDB.group[name].settings.QUARTER_HOUR and (timeInMinutes <= 15 and timeInMinutes >= -60) then
+        EasyReminders.charDB.groupShown[eventKey].QUARTER_HOUR = true
     end
     if EasyReminders.charDB.group[name].settings.START and (timeInMinutes <= 0 and timeInMinutes >= -60)  then
-        EasyReminders.charDB.groupShown[holidayData.eventID].START = true
+        EasyReminders.charDB.groupShown[eventKey].START = true
     end
 
+    EasyReminders.charDB.groupShown[eventKey].eventTime = startTime
 end
 
 local function canShow(holidayData)
@@ -372,6 +421,8 @@ function HolidayWindow:UpdateNotifications()
             frame.frame:Show()
         end
     end
+
+    cleanupOldEvents()
 end
 
 function HolidayWindow:DismissAll(currentHolidays)
