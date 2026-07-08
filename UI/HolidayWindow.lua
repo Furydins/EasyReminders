@@ -29,7 +29,7 @@ end
 
 local function cleanupOldEvents()
     for key,data in pairs(EasyReminders.charDB.groupShown) do
-        if date.eventTime then
+        if data.eventTime then
             local eventTime = date.eventTime
             local eventTable = {year = eventTime.year, month = eventTime.month, day = eventTime.monthDay, hour = eventTime.hour, min = eventTime.minute, sec = 0}
             local timeInMinutes = (_G.time(eventTable) - _G.GetServerTime()) / 60
