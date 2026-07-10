@@ -27,18 +27,25 @@ local function hasValue(tab, value)
     return false
 end
 
+local function GetRealmTime()
+    local realmTime = C_DateAndTime.GetCurrentCalendarTime()
+    local eventTable = {year = realmTime.year, month = realmTime.month, day = realmTime.monthDay, hour = realmTime.hour, min = realmTime.minute, sec = 0}
+    return _G.time(eventTable)
+end
+
 local function cleanupOldEvents()
     for key,data in pairs(EasyReminders.charDB.groupShown) do
         if data.eventTime then
             local eventTime = data.eventTime
             local eventTable = {year = eventTime.year, month = eventTime.month, day = eventTime.monthDay, hour = eventTime.hour, min = eventTime.minute, sec = 0}
-            local timeInMinutes = (_G.time(eventTable) - _G.GetServerTime()) / 60
+            local timeInMinutes = (_G.time(eventTable) - GetRealmTime()) / 60
             if timeInMinutes < -120 then
                 EasyReminders.charDB.groupShown[key] = nil
             end
         end
     end
 end
+
 
 -- [0] = {["name"] = "holidayOne", ["holidayIndex"] = 100, ["duration"] = EasyReminders.Data.Duration.MONTHLY},
 local function GetCalendarData(calendarEvent)
@@ -164,7 +171,7 @@ local function GetActiveHolidays()
                             sec = 0,
                         }
 
-                        if (_G.time(startTable) <= _G.GetServerTime() and _G.time(endTable) > _G.GetServerTime()) then
+                        if (_G.time(startTable) <= GetRealmTime() and _G.time(endTable) > GetRealmTime()) then
                             seenEvents[eventKey] = true
                             table.insert(activeEvents, holidayData)
                         end
@@ -232,7 +239,7 @@ local function groupEventInScope(name, holidayData)
     local endTime = holidayData.endTime
     local endTable = {year = endTime.year, month = endTime.month, day = endTime.monthDay, hour = endTime.hour, min = endTime.minute, sec = 0}
 
-    local timeInMinutes = (_G.time(startTable) - _G.GetServerTime()) / 60
+    local timeInMinutes = (_G.time(startTable) - GetRealmTime()) / 60
 
     local canShow = false
 
@@ -283,7 +290,7 @@ local function GroupEventShown(holidayData)
     local endTime = holidayData.endTime
     local endTable = {year = endTime.year, month = endTime.month, day = endTime.monthDay, hour = endTime.hour, min = endTime.minute, sec = 0}
 
-    local timeInMinutes = (_G.time(startTable) - _G.GetServerTime()) / 60
+    local timeInMinutes = (_G.time(startTable) - GetRealmTime()) / 60
 
     if EasyReminders.charDB.group[name].settings.ONE_DAY and (timeInMinutes <= 1440 and timeInMinutes >= -60) then
         EasyReminders.charDB.groupShown[eventKey].ONE_DAY = true
@@ -352,7 +359,7 @@ local function canShow(holidayData)
             local resetTime = _G.time({year = tonumber(c_year), month = tonumber(c_month), 
             day = tonumber(c_day), hour = tonumber(resetHour), min = 0, sec = 0})
 
-            if resetTime > _G.GetServerTime() then -- if reset time is after now we want to use yesterday instead
+            if resetTime > GetRealmTime() then -- if reset time is after now we want to use yesterday instead
                 resetTime = resetTime - 86400
             end
 
