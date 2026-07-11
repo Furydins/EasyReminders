@@ -251,26 +251,26 @@ local function groupEventInScope(name, holidayData)
         EasyReminders.charDB.group[name] = {settings = {}}
     end
 
-    local shown = EasyReminders.charDB.groupShown[eventKey]
+    local shown = EasyReminders.charDB.groupShown[eventKey] or {}
 
-    if EasyReminders.charDB.group[name].settings.ONE_DAY and (timeInMinutes <= 1440 and timeInMinutes >= -60) and (not shown or not shown.ONE_DAY) then
+    if EasyReminders.charDB.group[name].settings.ONE_DAY and (timeInMinutes <= 1440 and timeInMinutes >= -60) and not shown.ONE_DAY then
        canShow = true
     end
 
-    if EasyReminders.charDB.group[name].settings.THREE_HOUR and (timeInMinutes <= 180 and timeInMinutes >= -60) and (not shown or not shown.THREE_HOUR) then
+    if EasyReminders.charDB.group[name].settings.THREE_HOUR and (timeInMinutes <= 180 and timeInMinutes >= -60) and not shown.THREE_HOUR then
        canShow = true
     end
     
-    if EasyReminders.charDB.group[name].settings.TWO_HOUR and (timeInMinutes <= 120 and timeInMinutes >= -60) and (not shown or not shown.TWO_HOUR) then
+    if EasyReminders.charDB.group[name].settings.TWO_HOUR and (timeInMinutes <= 120 and timeInMinutes >= -60) and not shown.TWO_HOUR then
         canShow = true
     end
-    if EasyReminders.charDB.group[name].settings.ONE_HOUR and (timeInMinutes <= 60 and timeInMinutes >= -60) and (not shown or not shown.ONE_HOUR) then
+    if EasyReminders.charDB.group[name].settings.ONE_HOUR and (timeInMinutes <= 60 and timeInMinutes >= -60) and not shown.ONE_HOUR then
         canShow = true
     end
-    if EasyReminders.charDB.group[name].settings.QUARTER_HOUR and (timeInMinutes <= 15 and timeInMinutes >= -60) and (not shown or not shown.QUARTER_HOUR) then
+    if EasyReminders.charDB.group[name].settings.QUARTER_HOUR and (timeInMinutes <= 15 and timeInMinutes >= -60) and not shown.QUARTER_HOUR then
         canShow = true
     end
-    if EasyReminders.charDB.group[name].settings.START and (timeInMinutes <= 0 and timeInMinutes >= -60) and (not shown or not shown.START) then
+    if EasyReminders.charDB.group[name].settings.START and (timeInMinutes <= 0 and timeInMinutes >= -60) and not shown.START then
         canShow = true
     end
 
