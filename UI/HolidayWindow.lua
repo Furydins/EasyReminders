@@ -245,6 +245,10 @@ local function groupEventInScope(name, holidayData)
 
     local eventKey = GetEventKey(holidayData)
 
+    if not EasyReminders.charDB.group[name] then
+        EasyReminders.charDB.group[name] = {settings = {}}
+    end
+
     if not EasyReminders.charDB.groupShown[eventKey] then
         EasyReminders.charDB.groupShown[eventKey] = {}
     end
