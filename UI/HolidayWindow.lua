@@ -48,6 +48,37 @@ local function cleanupOldEvents()
     end
 end
 
+local function DisplayTime(prefix, timeTable)
+    local hour = timeTable.hour
+    local minute = timeTable.minute
+
+    -- If the event is after today, show "in X day(s)" instead of the exact time.
+    local realmNow = GetRealmTime()
+    local today = _G.date("*t", realmNow)
+    local targetMidnight = _G.time({ year = timeTable.year, month = timeTable.month, day = timeTable.monthDay, hour = 0, min = 0, sec = 0 })
+    local todayMidnight = _G.time({ year = today.year, month = today.month, day = today.day, hour = 0, min = 0, sec = 0 })
+    local daysDiff = math.floor((targetMidnight - todayMidnight) / 86400)
+    if daysDiff > 0 then
+        if daysDiff == 1 then
+            return string.format(L["%s in 1 day"], prefix)
+        else
+            return string.format(L["%s in %d days"], prefix, daysDiff)
+        end
+    end
+
+    local ampm = "AM"
+    if hour >= 12 then
+        ampm = "PM"
+        if hour > 12 then
+            hour = hour - 12
+        end
+    elseif hour == 0 then
+        hour = 12
+    end
+
+    return string.format("%s%02d:%02d %s", prefix, hour, minute, ampm)
+end
+
 
 -- [0] = {["name"] = "holidayOne", ["holidayIndex"] = 100, ["duration"] = EasyReminders.Data.Duration.MONTHLY},
 local function GetCalendarData(calendarEvent)
@@ -202,7 +233,7 @@ function HolidayWindow:CreateHolidayWindow()
 
     frame = EasyReminders.AceGUI:Create("Window")
     frame:SetTitle(L["Active Events"])
-    frame:SetWidth(500)
+    frame:SetWidth(600)
     frame:SetHeight(150)
     frame:SetLayout("List")
     frame:SetAutoAdjustHeight(true)
@@ -387,7 +418,7 @@ function HolidayWindow:UpdateNotifications()
         shownHolidays = {}    
         local masterDismiss = EasyReminders.AceGUI:Create("Button")
         masterDismiss:SetText(L["Dismiss All"])
-        masterDismiss:SetWidth(480)
+        masterDismiss:SetWidth(550)
         masterDismiss:SetCallback("OnClick", function(widget)
             HolidayWindow:DismissAll(shownHolidays)
             frame.frame:Hide()
@@ -409,9 +440,23 @@ function HolidayWindow:UpdateNotifications()
                 group:AddChild(holidayName)
 
 
+                local time
+                if data.calendarType == "HOLIDAY" then
+                  time = DisplayTime("Ends: ", data.endTime)
+                else
+                    
+                  time = DisplayTime("Starts: ", data.startTime)
+                end
+
+                local timeLabel = EasyReminders.AceGUI:Create("Label")
+                timeLabel:SetText(time)
+                timeLabel:SetFont(EasyReminders.Font, 10, "")
+                timeLabel:SetWidth(150)
+                group:AddChild(timeLabel)
+
                 local dismissButton = EasyReminders.AceGUI:Create("Button")
                 dismissButton:SetText(L["Dismiss"])
-                dismissButton:SetWidth(140)
+                dismissButton:SetWidth(100)
                 group:AddChild(dismissButton)
                 dismissButton:SetCallback("OnClick", function(widget)
                     if data.calendarType == "HOLIDAY" then
