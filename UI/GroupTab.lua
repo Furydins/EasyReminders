@@ -78,20 +78,27 @@ function GroupTab:RebuildScrollBox()
   local scrollBox = GroupTab.ScrollBox
   scrollBox:ReleaseChildren()
 
+  -- Personal events
+  AddRow(scrollBox, L["Personal Calendar Reminders"])
+
   if _G.IsInGuild() then
-    local guildName = GetGuildInfo("player")
+    local guildName = GetGuildInfo("player") .. " (" .. L["Guild"] .. ")"
     AddRow(scrollBox, guildName)
   end
 
-  local communities = C_Club.GetSubscribedClubs()
-  for i, clubInfo in ipairs(communities) do 
+  local communities = C_Club.GetSubscribedClubs() or {}
+  local charClubs = {}
+  for i, clubInfo in ipairs(communities) do
     if clubInfo.clubType == Enum.ClubType.Character then
-      AddRow(scrollBox, clubInfo.name, clubInfo.clubId)
+      table.insert(charClubs, clubInfo)
     end
-  end   
-  
-  -- Personal events
-  AddRow(scrollBox, "Personal")
+  end
+  table.sort(charClubs, function(a, b)
+    return (a.name or ""):lower() < (b.name or ""):lower()
+  end)
+  for i, clubInfo in ipairs(charClubs) do
+    AddRow(scrollBox, clubInfo.name, clubInfo.clubId)
+  end
 
 end
 
