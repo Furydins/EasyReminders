@@ -117,7 +117,7 @@ function ShoppingWindow:UpdateNotifications(type)
         loginPending = 2
         return
     elseif loginPending > 1 then
-        loginPending = loginPending - 10
+        loginPending = loginPending - 1
         return
     elseif loginPending == 1 and type == "TIMER" then
         _type= "LOGIN"
