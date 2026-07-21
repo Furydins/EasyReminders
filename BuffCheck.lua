@@ -48,12 +48,13 @@ function BuffCheck:CheckBuffs(missingBuffs)
 
   local trackingList = {}
    
-  local _, class, _ = _G.UnitClass("player")
 
   local trackingList = EasyReminders.TrackingUtils:SelectTrackingList(TrackingList.outside, TrackingList.delve, TrackingList.dungeon, TrackingList.raid, TrackingList.pvp)
 
   if not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
       and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
+
+      local _, class, _ = _G.UnitClass("player")
      local foundbuffs = {}
 
      _G.AuraUtil.ForEachAura("player", "HELPFUL", nil, function(_, _, _, _, duration, expires, _, _, _, spellID)
