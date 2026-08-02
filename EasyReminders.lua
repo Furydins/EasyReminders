@@ -50,7 +50,7 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.filterFood = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
     EasyReminders.charDB.filterGear = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
     EasyReminders.charDB.filterHolidays = EasyReminders.charDB.filterHolidays or {["MAJOR"] = true, ["MICRO"] = true, ["BRAWL"] = true, ["TIMEWALKING"] = true, ["SKYRIDING"] = true, ["OTHER"] = true}
-    EasyReminders.charDB.shoppingNotifications = EasyReminders.charDB.shoppingNotifications or {["LOGIN"] = false, ["INSTANCE_EXIT"] = false, ["ON_USE"] = true}
+    EasyReminders.charDB.shoppingNotifications = EasyReminders.charDB.shoppingNotifications or {["LOGIN"] = false, ["INSTANCE_EXIT"] = false, ["ON_USE"] = true, ["NEAR_AH"] = false}
 
     if EasyReminders.globalDB.enabled == nil then
         EasyReminders.globalDB.enable = true
