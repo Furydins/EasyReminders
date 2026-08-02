@@ -81,10 +81,10 @@ function ShoppingTab:Create(mainFrame, container)
 
     })
     notificationDropdown:SetMultiselect(true)
-    notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.LOGIN, EasyReminders.Shopping.Notifcations.LOGIN)
-    notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.INSTANCE_EXIT, EasyReminders.Shopping.Notifcations.INSTANCE_EXIT)
-    notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.NEAR_AH, EasyReminders.Shopping.Notifcations.NEAR_AH)
-    notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.ON_USE,EasyReminders.Shopping.Notifcations.ON_USE)
+    notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.LOGIN, EasyReminders.charDB.shoppingNotifications.LOGIN)
+    notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.INSTANCE_EXIT, EasyReminders.charDB.shoppingNotifications.INSTANCE_EXIT)
+    notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.NEAR_AH, EasyReminders.charDB.shoppingNotifications.NEAR_AH)
+    notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.ON_USE,EasyReminders.charDB.shoppingNotifications.ON_USE)
     container:AddChild(notificationDropdown)
 
     local refreshButton = EasyReminders.AceGUI:Create("Button")
@@ -93,7 +93,6 @@ function ShoppingTab:Create(mainFrame, container)
     refreshButton:SetCallback("OnClick", function(widget) EasyReminders.UI.ShoppingTab:RebuildScrollBox() end)
 
     notificationDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
-        EasyReminders.Shopping.Notifcations[key] = checked   
         EasyReminders.charDB.shoppingNotifications[key] = checked
     end)
     
