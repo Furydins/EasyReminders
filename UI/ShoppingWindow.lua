@@ -8,7 +8,7 @@ local shownShoppingItems = {}
 
 local trackedItems = {}
 
-local loginPending = 4
+local loginPending = 5
 
 local currentZone = 0
 
@@ -114,7 +114,7 @@ function ShoppingWindow:UpdateNotifications(type)
     -- Delay login check to allow time
     -- to cache bag contents
     if _type== "LOGIN" then
-        loginPending = 4
+        loginPending = 5
         return
     elseif loginPending > 1 then
         if _type == "TIMER" then
