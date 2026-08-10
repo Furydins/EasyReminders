@@ -48,12 +48,13 @@ function BuffCheck:CheckBuffs(missingBuffs)
 
   local trackingList = {}
    
-  local _, class, _ = _G.UnitClass("player")
 
   local trackingList = EasyReminders.TrackingUtils:SelectTrackingList(TrackingList.outside, TrackingList.delve, TrackingList.dungeon, TrackingList.raid, TrackingList.pvp)
 
   if not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
       and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
+
+      local _, class, _ = _G.UnitClass("player")
      local foundbuffs = {}
 
      _G.AuraUtil.ForEachAura("player", "HELPFUL", nil, function(_, _, _, _, duration, expires, _, _, _, spellID)
@@ -65,11 +66,16 @@ function BuffCheck:CheckBuffs(missingBuffs)
     for spellID, buffIDs in pairs(trackingList) do
       local expectedClass = EasyReminders.BuffCache[spellID].class
         if not expectedClass or expectedClass == class then
+            local buffMissing = true
             for i, buffID in pairs(buffIDs) do
-                if (not foundbuffs[buffID]) or (foundbuffs[buffID].remainingTime and foundbuffs[buffID].remainingTime <= (EasyReminders.charDB.buffMinTime * 60)) then
-                    local spellInfo = C_Spell.GetSpellInfo(buffID)
-                    missingBuffs[spellID] = spellInfo.iconID  -- we just want to show the parent Icon
+                if foundbuffs[buffID] and (not(foundbuffs[buffID].remainingTime) or foundbuffs[buffID].remainingTime >= (EasyReminders.charDB.buffMinTime * 60)) then
+                    buffMissing = false
+                    break
                 end
+            end
+            if buffMissing then
+                 local spellInfo = C_Spell.GetSpellInfo(spellID)
+                 missingBuffs[spellID] = spellInfo.iconID  -- we just want to show the parent Icon
             end
         end
     end

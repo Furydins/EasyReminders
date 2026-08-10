@@ -144,6 +144,20 @@ function Options:GetOptions()
                       EasyReminders.UI.NotificationWindow:ChangeOrientation(EasyReminders.globalDB.orientation)
                   end,
           },
+          header3 = {
+              type = 'header',
+              order = 10,
+              name = L["Debug"],
+          },
+           resetPos = {
+                order = 11,
+                type = "execute",
+                name = L["Reset Holidays"],
+                desc = L["Restores dismissed holidays and group events"],
+                func =  function (info)
+                            EasyReminders.UI.HolidayWindow:ResetReminders()
+                        end
+            },
         },
       }
     return options

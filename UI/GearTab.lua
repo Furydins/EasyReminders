@@ -136,87 +136,7 @@ function GearTab:RebuildScrollBox()
   seperator2:SetFullWidth(true)
   scrollBox:AddChild(seperator2)
 
-  -- Consumable Enhancements like Oils and Weightstones
-  for key, data in pairs( EasyReminders.GearConsumablesCache)  do
-   if not data.class or data.class == class then
-
-     -- itemID, itemName, itemIcon, spellInfo
-      local cacheEntry = EasyReminders.DataCache[data.itemID] or {}
-
-      local itemName = cacheEntry[2] or C_Item.GetItemNameByID(data.itemID)
-      local itemIcon = cacheEntry[3] or C_Item.GetItemIconByID(data.itemID)
-      if data.slotID then
-        local slotName = EasyReminders.Data.GearSlots[data.slotID].slotName
-      else 
-        slotName = "Missing Slot" 
-      end
-
-      -- Prime item Data
-      if data.otherIds then
-        for key, otherID in pairs(data.otherIds) do
-            if not EasyReminders.DataCache[otherID] then
-              local otherItemName = C_Item.GetItemNameByID(otherID)
-              local otherItemIcon = C_Item.GetItemIconByID(otherID)
-              local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(otherID)
-              EasyReminders.DataCache[otherID] = {otherID, otherItemName, otherItemIcon, nil, itemStackCount}
-            end
-        end
-      end
-
-      local itemNameLabel = EasyReminders.AceGUI:Create("Label")
-      itemNameLabel:SetText(itemName or L["Loading..."])
-      itemNameLabel:SetFont(EasyReminders.Font, 12, "")
-      itemNameLabel:SetWidth(440)
-      itemNameLabel:SetImage(itemIcon)
-      itemNameLabel:SetImageSize(16,16)
-      scrollBox:AddChild(itemNameLabel)
-
-      local activeDropdown = EasyReminders.AceGUI:Create("Dropdown")
-      activeDropdown:SetWidth(150)
-      activeDropdown:SetList({
-        ["Raid"] = L["Raid"],
-        ["Dungeon"] = L["Dungeon"],
-        ["Delve"] = L["Delve"],
-        ["Outside"] = L["Outside"],
-      })
-
-      EasyReminders.charDB.gearConsumables[data.itemID] = EasyReminders.charDB.gearConsumables[data.itemID] or {}
-      activeDropdown:SetMultiselect(true)
-      activeDropdown:SetItemValue("Raid", EasyReminders.charDB.gearConsumables[data.itemID].raid or false)
-      activeDropdown:SetItemValue("Dungeon", EasyReminders.charDB.gearConsumables[data.itemID].dungeon or false)
-      activeDropdown:SetItemValue("Delve", EasyReminders.charDB.gearConsumables[data.itemID].delve or false)
-      activeDropdown:SetItemValue("Outside", EasyReminders.charDB.gearConsumables[data.itemID].outside or false)
-      scrollBox:AddChild(activeDropdown)
-      activeDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
-        if "Raid" == key then
-          EasyReminders.charDB.gearConsumables[data.itemID].raid = checked
-        elseif "Dungeon" == key then
-          EasyReminders.charDB.gearConsumables[data.itemID].dungeon = checked
-        elseif "Delve" == key then
-          EasyReminders.charDB.gearConsumables[data.itemID].delve = checked
-        elseif "Outside" == key then
-          EasyReminders.charDB.gearConsumables[data.itemID].outside = checked
-        end
-        EasyReminders.TemporaryEnchantCheck:BuildTrackingList()
-        EasyReminders:CheckBuffs("REFRESH")
-      end)
-
-      if data["canDelete"] then 
-
-        local delete = EasyReminders.AceGUI:Create("Icon")
-        delete:SetImage("Interface\\AddOns\\WoWPro\\Textures\\Delete")
-        delete:SetImageSize(16,16)
-        delete:SetWidth(20)
-        delete:SetCallback("OnClick", function()
-          GearTab:RemoveConfirm(data.itemID, itemName)
-        end)
-        scrollBox:AddChild(delete)
-      end
-
-    end
-  end
-
-  -- class weapon imbues
+   -- class weapon imbues
   local _, class, _ = _G.UnitClass("player")
   for key, data in pairs(EasyReminders.Data.ClassEnchants)  do
 
@@ -262,6 +182,113 @@ function GearTab:RebuildScrollBox()
       end)
     end
   end
+
+    -- Consumable Enhancements like Oils and Weightstones
+  local entries = {}
+
+  for key, data in pairs(EasyReminders.GearConsumablesCache)  do
+   if not data.class or data.class == class then
+
+     -- itemID, itemName, itemIcon, spellInfo
+      local cacheEntry = EasyReminders.DataCache[data.itemID] or {}
+
+      local itemName = cacheEntry[2] or C_Item.GetItemNameByID(data.itemID)
+      local itemIcon = cacheEntry[3] or C_Item.GetItemIconByID(data.itemID)
+      if data.slotID then
+        local slotName = EasyReminders.Data.GearSlots[data.slotID].slotName
+      else 
+        slotName = "Missing Slot" 
+      end
+
+      -- Prime item Data
+      if data.otherIds then
+        for key, otherID in pairs(data.otherIds) do
+            if not EasyReminders.DataCache[otherID] then
+              local otherItemName = C_Item.GetItemNameByID(otherID)
+              local otherItemIcon = C_Item.GetItemIconByID(otherID)
+              local _,_,_,_,_,_,_,itemStackCount = C_Item.GetItemInfo(otherID)
+              EasyReminders.DataCache[otherID] = {otherID, otherItemName, otherItemIcon, nil, itemStackCount}
+            end
+        end
+      end
+
+      table.insert(entries, {
+        data = data,
+        itemName = itemName,
+        itemIcon = itemIcon,
+        slotName = slotName,
+      })
+    end
+  end
+
+  table.sort(entries, function(a, b)
+    local nameA = a.itemName or ""
+    local nameB = b.itemName or ""
+    if nameA ~= nameB then
+      return nameA < nameB
+    end
+    return (a.data.itemID or 0) < (b.data.itemID or 0)
+  end)
+
+
+   for _, entry in ipairs(entries) do
+    local data = entry.data
+    local itemName = entry.itemName
+    local itemIcon = entry.itemIcon
+    local slotName = entry.slotName
+
+    local itemNameLabel = EasyReminders.AceGUI:Create("Label")
+    itemNameLabel:SetText(itemName or L["Loading..."])
+    itemNameLabel:SetFont(EasyReminders.Font, 12, "")
+    itemNameLabel:SetWidth(440)
+    itemNameLabel:SetImage(itemIcon)
+    itemNameLabel:SetImageSize(16,16)
+    scrollBox:AddChild(itemNameLabel)
+
+    local activeDropdown = EasyReminders.AceGUI:Create("Dropdown")
+    activeDropdown:SetWidth(150)
+    activeDropdown:SetList({
+      ["Raid"] = L["Raid"],
+      ["Dungeon"] = L["Dungeon"],
+      ["Delve"] = L["Delve"],
+      ["Outside"] = L["Outside"],
+    })
+
+    EasyReminders.charDB.gearConsumables[data.itemID] = EasyReminders.charDB.gearConsumables[data.itemID] or {}
+    activeDropdown:SetMultiselect(true)
+    activeDropdown:SetItemValue("Raid", EasyReminders.charDB.gearConsumables[data.itemID].raid or false)
+    activeDropdown:SetItemValue("Dungeon", EasyReminders.charDB.gearConsumables[data.itemID].dungeon or false)
+    activeDropdown:SetItemValue("Delve", EasyReminders.charDB.gearConsumables[data.itemID].delve or false)
+    activeDropdown:SetItemValue("Outside", EasyReminders.charDB.gearConsumables[data.itemID].outside or false)
+    scrollBox:AddChild(activeDropdown)
+    activeDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
+      if "Raid" == key then
+        EasyReminders.charDB.gearConsumables[data.itemID].raid = checked
+      elseif "Dungeon" == key then
+        EasyReminders.charDB.gearConsumables[data.itemID].dungeon = checked
+      elseif "Delve" == key then
+        EasyReminders.charDB.gearConsumables[data.itemID].delve = checked
+      elseif "Outside" == key then
+        EasyReminders.charDB.gearConsumables[data.itemID].outside = checked
+      end
+      EasyReminders.TemporaryEnchantCheck:BuildTrackingList()
+      EasyReminders:CheckBuffs("REFRESH")
+    end)
+
+    if data["canDelete"] then 
+
+      local delete = EasyReminders.AceGUI:Create("Icon")
+      delete:SetImage("Interface\\AddOns\\WoWPro\\Textures\\Delete")
+      delete:SetImageSize(16,16)
+      delete:SetWidth(20)
+      delete:SetCallback("OnClick", function()
+        GearTab:RemoveConfirm(data.itemID, itemName)
+      end)
+      scrollBox:AddChild(delete)
+    end
+
+  end
+
 end
 
 function GearTab:RemoveConfirm(itemID, itemName)

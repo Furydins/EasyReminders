@@ -9,33 +9,54 @@ local ShoppingTab = EasyReminders.UI.ShoppingTab
 EasyReminders.Data.Shopping = EasyReminders.Data.Shopping or {}
 EasyReminders.Data.Shopping.LOGIN = "LOGIN"
 EasyReminders.Data.Shopping.INSTANCE_EXIT = "INSTANCE_EXIT" 
+EasyReminders.Data.Shopping.NEAR_AH = "NEAR_AH"
 EasyReminders.Data.Shopping.ON_USE = "ON_USE"
 
 local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 
-local function addEntry(itemId, itemName, itemIcon, scrollBox)
-    local itemNameLabel = EasyReminders.AceGUI:Create("Label")
-    itemNameLabel:SetText(itemName or L["Loading..."])
-    itemNameLabel:SetFont(EasyReminders.Font, 12, "")
-    itemNameLabel:SetWidth(420)
-    itemNameLabel:SetImage(itemIcon)
-    itemNameLabel:SetImageSize(16,16)
-    scrollBox:AddChild(itemNameLabel)
+local qualityMap = {
+  ["Professions-Icon-Quality-12-Tier1"] = "Tier 1",
+  ["Professions-Icon-Quality-12-Tier2"] = "Tier 2",
+  ["Professions-Icon-Quality-Tier1"] = "Tier 1",
+  ["Professions-Icon-Quality-Tier2"] = "Tier 2",
+  ["Professions-Icon-Quality-Tier3"] = "Tier 3",
+  ["Professions-Icon-Quality-Tier4"] = "Tier 4",
+  ["Professions-Icon-Quality-Tier5"] = "Tier 5"
 
-    local minQuantity = EasyReminders.AceGUI:Create("EditBox")
-    minQuantity:SetWidth(70)
-    minQuantity:SetText(tostring(EasyReminders.charDB.shopping[itemId] or 0))
-    scrollBox:AddChild(minQuantity)
-    minQuantity:SetCallback("OnEnterPressed", function(_,_,text)
-        local num = tonumber(text)
-        if num then
-            if num > 0 then
-                EasyReminders.charDB.shopping[itemId] = num
-            elseif num and num == 0 then
-                    EasyReminders.charDB.shopping[itemId] = nil
-            end
-        end
-    end)
+}
+
+
+local function addEntry(itemId, itemName, itemIcon, craftingQuality, scrollBox)
+   local labelText = itemName or L["Loading..."]
+
+  if craftingQuality then
+    local rankText = qualityMap[craftingQuality] or ""
+
+    labelText = labelText .. "(" .. rankText .. ")"
+  end
+
+  local itemNameLabel = EasyReminders.AceGUI:Create("Label")
+  itemNameLabel:SetText(labelText)
+  itemNameLabel:SetFont(EasyReminders.Font, 12, "")
+  itemNameLabel:SetWidth(420)
+  itemNameLabel:SetImage(itemIcon)
+  itemNameLabel:SetImageSize(16,16)
+  scrollBox:AddChild(itemNameLabel)
+
+  local minQuantity = EasyReminders.AceGUI:Create("EditBox")
+  minQuantity:SetWidth(70)
+  minQuantity:SetText(tostring(EasyReminders.charDB.shopping[itemId] or 0))
+  scrollBox:AddChild(minQuantity)
+  minQuantity:SetCallback("OnEnterPressed", function(_,_,text)
+      local num = tonumber(text)
+      if num then
+          if num > 0 then
+              EasyReminders.charDB.shopping[itemId] = num
+          elseif num and num == 0 then
+                  EasyReminders.charDB.shopping[itemId] = nil
+          end
+      end
+  end)
 
 end
 
@@ -55,13 +76,15 @@ function ShoppingTab:Create(mainFrame, container)
     notificationDropdown:SetList({
         [EasyReminders.Data.Shopping.LOGIN] = L["On Login"],
         [EasyReminders.Data.Shopping.INSTANCE_EXIT] = L["On Instance Exit"],
+        [EasyReminders.Data.Shopping.NEAR_AH] = L["Near Auction House"],
         [EasyReminders.Data.Shopping.ON_USE] = L["On Item Use"],
 
     })
     notificationDropdown:SetMultiselect(true)
-    notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.LOGIN, EasyReminders.Shopping.Notifcations.LOGIN)
-    notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.INSTANCE_EXIT, EasyReminders.Shopping.Notifcations.INSTANCE_EXIT)
-    notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.ON_USE,EasyReminders.Shopping.Notifcations.ON_USE)
+    notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.LOGIN, EasyReminders.charDB.shoppingNotifications.LOGIN or false)
+    notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.INSTANCE_EXIT, EasyReminders.charDB.shoppingNotifications.INSTANCE_EXIT or false)
+    notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.NEAR_AH, EasyReminders.charDB.shoppingNotifications.NEAR_AH or false)
+    notificationDropdown:SetItemValue(EasyReminders.Data.Shopping.ON_USE,EasyReminders.charDB.shoppingNotifications.ON_USE or false)
     container:AddChild(notificationDropdown)
 
     local refreshButton = EasyReminders.AceGUI:Create("Button")
@@ -70,7 +93,6 @@ function ShoppingTab:Create(mainFrame, container)
     refreshButton:SetCallback("OnClick", function(widget) EasyReminders.UI.ShoppingTab:RebuildScrollBox() end)
 
     notificationDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
-        EasyReminders.Shopping.Notifcations[key] = checked   
         EasyReminders.charDB.shoppingNotifications[key] = checked
     end)
     
@@ -89,7 +111,14 @@ function ShoppingTab:RebuildScrollBox()
       local cacheEntry = EasyReminders.DataCache[itemId] or {}
       local itemName = cacheEntry[2] or C_Item.GetItemNameByID(itemId)
       local itemIcon = cacheEntry[3] or C_Item.GetItemIconByID(itemId)
-      table.insert(trackedEntries, {itemId = itemId, itemName = itemName, itemIcon = itemIcon})
+
+      local craftingQuality = nil
+      local qualityInfo = C_TradeSkillUI.GetItemReagentQualityInfo(itemId)
+      if qualityInfo then
+        craftingQuality= qualityInfo.icon
+      end
+
+      table.insert(trackedEntries, {itemId = itemId, itemName = itemName, itemIcon = itemIcon, craftingQuality = craftingQuality })
     end
   end
 
@@ -109,7 +138,7 @@ function ShoppingTab:RebuildScrollBox()
   scrollBox:AddChild(seperator1)
 
   for _, entry in ipairs(trackedEntries) do
-    addEntry(entry.itemId, entry.itemName, entry.itemIcon, scrollBox)
+    addEntry(entry.itemId, entry.itemName, entry.itemIcon, entry.craftingQuality, scrollBox)
   end
 
   -- Bag items
@@ -125,7 +154,12 @@ function ShoppingTab:RebuildScrollBox()
     end
     local stackOrChargeMax = C_Item.GetItemCount(itemId, false, true) or 0
     if (itemStackMax > 1 or stackOrChargeMax > 1 ) and not (EasyReminders.charDB.shopping[itemId] and EasyReminders.charDB.shopping[itemId] > 0) then
-      table.insert(bagEntries, {itemId = itemId, itemName = itemName, itemIcon = itemIcon})
+       local craftingQuality = nil
+       local qualityInfo = C_TradeSkillUI.GetItemReagentQualityInfo(itemId)
+       if qualityInfo then
+          craftingQuality= qualityInfo.icon
+       end
+      table.insert(bagEntries, {itemId = itemId, itemName = itemName, itemIcon = itemIcon, craftingQuality = craftingQuality})
     end
   end
 
@@ -144,6 +178,6 @@ function ShoppingTab:RebuildScrollBox()
   scrollBox:AddChild(seperator2)
 
   for _, entry in ipairs(bagEntries) do
-    addEntry(entry.itemId, entry.itemName, entry.itemIcon, scrollBox)
+    addEntry(entry.itemId, entry.itemName, entry.itemIcon, entry.craftingQuality, scrollBox)
   end
 end

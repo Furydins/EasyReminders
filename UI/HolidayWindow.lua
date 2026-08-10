@@ -27,46 +27,194 @@ local function hasValue(tab, value)
     return false
 end
 
--- [0] = {["name"] = "holidayOne", ["holidayIndex"] = 100, ["duration"] = EasyReminders.Data.Duration.MONTHLY},
-local function GetCalendarData(calendarEvent)
-    for i, data in pairs(EasyReminders.Data.Holidays) do
-        if data and (data.holidayID == calendarEvent.eventID or hasValue(data.otherIds or {}, calendarEvent.eventID)) then
-            local result = {}
-            result.name = calendarEvent.title
-            result.holidayIndex = i
-            result.duration = data.duration
-            result.startTime = calendarEvent.startTime
-            result.endTime = calendarEvent.endTime
-            return result
+local function GetRealmTime()
+    local realmTime = C_DateAndTime.GetCurrentCalendarTime()
+    local eventTable = {year = realmTime.year, month = realmTime.month, day = realmTime.monthDay, hour = realmTime.hour, min = realmTime.minute, sec = 0}
+    return _G.time(eventTable)
+end
+
+local function cleanupOldEvents()
+    for key,data in pairs(EasyReminders.charDB.groupShown) do
+        if data.eventTime then
+            local eventTime = data.eventTime
+            local eventTable = {year = eventTime.year, month = eventTime.month, day = eventTime.monthDay, hour = eventTime.hour, min = eventTime.minute, sec = 0}
+            local timeInMinutes = (_G.time(eventTable) - GetRealmTime()) / 60
+            if timeInMinutes < -120 then
+                EasyReminders.charDB.groupShown[key] = nil
+            end
+        else
+            EasyReminders.charDB.groupShown[key] = nil
         end
     end
-    return nil
+end
 
+local function DisplayTime(prefix, timeTable)
+    local hour = timeTable.hour
+    local minute = timeTable.minute
+
+    -- If the event is after today, show "in X day(s)" instead of the exact time.
+    local realmNow = GetRealmTime()
+    local today = _G.date("*t", realmNow)
+    local targetMidnight = _G.time({ year = timeTable.year, month = timeTable.month, day = timeTable.monthDay, hour = 0, min = 0, sec = 0 })
+    local todayMidnight = _G.time({ year = today.year, month = today.month, day = today.day, hour = 0, min = 0, sec = 0 })
+    local daysDiff = math.floor((targetMidnight - todayMidnight) / 86400)
+    if daysDiff > 0 then
+        if daysDiff == 1 then
+            return string.format(L["%s in 1 day"], prefix)
+        else
+            return string.format(L["%s in %d days"], prefix, daysDiff)
+        end
+    end
+
+    local ampm = "AM"
+    if hour >= 12 then
+        ampm = "PM"
+        if hour > 12 then
+            hour = hour - 12
+        end
+    elseif hour == 0 then
+        hour = 12
+    end
+
+    return string.format("%s%02d:%02d %s", prefix, hour, minute, ampm)
 end
 
 
-local function GetActiveHolidays()
-    activeHolidays = { }
-	local today = C_DateAndTime.GetCurrentCalendarTime()
-	local month, day, year = today.month, today.monthDay, today.year
-    C_Calendar.OpenCalendar()
-	local numEvents = C_Calendar.GetNumDayEvents(0, day)
+-- [0] = {["name"] = "holidayOne", ["holidayIndex"] = 100, ["duration"] = EasyReminders.Data.Duration.MONTHLY},
+local function GetCalendarData(calendarEvent)
 
-	for i = 1, numEvents do
-		local calendarEvent = C_Calendar.GetDayEvent(0, day, i)
+    local result = {}
+    result.name = calendarEvent.title
+    result.holidayIndex = nil
+    result.duration = nil
+    result.startTime = calendarEvent.startTime
+    result.endTime = calendarEvent.endTime
+    result.calendarType = calendarEvent.calendarType
+    result.clubID = calendarEvent.clubID
+    result.eventID = calendarEvent.eventID
 
-		if calendarEvent.calendarType == "HOLIDAY" then
-            local startTime = calendarEvent.startTime
-            local startTable = {year = startTime.year, month = startTime.month, day = startTime.monthDay, hour = startTime.hour, min = startTime.minute, sec = 0}
-            local endTime = calendarEvent.endTime
-            local endTable = {year = endTime.year, month = endTime.month, day = endTime.monthDay, hour = endTime.hour, min = endTime.minute, sec = 0}
-          
-            if (_G.time(startTable) <= _G.GetServerTime() and _G.time(endTable) > _G.GetServerTime()) then
-			    table.insert(activeHolidays, GetCalendarData(calendarEvent))
+    if calendarEvent.calendarType and calendarEvent.calendarType == "COMMUNITY_EVENT" then
+        local clubInfo = C_Club.GetClubInfo(calendarEvent.clubID)
+        result.name = calendarEvent.title .. " (" .. clubInfo.name .. ")"
+        return result
+    elseif calendarEvent.calendarType and calendarEvent.calendarType == "GUILD_EVENT" then
+        local guildName = GetGuildInfo("player")
+        result.name = calendarEvent.title .. " (" .. guildName .. ")"
+        return result
+    elseif calendarEvent.calendarType and calendarEvent.calendarType == "PLAYER" then
+        result.name = calendarEvent.title .. " (Personal)"
+        return result
+    else 
+        for i, data in pairs(EasyReminders.Data.Holidays) do
+            if data and (data.holidayID == calendarEvent.eventID or hasValue(data.otherIds or {}, calendarEvent.eventID)) then
+                result.name = calendarEvent.title
+                result.holidayIndex = i
+                result.duration = data.duration
+                return result
             end
-		end
-	end
-    return activeHolidays
+        end
+    end
+    return nil
+end
+
+local function GetEventKey(holidayData)
+    local startTime = holidayData.startTime
+    local endTime = holidayData.endTime
+
+    local startKey = startTime and (
+        (startTime.year or "") .. "-" ..
+        (startTime.month or "") .. "-" ..
+        (startTime.monthDay or "") .. " " ..
+        (startTime.hour or "") .. ":" ..
+        (startTime.minute or "")
+    ) or ""
+
+    local endKey = endTime and (
+        (endTime.year or "") .. "-" ..
+        (endTime.month or "") .. "-" ..
+        (endTime.monthDay or "") .. " " ..
+        (endTime.hour or "") .. ":" ..
+        (endTime.minute or "")
+    ) or ""
+
+    return table.concat({
+        holidayData.calendarType or "",
+        holidayData.eventID or "",
+        holidayData.clubID or "",
+        holidayData.name or "",
+        startKey,
+        endKey,
+    }, "|")
+end
+
+local function GetActiveHolidays()
+    local activeEvents = {}
+    local seenEvents = {}
+    local today = C_DateAndTime.GetCurrentCalendarTime()
+    local currentDateTime = _G.time({
+        year = today.year,
+        month = today.month,
+        day = today.monthDay,
+        hour = 0,
+        min = 0,
+        sec = 0,
+    })
+    local nextDate = _G.date("*t", currentDateTime + 86400)
+    local nextMonthOffset = nextDate.month - today.month + ((nextDate.year - today.year) * 12)
+
+    local datesToCheck = {
+        { monthOffset = 0, day = today.monthDay },
+        { monthOffset = nextMonthOffset, day = nextDate.day },
+    }
+
+    C_Calendar.OpenCalendar()
+
+    for _, dateToCheck in ipairs(datesToCheck) do
+        local numEvents = C_Calendar.GetNumDayEvents(dateToCheck.monthOffset, dateToCheck.day)
+ 
+        for i = 1, numEvents do
+            local calendarEvent = C_Calendar.GetDayEvent(dateToCheck.monthOffset, dateToCheck.day, i)
+            local holidayData = GetCalendarData(calendarEvent)
+
+            if holidayData then
+                local eventKey = GetEventKey(holidayData)
+                if not seenEvents[eventKey] then
+
+                    if calendarEvent.calendarType == "GUILD_EVENT" or calendarEvent.calendarType == "COMMUNITY_EVENT" 
+                    or calendarEvent.calendarType == "PLAYER" then
+                        seenEvents[eventKey] = true
+                        table.insert(activeEvents, holidayData)
+                    elseif calendarEvent.calendarType == "HOLIDAY" then
+                        local startTime = calendarEvent.startTime
+                        local startTable = {
+                            year = startTime.year,
+                            month = startTime.month,
+                            day = startTime.monthDay,
+                            hour = startTime.hour,
+                            min = startTime.minute,
+                            sec = 0,
+                        }
+                        local endTime = calendarEvent.endTime
+                        local endTable = {
+                            year = endTime.year,
+                            month = endTime.month,
+                            day = endTime.monthDay,
+                            hour = endTime.hour,
+                            min = endTime.minute,
+                            sec = 0,
+                        }
+
+                        if (_G.time(startTable) <= GetRealmTime() and _G.time(endTable) > GetRealmTime()) then
+                            seenEvents[eventKey] = true
+                            table.insert(activeEvents, holidayData)
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    return activeEvents
 end
 
 local function setCloseOnEscPress(window)
@@ -85,7 +233,7 @@ function HolidayWindow:CreateHolidayWindow()
 
     frame = EasyReminders.AceGUI:Create("Window")
     frame:SetTitle(L["Active Events"])
-    frame:SetWidth(500)
+    frame:SetWidth(600)
     frame:SetHeight(150)
     frame:SetLayout("List")
     frame:SetAutoAdjustHeight(true)
@@ -118,48 +266,143 @@ function HolidayWindow:CreateHolidayWindow()
     return frame
 end
 
-local function canShow(holidayData)
+local function groupEventInScope(name, holidayData)
+    local startTime = holidayData.startTime
+    local startTable = {year = startTime.year, month = startTime.month, day = startTime.monthDay, hour = startTime.hour, min = startTime.minute, sec = 0}
+    local endTime = holidayData.endTime
+    local endTable = {year = endTime.year, month = endTime.month, day = endTime.monthDay, hour = endTime.hour, min = endTime.minute, sec = 0}
+
+    local timeInMinutes = (_G.time(startTable) - GetRealmTime()) / 60
+
+    local canShow = false
+
+    local eventKey = GetEventKey(holidayData)
+
+    if not EasyReminders.charDB.group[name] then
+        EasyReminders.charDB.group[name] = {settings = {}}
+    end
+
+    local shown = EasyReminders.charDB.groupShown[eventKey] or {}
+
+    if EasyReminders.charDB.group[name].settings.ONE_DAY and (timeInMinutes <= 1440 and timeInMinutes >= -60) and not shown.ONE_DAY then
+       canShow = true
+    end
+
+    if EasyReminders.charDB.group[name].settings.THREE_HOUR and (timeInMinutes <= 180 and timeInMinutes >= -60) and not shown.THREE_HOUR then
+       canShow = true
+    end
     
-    local dismissDate = EasyReminders.charDB.holiday[holidayData.holidayIndex] and EasyReminders.charDB.holiday[holidayData.holidayIndex].dismissDate
-    if not dismissDate then
-        if EasyReminders.charDB.holiday[holidayData.holidayIndex] and EasyReminders.charDB.holiday[holidayData.holidayIndex].setting ~= EasyReminders.Data.HolidayMode.NEVER then
-            return true
-        else
-            return false
-        end
+    if EasyReminders.charDB.group[name].settings.TWO_HOUR and (timeInMinutes <= 120 and timeInMinutes >= -60) and not shown.TWO_HOUR then
+        canShow = true
     end
- 
-    -- Parse the dismissDate
-    local year, month, day, hour, min, sec = dismissDate:match("(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+)")
-    local dismissTime = _G.time({year = tonumber(year), month = tonumber(month), day = tonumber(day), hour = tonumber(hour), min = tonumber(min), sec = tonumber(sec)})
+    if EasyReminders.charDB.group[name].settings.ONE_HOUR and (timeInMinutes <= 60 and timeInMinutes >= -60) and not shown.ONE_HOUR then
+        canShow = true
+    end
+    if EasyReminders.charDB.group[name].settings.QUARTER_HOUR and (timeInMinutes <= 15 and timeInMinutes >= -60) and not shown.QUARTER_HOUR then
+        canShow = true
+    end
+    if EasyReminders.charDB.group[name].settings.START and (timeInMinutes <= 0 and timeInMinutes >= -60) and not shown.START then
+        canShow = true
+    end
+
+    return canShow
    
-    if EasyReminders.charDB.holiday[holidayData.holidayIndex].setting == EasyReminders.Data.HolidayMode.ONCE then
-          -- Event start time
-        local startTime = holidayData.startTime
-        local startTable = {year = startTime.year, month = startTime.month, day = startTime.monthDay, hour = startTime.hour, min = startTime.minute, sec = 0}
-        local startTimeSeconds = _G.time(startTable)
+end
 
-        if startTimeSeconds > dismissTime then 
-            return true
-        end
+local function GroupEventShown(holidayData)
+
+    local eventKey = GetEventKey(holidayData)
+    if not EasyReminders.charDB.groupShown[eventKey] then
+        EasyReminders.charDB.groupShown[eventKey] = {}
     end
-   
-    if EasyReminders.charDB.holiday[holidayData.holidayIndex].setting == EasyReminders.Data.HolidayMode.DAILY then
-        local currentTime = _G.date(DATE_FORMAT)
-        local c_year, c_month, c_day, c_hour, c_min, c_sec = currentTime:match("(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+)")
-        local resetHour = resetTimes[CURRENT_REGION] or resetTimes["RetailUS"]
-        local resetTime = _G.time({year = tonumber(c_year), month = tonumber(c_month), 
-         day = tonumber(c_day), hour = tonumber(resetHour), min = 0, sec = 0})
 
-        if resetTime > _G.GetServerTime() then -- if reset time is after now we want to use yesterday instead
-            resetTime = resetTime - 86400
-        end
+    local clubInfo = C_Club.GetClubInfo(holidayData.clubID) or {name = "Personal"}
+    local name = clubInfo.name
 
-       if resetTime > dismissTime then
-            return true
-       end
+    local startTime = holidayData.startTime
+    local startTable = {year = startTime.year, month = startTime.month, day = startTime.monthDay, hour = startTime.hour, min = startTime.minute, sec = 0}
+    local endTime = holidayData.endTime
+    local endTable = {year = endTime.year, month = endTime.month, day = endTime.monthDay, hour = endTime.hour, min = endTime.minute, sec = 0}
+
+    local timeInMinutes = (_G.time(startTable) - GetRealmTime()) / 60
+
+    if EasyReminders.charDB.group[name].settings.ONE_DAY and (timeInMinutes <= 1440 and timeInMinutes >= -60) then
+        EasyReminders.charDB.groupShown[eventKey].ONE_DAY = true
     end
-    return false
+
+    if EasyReminders.charDB.group[name].settings.THREE_HOUR and (timeInMinutes <= 180 and timeInMinutes >= -60) then
+        EasyReminders.charDB.groupShown[eventKey].THREE_HOUR = true
+    end
+    
+    if EasyReminders.charDB.group[name].settings.TWO_HOUR and (timeInMinutes <= 120 and timeInMinutes >= -60) then
+        EasyReminders.charDB.groupShown[eventKey].TWO_HOUR = true
+    end
+    if EasyReminders.charDB.group[name].settings.ONE_HOUR and (timeInMinutes <= 60 and timeInMinutes >= -60) then
+        EasyReminders.charDB.groupShown[eventKey].ONE_HOUR = true
+    end
+    if EasyReminders.charDB.group[name].settings.QUARTER_HOUR and (timeInMinutes <= 15 and timeInMinutes >= -60) then
+        EasyReminders.charDB.groupShown[eventKey].QUARTER_HOUR = true
+    end
+    if EasyReminders.charDB.group[name].settings.START and (timeInMinutes <= 0 and timeInMinutes >= -60)  then
+        EasyReminders.charDB.groupShown[eventKey].START = true
+    end
+
+    EasyReminders.charDB.groupShown[eventKey].eventTime = startTime
+end
+
+local function canShow(holidayData)
+
+    if holidayData.calendarType == "GUILD_EVENT" then
+        local name = GetGuildInfo("player")
+        return groupEventInScope(name, holidayData)
+    elseif holidayData.calendarType == "COMMUNITY_EVENT" then
+        local clubInfo = C_Club.GetClubInfo(holidayData.clubID)
+        return groupEventInScope(clubInfo.name, holidayData)
+    elseif holidayData.calendarType == "PLAYER" then
+        local name = "Personal"
+        return groupEventInScope(name, holidayData)
+    else
+        local dismissDate = EasyReminders.charDB.holiday[holidayData.holidayIndex] and EasyReminders.charDB.holiday[holidayData.holidayIndex].dismissDate
+        if not dismissDate then
+            if EasyReminders.charDB.holiday[holidayData.holidayIndex] and EasyReminders.charDB.holiday[holidayData.holidayIndex].setting ~= EasyReminders.Data.HolidayMode.NEVER then
+                return true
+            else
+                return false
+            end
+        end
+    
+        -- Parse the dismissDate
+        local year, month, day, hour, min, sec = dismissDate:match("(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+)")
+        local dismissTime = _G.time({year = tonumber(year), month = tonumber(month), day = tonumber(day), hour = tonumber(hour), min = tonumber(min), sec = tonumber(sec)})
+    
+        if EasyReminders.charDB.holiday[holidayData.holidayIndex].setting == EasyReminders.Data.HolidayMode.ONCE then
+            -- Event start time
+            local startTime = holidayData.startTime
+            local startTable = {year = startTime.year, month = startTime.month, day = startTime.monthDay, hour = startTime.hour, min = startTime.minute, sec = 0}
+            local startTimeSeconds = _G.time(startTable)
+
+            if startTimeSeconds > dismissTime then 
+                return true
+            end
+        end
+    
+        if EasyReminders.charDB.holiday[holidayData.holidayIndex].setting == EasyReminders.Data.HolidayMode.DAILY then
+            local currentTime = _G.date(DATE_FORMAT)
+            local c_year, c_month, c_day, c_hour, c_min, c_sec = currentTime:match("(%d+)-(%d+)-(%d+) (%d+):(%d+):(%d+)")
+            local resetHour = resetTimes[CURRENT_REGION] or resetTimes["RetailUS"]
+            local resetTime = _G.time({year = tonumber(c_year), month = tonumber(c_month), 
+            day = tonumber(c_day), hour = tonumber(resetHour), min = 0, sec = 0})
+
+            if resetTime > GetRealmTime() then -- if reset time is after now we want to use yesterday instead
+                resetTime = resetTime - 86400
+            end
+
+            if resetTime > dismissTime then
+                    return true
+            end
+        end
+        return false
+    end
 end
 
 function HolidayWindow:UpdateNotifications()
@@ -172,55 +415,79 @@ function HolidayWindow:UpdateNotifications()
 
         frame:ReleaseChildren()
 
-         shownHolidays = {}    
+        shownHolidays = {}    
         local masterDismiss = EasyReminders.AceGUI:Create("Button")
         masterDismiss:SetText(L["Dismiss All"])
-        masterDismiss:SetWidth(480)
+        masterDismiss:SetWidth(550)
         masterDismiss:SetCallback("OnClick", function(widget)
-            HolidayWindow:DimissAll(shownHolidays)
+            HolidayWindow:DismissAll(shownHolidays)
             frame.frame:Hide()
         end)
         frame:AddChild(masterDismiss)
 
            
         for i, data in pairs(activeHolidays) do
-        if canShow(data) then 
-            local group = EasyReminders.AceGUI:Create("SimpleGroup")
-            group:SetLayout("flow")
-            group:SetFullWidth(true)
-            frame:AddChild(group)
+            if canShow(data) then 
+                local group = EasyReminders.AceGUI:Create("SimpleGroup")
+                group:SetLayout("flow")
+                group:SetFullWidth(true)
+                frame:AddChild(group)
 
-            local holidayName = EasyReminders.AceGUI:Create("Label")
-            holidayName:SetText( data.name)
-            holidayName:SetFont(EasyReminders.Font, 12, "")
-            holidayName:SetWidth(300)
-            group:AddChild(holidayName)
+                local holidayName = EasyReminders.AceGUI:Create("Label")
+                holidayName:SetText( data.name)
+                holidayName:SetFont(EasyReminders.Font, 12, "")
+                holidayName:SetWidth(300)
+                group:AddChild(holidayName)
 
 
-            local dismissButton = EasyReminders.AceGUI:Create("Button")
-            dismissButton:SetText(L["Dismiss"])
-            dismissButton:SetWidth(140)
-            group:AddChild(dismissButton)
-            dismissButton:SetCallback("OnClick", function(widget)
-                EasyReminders.charDB.holiday[data.holidayIndex] = EasyReminders.charDB.holiday[data.holidayIndex] or {}
-                EasyReminders.charDB.holiday[data.holidayIndex].dismissDate = _G.date(DATE_FORMAT)
-                group.frame:Hide()
-            end)
-            table.insert(shownHolidays, data.holidayIndex)
-            shouldShow = true
-        end
+                local time
+                if data.calendarType == "HOLIDAY" then
+                  time = DisplayTime("Ends: ", data.endTime)
+                else
+                    
+                  time = DisplayTime("Starts: ", data.startTime)
+                end
+
+                local timeLabel = EasyReminders.AceGUI:Create("Label")
+                timeLabel:SetText(time)
+                timeLabel:SetFont(EasyReminders.Font, 10, "")
+                timeLabel:SetWidth(150)
+                group:AddChild(timeLabel)
+
+                local dismissButton = EasyReminders.AceGUI:Create("Button")
+                dismissButton:SetText(L["Dismiss"])
+                dismissButton:SetWidth(100)
+                group:AddChild(dismissButton)
+                dismissButton:SetCallback("OnClick", function(widget)
+                    if data.calendarType == "HOLIDAY" then
+                        EasyReminders.charDB.holiday[data.holidayIndex] = EasyReminders.charDB.holiday[data.holidayIndex] or {}
+                        EasyReminders.charDB.holiday[data.holidayIndex].dismissDate = _G.date(DATE_FORMAT)
+                    else 
+                        GroupEventShown(data)
+                    end
+                    group.frame:Hide()
+                end)
+                table.insert(shownHolidays, data)
+                shouldShow = true
+            end
         end
 
         if shouldShow then
             frame.frame:Show()
         end
     end
+
+    cleanupOldEvents()
 end
 
-function HolidayWindow:DimissAll(currentHolidays)
+function HolidayWindow:DismissAll(currentHolidays)
     for i, data in pairs(currentHolidays) do
-        EasyReminders.charDB.holiday[data] = EasyReminders.charDB.holiday[data] or {}
-        EasyReminders.charDB.holiday[data].dismissDate = _G.date(DATE_FORMAT)
+        if data.calendarType == "HOLIDAY" then
+            EasyReminders.charDB.holiday[data.holidayIndex] = EasyReminders.charDB.holiday[data.holidayIndex] or {}
+            EasyReminders.charDB.holiday[data.holidayIndex].dismissDate = _G.date(DATE_FORMAT)
+        else
+            GroupEventShown(data)
+        end
     end
 end
 
@@ -241,3 +508,7 @@ function HolidayWindow:StorePositon()
     EasyReminders.globalDB.holidayLocation[5] = offsetY
 end
 
+function HolidayWindow:ResetReminders()
+    EasyReminders.charDB.holiday = {}
+    EasyReminders.charDB.groupShown = {}
+end

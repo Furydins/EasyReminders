@@ -8,7 +8,9 @@ local shownShoppingItems = {}
 
 local trackedItems = {}
 
-local loginPending = false
+local loginPending = 5
+
+local currentZone = 0
 
 local function hasValue(tab, value)
     for k,v in pairs(tab) do
@@ -110,13 +112,33 @@ function ShoppingWindow:UpdateNotifications(type)
     local _type = type
 
     -- Delay login check to allow time
-    -- to cache item names
+    -- to cache bag contents
     if _type== "LOGIN" then
-        loginPending = true
+        loginPending = 5
         return
-    elseif loginPending and type == "TIMER" then
+    elseif loginPending > 1 then
+        if _type == "TIMER" then
+            loginPending = loginPending - 1
+        end 
+        return
+    elseif loginPending == 1 and type == "TIMER" then
         _type= "LOGIN"
-        loginPending = false
+        loginPending = 0
+    end
+
+    if "ZONE_CHANGE" == type then
+        local zoneID = C_Map.GetBestMapForUnit("player")
+        if currentZone ~= zoneID then
+            currentZone = zoneID
+             if zoneID and EasyReminders.Data.Locations.AuctionHouseZones[zoneID] then
+                _type = "NEAR_AH"
+            else
+                _type = "IGNORE"
+            end
+        else
+            _type = "IGNORE"
+        end
+       
     end
 
     if not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 

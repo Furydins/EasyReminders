@@ -9,11 +9,9 @@ function GemCheck:CheckGems(missingGems)
   local foundGems = {}
   local itemIconInfo = {}
    
-  local _, class, _ = _G.UnitClass("player")
-
-
   if not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
       and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
+    local _, class, _ = _G.UnitClass("player")
     for index, data in pairs(EasyReminders.Data.GearSlots) do
         local itemLink = GetInventoryItemLink("player", data.slotID)
         if itemLink then
