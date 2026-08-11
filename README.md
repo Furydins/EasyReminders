@@ -43,6 +43,14 @@ Can be paused untill the next day or the next time the event starts.
 
 <img width="940" height="701" alt="image" src="https://github.com/user-attachments/assets/a8580d59-a185-42d9-a9a0-2b5bf7c1b8b7" />
 
+#### Group Calendar Reminders
+Reminds you of upcoming group invites
+Advanced notice of up to 1 day
+Supports Guilds Communities and perosnal calendar entries
+
+<img width="920" height="631" alt="image" src="https://github.com/user-attachments/assets/f04e01f9-e4be-4283-a7a7-ed08b132d541" />
+
+
 #### Configurable
 Seperate settings for raid, dungeons, delves and outdoors
 
