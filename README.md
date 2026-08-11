@@ -49,7 +49,7 @@ Reminds you of upcoming group invites
 
 Advanced notice of up to 1 day
 
-Supports Guilds Communities and perosnal calendar entries
+Supports Guilds Communities and personal calendar entries
 
 <img width="920" height="631" alt="image" src="https://github.com/user-attachments/assets/f04e01f9-e4be-4283-a7a7-ed08b132d541" />
 
