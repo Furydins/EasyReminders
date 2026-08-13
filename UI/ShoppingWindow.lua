@@ -114,7 +114,7 @@ function ShoppingWindow:UpdateNotifications(type)
     -- Delay login check to allow time
     -- to cache bag contents
     if _type== "LOGIN" then
-        loginPending = 5
+        loginPending = 6
         return
     elseif loginPending > 1 then
         if _type == "TIMER" then
