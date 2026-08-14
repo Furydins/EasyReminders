@@ -8,7 +8,7 @@ local shownShoppingItems = {}
 
 local trackedItems = {}
 
-local loginPending = 5
+local loginPending = 2
 
 local currentZone = 0
 
@@ -73,11 +73,8 @@ end
 local function GetMissingItems()
     local missingItems = {}
 
-    EasyReminders.BagCache:RefreshBags()
-    local bagCache = EasyReminders.BagCache:GetBagCache()
-
     for itemId, minQuantity in pairs(EasyReminders.charDB.shopping) do
-        local itemcount = bagCache[itemId] or 0
+        local itemcount = C_Item.GetItemCount(itemId, false, true) or 0
         local cacheEntry = EasyReminders.DataCache[itemId] or {}
         local itemName = cacheEntry[2] or C_Item.GetItemNameByID(itemId)
         local itemIcon = cacheEntry[3] or C_Item.GetItemIconByID(itemId)
@@ -114,8 +111,8 @@ function ShoppingWindow:UpdateNotifications(type)
     -- Delay login check to allow time
     -- to cache bag contents
     if _type== "LOGIN" then
-        loginPending = 6
-        return
+        loginPending = 2
+       return
     elseif loginPending > 1 then
         if _type == "TIMER" then
             loginPending = loginPending - 1
