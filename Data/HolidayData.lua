@@ -53,6 +53,7 @@ EasyReminders.Data.Holidays = {
     [23] = {["name"] = L["Luminous Luminaries"], ["holidayID"] = 1062,  otherIds = {1054}, ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [24] = {["name"] = L["Auction House Dance Party"], ["holidayID"] = 692,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [25] = {["name"] = L["Trial of Style"], ["holidayID"] = 691,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
+    [57] = {["name"] = L["Free T-Shirt Day"], ["holidayID"] = 253,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [26] = {["name"] = L["Great Gnomeregan Run"], ["holidayID"] = 696,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [27] = {["name"] = L["Moonkin Festival"], ["holidayID"] = 694,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [56] = {["name"] = L["Wanderer's Festival"], ["holidayID"] = 1052,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
@@ -120,37 +121,38 @@ EasyReminders.Data.HolidayOrder = {
     [24] = 23, -- Luminous Luminaries
     [25] = 24, -- Auction House Dance Party
     [26] = 25, -- Trial of Style
-    [27] = 26, -- Great Gnomeregan Run
-    [28] = 27, -- Moonkin Festival
-    [29] = 56, -- Wanderer's Festival
+    [27] = 57, -- Free T-Shirt Day
+    [28] = 26, -- Great Gnomeregan Run
+    [29] = 27, -- Moonkin Festival
+    [30] = 56, -- Wanderer's Festival
 
-    [30] = 28, -- Classic Timewalking
-    [31] = 29, -- BC Timewalking
-    [32] = 30, -- Wrath Timewalking
-    [33] = 31, -- Cataclysm Timewalking
-    [34] = 32, -- Mists Timewalking
-    [35] = 33, -- Warlords Timewalking
-    [36] = 34, -- Legion Timewalking
-    [37] = 35, -- BfA Timewalking
-    [38] = 36, -- Shadowlands Timewalking
-    [39] = 54, -- Dragonflight Timewalking
+    [31] = 28, -- Classic Timewalking
+    [32] = 29, -- BC Timewalking
+    [33] = 30, -- Wrath Timewalking
+    [34] = 31, -- Cataclysm Timewalking
+    [35] = 32, -- Mists Timewalking
+    [36] = 33, -- Warlords Timewalking
+    [37] = 34, -- Legion Timewalking
+    [38] = 35, -- BfA Timewalking
+    [39] = 36, -- Shadowlands Timewalking
+    [40] = 54, -- Dragonflight Timewalking
 
-    [40] = 37, -- Brawl: Arathi Blizzard
-    [41] = 38, -- Brawl: Classic Ashran
-    [42] = 40, -- Brawl: Cooking Impossible
-    [43] = 41, -- Brawl: Deep Six
-    [44] = 42, -- Brawl: Cooking Impossible
-    [45] = 43, -- Brawl: Deepwind Dunk
-    [46] = 44, -- Brawl: Gravity Lapse
-    [47] = 45, -- Brawl: Packed House
-    [48] = 46, -- Brawl: Shado-Pan Showdown
-    [49] = 47, -- Brawl: Southshore v Tarren Mill
-    [50] = 48, -- Brawl: Temple of Hotmogu
-    [51] = 49, -- Brawl: Warsong Scramble
+    [41] = 37, -- Brawl: Arathi Blizzard
+    [42] = 38, -- Brawl: Classic Ashran
+    [43] = 40, -- Brawl: Cooking Impossible
+    [44] = 41, -- Brawl: Deep Six
+    [45] = 42, -- Brawl: Cooking Impossible
+    [46] = 43, -- Brawl: Deepwind Dunk
+    [47] = 44, -- Brawl: Gravity Lapse
+    [48] = 45, -- Brawl: Packed House
+    [49] = 46, -- Brawl: Shado-Pan Showdown
+    [50] = 47, -- Brawl: Southshore v Tarren Mill
+    [51] = 48, -- Brawl: Temple of Hotmogu
+    [52] = 49, -- Brawl: Warsong Scramble
 
-    [52] = 50, -- Skyriding Cup - Kalimdor
-    [53] = 51, -- Skyriding Cup - Eastern Kingdoms
-    [54] = 52, -- Skyriding Cup - Outland
-    [55] = 53, -- Skyriding Cup - Northrend
+    [53] = 50, -- Skyriding Cup - Kalimdor
+    [54] = 51, -- Skyriding Cup - Eastern Kingdoms
+    [55] = 52, -- Skyriding Cup - Outland
+    [56] = 53, -- Skyriding Cup - Northrend
 
 }
