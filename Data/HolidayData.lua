@@ -24,6 +24,7 @@ EasyReminders.Data.Holidays = {
 
     -- Holiday ids come from Holidays.dbc - holiday name Ids can be decoded from HolidayNames.dbc
     -- Anniversary event changes every year!
+    -- Next free i: 58
 
     [1] = {["name"] = L["Darkmoon Faire"], ["holidayID"] = 479,  ["category"] = EasyReminders.Data.HolidayCategories.OTHER},
 
@@ -53,7 +54,7 @@ EasyReminders.Data.Holidays = {
     [23] = {["name"] = L["Luminous Luminaries"], ["holidayID"] = 1062,  otherIds = {1054}, ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [24] = {["name"] = L["Auction House Dance Party"], ["holidayID"] = 692,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [25] = {["name"] = L["Trial of Style"], ["holidayID"] = 691,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
-    [57] = {["name"] = L["Free T-Shirt Day"], ["holidayID"] = 253,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
+    [57] = {["name"] = L["Free T-Shirt Day"], ["holidayID"] = 1053,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [26] = {["name"] = L["Great Gnomeregan Run"], ["holidayID"] = 696,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [27] = {["name"] = L["Moonkin Festival"], ["holidayID"] = 694,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
     [56] = {["name"] = L["Wanderer's Festival"], ["holidayID"] = 1052,  ["category"] = EasyReminders.Data.HolidayCategories.MICRO},
