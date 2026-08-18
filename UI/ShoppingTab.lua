@@ -55,6 +55,7 @@ local function addEntry(itemId, itemName, itemIcon, craftingQuality, scrollBox)
           elseif num and num == 0 then
                   EasyReminders.charDB.shopping[itemId] = nil
           end
+          ShoppingTab:RebuildScrollBox()
       end
   end)
 
