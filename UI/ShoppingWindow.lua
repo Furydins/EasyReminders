@@ -175,28 +175,34 @@ function ShoppingWindow:UpdateNotifications(type)
 
         
         for i, data in pairs(missingItems) do
-            local group = EasyReminders.AceGUI:Create("SimpleGroup")
-            group:SetLayout("flow")
-            group:SetFullWidth(true)
-            frame:AddChild(group)
+            -- Recheck item in case we missed inventory
+            local itemcount = C_Item.GetItemCount(i, false, true) or 0
+            local minQuantity = EasyReminders.charDB.shopping[i]
+            if itemcount < minQuantity then
+            
+                local group = EasyReminders.AceGUI:Create("SimpleGroup")
+                group:SetLayout("flow")
+                group:SetFullWidth(true)
+                frame:AddChild(group)
 
-            local itemName = EasyReminders.AceGUI:Create("Label")
-            itemName:SetText( data.name)
-            itemName:SetImage(data.icon)
-            itemName:SetFont(EasyReminders.Font, 12, "")
-            itemName:SetWidth(300)
-            group:AddChild(itemName)
+                local itemName = EasyReminders.AceGUI:Create("Label")
+                itemName:SetText( data.name)
+                itemName:SetImage(data.icon)
+                itemName:SetFont(EasyReminders.Font, 12, "")
+                itemName:SetWidth(300)
+                group:AddChild(itemName)
 
 
-            local dismissButton = EasyReminders.AceGUI:Create("Button")
-            dismissButton:SetText(L["Dismiss"])
-            dismissButton:SetWidth(140)
-            group:AddChild(dismissButton)
-            dismissButton:SetCallback("OnClick", function(widget)
-                group.frame:Hide()
-            end)
-            table.insert(shownShoppingItems, group)
-            shouldShow = true
+                local dismissButton = EasyReminders.AceGUI:Create("Button")
+                dismissButton:SetText(L["Dismiss"])
+                dismissButton:SetWidth(140)
+                group:AddChild(dismissButton)
+                dismissButton:SetCallback("OnClick", function(widget)
+                    group.frame:Hide()
+                end)
+                table.insert(shownShoppingItems, group)
+                shouldShow = true
+            end
         end
 
         if shouldShow then
