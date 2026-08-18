@@ -16,8 +16,9 @@ function DurabilityCheck:CheckDurability(missingDurability)
     for index, data in pairs(EasyReminders.Data.GearSlots) do
         local current, maximum= _G.GetInventoryItemDurability(data.slotID)
 
-        if current and maximum > 0 then
+        if current and maximum > 0  and (current / maximum) * 100 < EasyReminders.charDB.minDurability then
           missingDurability["repair"] = 136241
+        end
     end
 
   end
