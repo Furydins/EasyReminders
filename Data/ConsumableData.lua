@@ -34,6 +34,8 @@ EasyReminders.Data.Consumables = {
     [241313] = {["itemID"] = 241313,  ["otherIds"] = {241312}, ["buffID"] = 1239755, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT},  -- Haranir Phial of Inginuity,
     [241317] = {["itemID"] = 241317,  ["otherIds"] = {241316}, ["buffID"] = 1236763, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT},  -- Haranir Phial of Finesse,
 
+    -- Delve
+    [274374] = {["itemID"] = 274374, ["buffID"] = 1293799, ["expansion"] = EasyReminders.Data.Expansions.MIDNIGHT},  -- Trovehunter's Bounty,
     --- Extras
     [171364] = {["itemID"] = 171364, ["buffID"] = 136583, ["otherBuffs"] = {46668}, ["expansion"] = EasyReminders.Data.Expansions.OTHER}, -- Darkmoon Faire Top Hats,
 }
