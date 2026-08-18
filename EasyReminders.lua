@@ -45,6 +45,7 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.foodMinTime = EasyReminders.charDB.foodMinTime or 0
     EasyReminders.charDB.buffMinTime = EasyReminders.charDB.buffMinTime or 0
     EasyReminders.charDB.gearMinTime = EasyReminders.charDB.gearMinTime or 0
+    EasyReminders.charDB.minDurability = EasyReminders.charDB.minDurability or 0
 
     EasyReminders.charDB.filterConsumables = EasyReminders.charDB.filterConsumables or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
     EasyReminders.charDB.filterFood = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
@@ -274,6 +275,7 @@ function EasyReminders:CheckBuffs(cause)
     EasyReminders.EnchantCheck:CheckEnchants(missingBuffs)
     EasyReminders.GemCheck:CheckGems(missingBuffs)
     EasyReminders.TemporaryEnchantCheck:CheckEnchants(missingBuffs)
+    EasyReminders.DurabilityCheck:CheckDurability(missingBuffs)
     EasyReminders.UI.NotificationWindow:UpdateNotifications(missingBuffs)
 
     if not HolidayFrame then 
