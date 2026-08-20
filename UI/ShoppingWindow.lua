@@ -176,9 +176,9 @@ function ShoppingWindow:UpdateNotifications(type)
         
         for i, data in pairs(missingItems) do
             -- Recheck item in case we missed inventory
-            local itemcount = C_Item.GetItemCount(i, false, true) or 0
+            local itemcount = C_Item.GetItemCount(i, false, true)
             local minQuantity = EasyReminders.charDB.shopping[i]
-            if itemcount < minQuantity then
+            if itemcount and (itemcount < minQuantity) then
             
                 local group = EasyReminders.AceGUI:Create("SimpleGroup")
                 group:SetLayout("flow")
