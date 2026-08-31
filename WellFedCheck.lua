@@ -48,7 +48,7 @@ function WellFedCheck:BuildTrackingList()
 
     end
   end
-  EasyReminders.BagCache:RefreshBags()
+  EasyReminders.BagCache:RefreshBags(false)
 end
 
 function WellFedCheck:CheckBuffs(missingBuffs)
