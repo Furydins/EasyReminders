@@ -4,7 +4,7 @@ local BagCache = EasyReminders.BagCache
 
 local bagContentsCache = {}
 
-function BagCache:RefreshBags()
+function BagCache:RefreshBags(inventoryChange)
     bagContentsCache = {}
       -- Loop through player bags (0 is backpack, 1-4 are additional bags, 5 reagent bag)
     for bag = 0, 5 do
@@ -24,6 +24,10 @@ function BagCache:RefreshBags()
                     end
                     
                     bagContentsCache[itemID] = stackCount
+
+                    if inventoryChange and EasyReminders.charDB.shopping[itemID] and EasyReminders.charDB.shopping[itemID] > 0 then
+                        EasyReminders.charDB.currentInventory[itemID] = stackCount
+                    end
 
                     if not EasyReminders.DataCache[itemID] or not EasyReminders.DataCache[itemID][2] then
                         local itemName = C_Item.GetItemNameByID(itemID)

@@ -52,8 +52,10 @@ local function addEntry(itemId, itemName, itemIcon, craftingQuality, scrollBox)
       if num then
           if num > 0 then
               EasyReminders.charDB.shopping[itemId] = num
+              EasyReminders.charDB.currentInventory[itemId] = C_Item.GetItemCount(itemId, false, true) or 0
           elseif num and num == 0 then
                   EasyReminders.charDB.shopping[itemId] = nil
+                  EasyReminders.charDB.currentInventory[itemId] = nil
           end
           ShoppingTab:RebuildScrollBox()
       end
@@ -102,7 +104,7 @@ function ShoppingTab:Create(mainFrame, container)
 end
 
 function ShoppingTab:RebuildScrollBox()
-  EasyReminders.BagCache:RefreshBags()
+  EasyReminders.BagCache:RefreshBags(false)
   local scrollBox = ShoppingTab.ScrollBox
   scrollBox:ReleaseChildren()
 

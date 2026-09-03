@@ -74,7 +74,7 @@ local function GetMissingItems()
     local missingItems = {}
 
     for itemId, minQuantity in pairs(EasyReminders.charDB.shopping) do
-        local itemcount = C_Item.GetItemCount(itemId, false, true) or 0
+        local itemcount = EasyReminders.charDB.currentInventory[itemId] or C_Item.GetItemCount(itemId, false, true) or 0
         local cacheEntry = EasyReminders.DataCache[itemId] or {}
         local itemName = cacheEntry[2] or C_Item.GetItemNameByID(itemId)
         local itemIcon = cacheEntry[3] or C_Item.GetItemIconByID(itemId)
@@ -89,14 +89,14 @@ end
 local function recordTrackedItems()
     trackedItems = {}
     for itemId, minQuantity in pairs(EasyReminders.charDB.shopping) do
-        local itemcount =  C_Item.GetItemCount(itemId, false, true) or 0
+        local itemcount =  EasyReminders.charDB.currentInventory[itemId] or C_Item.GetItemCount(itemId, false, true) or 0
         trackedItems[itemId] = itemcount
     end
 end
 
 local function wasTrackedItemUsed()
     for itemId, oldCount in pairs(trackedItems) do
-        local newCount = C_Item.GetItemCount(itemId, false, true) or 0
+        local newCount = EasyReminders.charDB.currentInventory[itemId] or C_Item.GetItemCount(itemId, false, true) or 0
         if oldCount and (newCount < oldCount) then
             return true
         end

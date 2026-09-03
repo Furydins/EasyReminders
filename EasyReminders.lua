@@ -41,6 +41,7 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.gearConsumables = EasyReminders.charDB.gearConsumables or {}
     EasyReminders.charDB.gearImbues = EasyReminders.charDB.gearImbues or {}
     EasyReminders.charDB.shopping = EasyReminders.charDB.shopping or {}
+    EasyReminders.charDB.currentInventory = EasyReminders.charDB.currentInventory or {}
     EasyReminders.charDB.potionsMinTime = EasyReminders.charDB.potionsMinTime or 0
     EasyReminders.charDB.foodMinTime = EasyReminders.charDB.foodMinTime or 0
     EasyReminders.charDB.buffMinTime = EasyReminders.charDB.buffMinTime or 0
@@ -215,7 +216,7 @@ function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
             newInInstance = false
         end
         if arg1 or arg2 then
-            EasyReminders.BagCache:RefreshBags()
+            EasyReminders.BagCache:RefreshBags(false)
             EasyReminders:CheckBuffs("LOGIN")
         elseif not newInInstance and inInstance then -- TODO: Exclude Garrison and hosue exits!
             EasyReminders:CheckBuffs("INSTANCE_EXIT")
@@ -224,7 +225,7 @@ function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
         end
         inInstance = newInInstance
     elseif "BAG_UPDATE_DELAYED" == event then
-        EasyReminders.BagCache:RefreshBags()
+        EasyReminders.BagCache:RefreshBags(true)
         EasyReminders:CheckBuffs("ON_USE")
     elseif "UNIT_AURA" == event and "player" == arg1 then
         EasyReminders:CheckBuffs("BUFF_CHANGE")
