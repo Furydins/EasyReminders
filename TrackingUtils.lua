@@ -31,7 +31,7 @@ function TrackingUtils:SelectTrackingList(outside, delve, dungeon, raid, pvp)
     trackingList = {} 
     if EasyReminders.globalDB.minimumRaidDifficulty == "LFR" then
       trackingList = raid
-    elseif EasyReminders.globalDB.minimumRaidDifficulty == "NORMAL" and (not isLFR) then
+    elseif EasyReminders.globalDB.minimumRaidDifficulty == "NORMAL" and not (isLFR or difficultyID == 250) then
       trackingList = raid
     elseif EasyReminders.globalDB.minimumRaidDifficulty == "HEROIC" and (displayHeroic or displayMythic) then
       trackingList = raid
