@@ -23,7 +23,7 @@ function GearTab:Create(mainFrame, container)
 
     local filterText = EasyReminders.AceGUI:Create("Label")
     filterText:SetText(L["Filter:"])
-    filterText:SetWidth(40)
+    filterText:SetWidth(30)
     container:AddChild(filterText)
 
     local filterDropdown = EasyReminders.AceGUI:Create("Dropdown")
@@ -41,14 +41,33 @@ function GearTab:Create(mainFrame, container)
     filterDropdown:SetItemValue(EasyReminders.Data.Expansions.OTHER, EasyReminders.Filters.gear.OTHER)
     container:AddChild(filterDropdown)
 
-  filterDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
-    EasyReminders.Filters.gear[key] = checked
-    EasyReminders.charDB.filterGear[key] = checked
-    GearTab:RebuildScrollBox()
-  end)
+    filterDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
+      EasyReminders.Filters.gear[key] = checked
+      EasyReminders.charDB.filterGear[key] = checked
+      GearTab:RebuildScrollBox()
+    end)
+
+    local minDurabilityLabel = EasyReminders.AceGUI:Create("Label")
+    minDurabilityLabel:SetText(" " .. L["Min Durability"] .. "(%):")
+    minDurabilityLabel:SetWidth(97)
+    container:AddChild(minDurabilityLabel)
+    local minDurability = EasyReminders.AceGUI:Create("EditBox")
+    minDurability:SetWidth(70)
+    minDurability:SetText(tostring(EasyReminders.charDB.minDurability or 0))
+    container:AddChild(minDurability)
+    minDurability:SetCallback("OnEnterPressed", function(_,_,text)
+      local num = tonumber(text)
+      if num then
+          EasyReminders.charDB.minDurability = num
+      else
+          EasyReminders.charDB.minDurability = 0
+      end
+      EasyReminders.TemporaryEnchantCheck:BuildTrackingList()
+      EasyReminders:CheckBuffs("REFRESH")
+    end)
 
     local minTimeLabel = EasyReminders.AceGUI:Create("Label")
-    minTimeLabel:SetText("  " .. L["Min Time Left (min)"])
+    minTimeLabel:SetText("  " .. L["Min Time Left (min)"] .. ":")
     minTimeLabel:SetWidth(120)
     container:AddChild(minTimeLabel)
     local minTimer = EasyReminders.AceGUI:Create("EditBox")
@@ -56,15 +75,16 @@ function GearTab:Create(mainFrame, container)
     minTimer:SetText(tostring(EasyReminders.charDB.gearMinTime or 0))
     container:AddChild(minTimer)
     minTimer:SetCallback("OnEnterPressed", function(_,_,text)
-    local num = tonumber(text)
-    if num then
-        EasyReminders.charDB.gearMinTime = num
-    else
-        EasyReminders.charDB.gearMinTime = 0
-    end
-    EasyReminders.TemporaryEnchantCheck:BuildTrackingList()
-    EasyReminders:CheckBuffs("REFRESH")
+      local num = tonumber(text)
+      if num then
+          EasyReminders.charDB.gearMinTime = num
+      else
+          EasyReminders.charDB.gearMinTime = 0
+      end
+      EasyReminders.TemporaryEnchantCheck:BuildTrackingList()
+      EasyReminders:CheckBuffs("REFRESH")
     end)
+
 
     GearTab.ScrollBox = EasyReminders.UI.Widgets.ScrollFrame:Create(container)
     
