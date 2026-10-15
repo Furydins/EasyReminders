@@ -109,13 +109,15 @@ function GearTab:RebuildScrollBox()
     local data = EasyReminders.Data.GearSlots[i]
 
     if data.enchantable or data.gemable or data.consumable then
-      local itemIcon = C_Item.GetItemIcon({equipmentSlotIndex = data.slotID})
+      -- https://warcraft.wiki.gg/wiki/API:C_PaperDollInfo.GetInventorySlotInfo
+      local _, itemIcon, _ = C_PaperDollInfo.GetInventorySlotInfo(data.slotNameID)
+      --local itemIcon = C_Item.GetItemIcon({equipmentSlotIndex = data.slotID})
 
       local slotName = EasyReminders.AceGUI:Create("Label")
       slotName:SetText(data.slotName)
       slotName:SetFont(EasyReminders.Font, 12, "")
       slotName:SetWidth(440)
-      slotName:SetImage("itemIcon")
+      slotName:SetImage(itemIcon)
       slotName:SetImageSize(16,16)
       scrollBox:AddChild(slotName)
 
