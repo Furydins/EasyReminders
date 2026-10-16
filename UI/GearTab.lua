@@ -14,7 +14,8 @@ function GearTab:Create(mainFrame, container)
     EasyReminders.Filters.gear = {["MIDNIGHT"] = EasyReminders.charDB.filterGear.MIDNIGHT,
                 ["TWW"] = EasyReminders.charDB.filterGear.TWW,  
                 ["CUSTOM"] = EasyReminders.charDB.filterGear.CUSTOM,
-                ["OTHER"] = EasyReminders.charDB.filterGear.OTHER}
+                ["OTHER"] = EasyReminders.charDB.filterGear.OTHER,
+                ["FOREVER"] = EasyReminders.charDB.filterGear.FOREVER,}
 
     local addItemButton = EasyReminders.AceGUI:Create("Button")
     container:AddChild(addItemButton)
@@ -28,17 +29,39 @@ function GearTab:Create(mainFrame, container)
 
     local filterDropdown = EasyReminders.AceGUI:Create("Dropdown")
     filterDropdown:SetWidth(150)
-    filterDropdown:SetList({
-        [EasyReminders.Data.Expansions.MIDNIGHT] = L["Midnight"],
-        [EasyReminders.Data.Expansions.TWW] = L["The War Within"],
-        [EasyReminders.Data.Expansions.CUSTOM] = L["Custom"],
-        [EasyReminders.Data.Expansions.OTHER] = L["Other Items"],
-    })
     filterDropdown:SetMultiselect(true)
-    filterDropdown:SetItemValue(EasyReminders.Data.Expansions.MIDNIGHT, EasyReminders.Filters.gear.MIDNIGHT)
-    filterDropdown:SetItemValue(EasyReminders.Data.Expansions.TWW, EasyReminders.Filters.gear.TWW)
-    filterDropdown:SetItemValue(EasyReminders.Data.Expansions.CUSTOM, EasyReminders.Filters.gear.CUSTOM)
-    filterDropdown:SetItemValue(EasyReminders.Data.Expansions.OTHER, EasyReminders.Filters.gear.OTHER)
+    if EasyReminders.RETAIL then
+        filterDropdown:SetList({
+            [EasyReminders.Data.Expansions.MIDNIGHT] = L["Midnight"],
+            [EasyReminders.Data.Expansions.TWW] = L["The War Within"],
+            [EasyReminders.Data.Expansions.CUSTOM] = L["Custom"],
+            [EasyReminders.Data.Expansions.OTHER] = L["Other Items"],
+        },
+        {
+          EasyReminders.Data.Expansions.MIDNIGHT,
+          EasyReminders.Data.Expansions.TWW,
+          EasyReminders.Data.Expansions.CUSTOM,
+          EasyReminders.Data.Expansions.OTHER,
+        })
+        filterDropdown:SetItemValue(EasyReminders.Data.Expansions.MIDNIGHT, EasyReminders.Filters.gear.MIDNIGHT)
+        filterDropdown:SetItemValue(EasyReminders.Data.Expansions.TWW, EasyReminders.Filters.gear.TWW)
+        filterDropdown:SetItemValue(EasyReminders.Data.Expansions.CUSTOM, EasyReminders.Filters.gear.CUSTOM)
+        filterDropdown:SetItemValue(EasyReminders.Data.Expansions.OTHER, EasyReminders.Filters.gear.OTHER)
+    else
+        filterDropdown:SetList({
+            [EasyReminders.Data.Expansions.FOREVER] = L["Forever"],
+            [EasyReminders.Data.Expansions.CUSTOM] = L["Custom"],
+            [EasyReminders.Data.Expansions.OTHER] = L["Other Items"],
+        },
+        {
+          EasyReminders.Data.Expansions.FOREVER,
+          EasyReminders.Data.Expansions.CUSTOM,
+          EasyReminders.Data.Expansions.OTHER,
+        })
+        filterDropdown:SetItemValue(EasyReminders.Data.Expansions.FOREVER, EasyReminders.Filters.gear.FOREVER)
+        filterDropdown:SetItemValue(EasyReminders.Data.Expansions.CUSTOM, EasyReminders.Filters.gear.CUSTOM)
+        filterDropdown:SetItemValue(EasyReminders.Data.Expansions.OTHER, EasyReminders.Filters.gear.OTHER)
+    end
     container:AddChild(filterDropdown)
 
     filterDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)

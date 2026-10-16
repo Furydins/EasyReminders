@@ -61,11 +61,11 @@ function EasyReminders:OnInitialize()
     if EasyReminders.RETAIL then
         EasyReminders.charDB.filterConsumables = EasyReminders.charDB.filterConsumables or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
         EasyReminders.charDB.filterFood = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
-        EasyReminders.charDB.filterGear = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
+        EasyReminders.charDB.filterGear = EasyReminders.charDB.filterGear or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
     else
         EasyReminders.charDB.filterConsumables = EasyReminders.charDB.filterConsumables or {["FOREVER"] = true, ["CUSTOM"] = true, ["OTHER"] = true, ["FOREVER"] = true}
-            EasyReminders.charDB.filterFood = EasyReminders.charDB.filterFood or {["FOREVER"] = true, ["CUSTOM"] = true, ["OTHER"] = true}
-        EasyReminders.charDB.filterGear = EasyReminders.charDB.filterFood or {["FOREVER"] = true, ["CUSTOM"] = true, ["OTHER"] = true}
+        EasyReminders.charDB.filterFood = EasyReminders.charDB.filterFood or {["FOREVER"] = true, ["CUSTOM"] = true, ["OTHER"] = true}
+        EasyReminders.charDB.filterGear = EasyReminders.charDB.filterGear or {["FOREVER"] = true, ["CUSTOM"] = true, ["OTHER"] = true}
  
     end
    
