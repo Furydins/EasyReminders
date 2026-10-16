@@ -27,6 +27,17 @@ local loadFrame
 
 function EasyReminders:OnInitialize()
 
+    -- Determine version
+    local _,_,_,version = _G.GetBuildInfo()
+
+    if version < 120000 then
+        EasyReminders.RETAIL = false
+        EasyReminders.FOREVER = true
+    else
+        EasyReminders.RETAIL = true
+        EasyReminders.FOREVER = false
+    end
+
      -- Initialise Database
     EasyReminders.globalDB = _G.LibStub("AceDB-3.0"):New("EasyRemindersDB").global
     EasyReminders.charDB = _G.LibStub("AceDB-3.0"):New("EasyRemindersCharDB").char
@@ -47,10 +58,17 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.buffMinTime = EasyReminders.charDB.buffMinTime or 0
     EasyReminders.charDB.gearMinTime = EasyReminders.charDB.gearMinTime or 0
     EasyReminders.charDB.minDurability = EasyReminders.charDB.minDurability or 0
-
-    EasyReminders.charDB.filterConsumables = EasyReminders.charDB.filterConsumables or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
-    EasyReminders.charDB.filterFood = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
-    EasyReminders.charDB.filterGear = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
+    if EasyReminders.RETAIL then
+        EasyReminders.charDB.filterConsumables = EasyReminders.charDB.filterConsumables or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
+        EasyReminders.charDB.filterFood = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
+        EasyReminders.charDB.filterGear = EasyReminders.charDB.filterFood or {["MIDNIGHT"] = true, ["TWW"] = false, ["CUSTOM"] = true, ["OTHER"] = true}
+    else
+        EasyReminders.charDB.filterConsumables = EasyReminders.charDB.filterConsumables or {["FOREVER"] = true, ["CUSTOM"] = true, ["OTHER"] = true, ["FOREVER"] = true}
+            EasyReminders.charDB.filterFood = EasyReminders.charDB.filterFood or {["FOREVER"] = true, ["CUSTOM"] = true, ["OTHER"] = true}
+        EasyReminders.charDB.filterGear = EasyReminders.charDB.filterFood or {["FOREVER"] = true, ["CUSTOM"] = true, ["OTHER"] = true}
+ 
+    end
+   
     EasyReminders.charDB.filterHolidays = EasyReminders.charDB.filterHolidays or {["MAJOR"] = true, ["MICRO"] = true, ["BRAWL"] = true, ["TIMEWALKING"] = true, ["SKYRIDING"] = true, ["OTHER"] = true}
     EasyReminders.charDB.shoppingNotifications = EasyReminders.charDB.shoppingNotifications or {["LOGIN"] = false, ["INSTANCE_EXIT"] = false, ["ON_USE"] = true, ["NEAR_AH"] = false}
 

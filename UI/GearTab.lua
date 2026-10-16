@@ -11,10 +11,10 @@ local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 -- function that draws the widgets for the first tab
 function GearTab:Create(mainFrame, container)
 
-    EasyReminders.Filters.gear = {["MIDNIGHT"] = EasyReminders.charDB.filterConsumables.MIDNIGHT,
-                ["TWW"] = EasyReminders.charDB.filterConsumables.TWW,  
-                ["CUSTOM"] = EasyReminders.charDB.filterConsumables.CUSTOM,
-                ["OTHER"] = EasyReminders.charDB.filterConsumables.OTHER}
+    EasyReminders.Filters.gear = {["MIDNIGHT"] = EasyReminders.charDB.filterGear.MIDNIGHT,
+                ["TWW"] = EasyReminders.charDB.filterGear.TWW,  
+                ["CUSTOM"] = EasyReminders.charDB.filterGear.CUSTOM,
+                ["OTHER"] = EasyReminders.charDB.filterGear.OTHER}
 
     local addItemButton = EasyReminders.AceGUI:Create("Button")
     container:AddChild(addItemButton)

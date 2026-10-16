@@ -31,15 +31,15 @@ EasyReminders.Data.Holidays = {
     [2] = {["name"] = L["Lunar Festival"], ["holidayID"] = 327,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR},
     [3] = {["name"] = L["Love is in the Air"], ["holidayID"] = 423,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR},
     [4] = {["name"] = L["Noblegarden"], ["holidayID"] = 181,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR},
-    [5] = {["name"] = L["Children's Week"], ["holidayID"] = 201,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR},
+    [5] = {["name"] = L["Children's Week"], ["holidayID"] = 201,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR}, -- Missing
     [6] = {["name"] = L["Midsummer Fire Festival"], ["holidayID"] = 341,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR},
-    [7] = {["name"] = L["Pirates' Day"], ["holidayID"] = 398,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR},
-    [8] = {["name"] = L["Brewfest"], ["holidayID"] = 372,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR},
+    [7] = {["name"] = L["Pirates' Day"], ["holidayID"] = 398,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR}, -- Missing
+    [8] = {["name"] = L["Brewfest"], ["holidayID"] = 372,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR}, -- Missing
     [9] = {["name"] = L["Harvest Festival"], ["holidayID"] = 321,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR},
     [10] = {["name"] = L["Hallow's End"], ["holidayID"] = 324,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR},
-    [11] = {["name"] = L["Day of the Dead"], ["holidayID"] = 409,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR},
+    [11] = {["name"] = L["Day of the Dead"], ["holidayID"] = 409,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR}, -- Missing
     [12] = {["name"] = L["Anniversary Event"], ["holidayID"] = 1808,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR}, 
-    [13] = {["name"] = L["Pilgrim's Bounty"], ["holidayID"] = 404,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR},
+    [13] = {["name"] = L["Pilgrim's Bounty"], ["holidayID"] = 404,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR}, -- Missing
     [14] = {["name"] = L["Feast of Winter Veil"], ["holidayID"] = 141,  ["category"] = EasyReminders.Data.HolidayCategories.MAJOR},
     
 
