@@ -8,6 +8,7 @@ local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 local dialogFrame
 local itemID, itemName, itemIcon
 local statusText
+local timerPending = nil
 
 local function setCloseOnEscPress(window)
    local oldCloseSpecialWindows = CloseSpecialWindows
@@ -23,10 +24,23 @@ end
 
 --local itemID = tonumber(strmatch(itemLink, "item:(%d+):"))
 
+function WellFedDialog:PopulateItems(name, id)
+  
+  local icon = C_Item.GetItemIconByID(id)
+
+  itemName:SetText(name)
+
+  if icon then 
+    itemIcon:SetImage(icon)
+  end
+
+end
+
 function WellFedDialog:FindItemByName()
 
   local name = itemName:GetText()
   local itemLink, id, icon
+
   if name then
     _, itemLink = C_Item.GetItemInfo(name)
 
@@ -59,31 +73,55 @@ end
 function WellFedDialog:FindItemByID()
   local text = itemID:GetText()
     local id = tonumber(text)
-      if id then
-        local name = C_Item.GetItemNameByID(id)
-        local icon = C_Item.GetItemIconByID(id)
-        local _, itemSpell = C_Item.GetItemSpell(id)
+      if not loadFrame then
+      loadFrame = _G.CreateFrame("Frame")
+      loadFrame:SetScript("onEvent", function(frame, event, itemID, success)
+          WellFedDialog:RetrieveFindByID(id, success)
+      end)
+        loadFrame:RegisterEvent("GET_ITEM_INFO_RECEIVED")
+    end
 
-        if not name then
-          name = C_Item.GetItemNameByID(id)
-        end
+    if id then
+      local name = C_Item.GetItemNameByID(id)
+      local icon = C_Item.GetItemIconByID(id)
 
-
-        if not name then
-          name = L["Not found"]
-        end
-
-        itemName:SetText(name)
-
-        if icon then 
-          itemIcon:SetImage(icon)
-        end
+      if not name then 
+        itemName:SetText(L["Loading..."])
       else
-         itemID:SetText("invalid!")
-         itemName:SetText("")
-         itemIcon:SetImage(nil)
+        WellFedDialog:PopulateItems(name, id)
+        loadFrame:UnregisterEvent("GET_ITEM_INFO_RECEIVED")
       end
+      timerPending = C_Timer.NewTimer(5, function(frame, event, itemID, success)
+          WellFedDialog:RetrieveFindByID(id, success)
+      end)
+    else
+        itemID:SetText("invalid!")
+        itemName:SetText("")
+        itemIcon:SetImage(nil)
+    end
 
+end
+
+function WellFedDialog:RetrieveFindByID(id, success)
+
+  local name = C_Item.GetItemNameByID(id)
+
+  if not name then
+    name = C_Item.GetItemNameByID(id)
+  end
+
+  if not name then
+    name = L["Not found"]
+    itemName:SetText("")
+    itemIcon:SetImage(nil)
+  else
+    WellFedDialog:PopulateItems(name, id)
+  end
+  loadFrame:UnregisterEvent("GET_ITEM_INFO_RECEIVED")
+  if timerPending then
+    timerPending:Cancel()
+    timerPending = nil
+  end
 end
 
 local function validateID(id)
