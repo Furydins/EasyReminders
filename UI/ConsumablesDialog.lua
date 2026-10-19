@@ -11,6 +11,7 @@ local spellID, spellName, spellIcon
 local additionalItems, statusText
 local spellNameText
 local loadFrame
+local timerPending = nil
 
 local function setCloseOnEscPress(window)
    local oldCloseSpecialWindows = CloseSpecialWindows
@@ -96,20 +97,25 @@ end
 function ConsumablesDialog:FindItemByID()
   local text = itemID:GetText()
   local id = tonumber(text)
+  if not loadFrame then
+      loadFrame = _G.CreateFrame("Frame")
+      loadFrame:SetScript("onEvent", function(frame, event, itemID, success)
+          ConsumablesDialog:RetrieveFindByID(id, success)
+      end)
+        loadFrame:RegisterEvent("GET_ITEM_INFO_RECEIVED")
+    end
+
   if id then
       local name = C_Item.GetItemNameByID(id)
       if not name then 
         itemName:SetText(L["Loading..."])
-        if not loadFrame then
-          loadFrame = _G.CreateFrame("Frame")
-          loadFrame:SetScript("onEvent", function(frame, event, itemID, success)
-              ConsumablesDialog:RetrieveFindByID(id, success)
-          end)
-        end
-        loadFrame:RegisterEvent("GET_ITEM_INFO_RECEIVED")
       else
         ConsumablesDialog:PopulateItems(name, id)
+        loadFrame:UnregisterEvent("GET_ITEM_INFO_RECEIVED")
       end
+      timerPending = C_Timer.NewTimer(5, function(frame, event, itemID, success)
+          ConsumablesDialog:RetrieveFindByID(id, success)
+      end)
   else
       itemID:SetText(L["Invalid"])
       itemName:SetText("")
@@ -133,6 +139,10 @@ function ConsumablesDialog:RetrieveFindByID(id, success)
     ConsumablesDialog:PopulateItems(name, id)
   end
   loadFrame:UnregisterEvent("GET_ITEM_INFO_RECEIVED")
+  if timerPending then
+    timerPending:Cancel()
+    timerPending = nil
+  end
 end
 
 function ConsumablesDialog:PopulateItems(name, id)
