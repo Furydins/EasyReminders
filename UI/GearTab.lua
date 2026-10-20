@@ -146,18 +146,27 @@ function GearTab:RebuildScrollBox()
 
       local activeDropdown = EasyReminders.AceGUI:Create("Dropdown")
       activeDropdown:SetWidth(150)
-      activeDropdown:SetList({
-        ["Enchant"] = L["Enchant"],
-        ["Gem"] = L["Gem"],
-        ["Consumable"] = L["Consumable"],
-      })
+      if EasyReminders.RETAIL then
+        activeDropdown:SetList({
+          ["Enchant"] = L["Enchant"],
+          ["Gem"] = L["Gem"],
+          ["Consumable"] = L["Consumable"],
+        })
+      else
+        activeDropdown:SetList({
+          ["Enchant"] = L["Enchant"],
+          ["Consumable"] = L["Consumable"],
+        })
+      end
 
       EasyReminders.charDB.gear[data.slotID] = EasyReminders.charDB.gear[data.slotID] or {}
       activeDropdown:SetMultiselect(true)
       activeDropdown:SetItemDisabled("Enchant", not data.enchantable)
       activeDropdown:SetItemValue("Enchant", EasyReminders.charDB.gear[data.slotID].enchant or false)
-      activeDropdown:SetItemDisabled("Gem", not data.gemable)
-      activeDropdown:SetItemValue("Gem", EasyReminders.charDB.gear[data.slotID].gem or false)
+      if EasyReminders.RETAIL then
+        activeDropdown:SetItemDisabled("Gem", not data.gemable)
+        activeDropdown:SetItemValue("Gem", EasyReminders.charDB.gear[data.slotID].gem or false)
+      end
       activeDropdown:SetItemDisabled("Consumable", not data.consumable)
 
       activeDropdown:SetItemValue("Consumable", EasyReminders.charDB.gear[data.slotID].consumable or false)
