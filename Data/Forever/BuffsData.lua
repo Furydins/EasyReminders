@@ -33,52 +33,39 @@ EasyReminders.Data.Buffs = {
 
     -- Paladin
     [19977] = {["buffID"] = 19977, ["class"] = "PALADIN",["additionalBuffs"] = {19978,19979,25890}}, -- Blessing of Light
-    [20217] = {["buffID"] = 317920, ["class"] = "PALADIN", ["additionalBuffs"] = {25898,25916}}, -- Blessing of Kings
+    -- [20217] = {["buffID"] = 317920, ["class"] = "PALADIN", ["additionalBuffs"] = {25898,25916}}, -- Blessing of Kings
     [19740] = {["buffID"] = 19740, ["class"] = "PALADIN",["additionalBuffs"] = {19834,19835,19836,19837,19838,25291,25782}}, -- Blessing of Might
+    [19742] = {["buffID"] = 19742, ["class"] = "PALADIN",["additionalBuffs"] = {19850,19852,19853,19854,25290,25894,25918}}, -- Blessing of Wisdom
+    [19746] = {["buffID"] = 19746, ["class"] = "PALADIN"}, -- Concentration Aura
+    [465] = {["buffID"] = 465, ["class"] = "PALADIN",["additionalBuffs"] = {10290,643,10291,1032,10292,10293}}, -- Devotion Aura
+    [19891] = {["buffID"] = 19891, ["class"] = "PALADIN",["additionalBuffs"] = {19899,19900}}, -- Fire resistance Aura
+    [19888] = {["buffID"] = 19888, ["class"] = "PALADIN",["additionalBuffs"] = {19897,19898}}, -- Frost resistance Aura
+    [7294] = {["buffID"] = 7294, ["class"] = "PALADIN",["additionalBuffs"] = {10298,10299,10300,10301}}, -- Retribution Aura
+    [1038] = {["buffID"] = 1038, ["class"] = "PALADIN"}, -- Salvation
+    [5502] = {["buffID"] = 5502, ["class"] = "PALADIN"}, -- Sense Undead
+    [19876] = {["buffID"] = 19876, ["class"] = "PALADIN",["additionalBuffs"] = {19895,19896}}, -- Shadow Resistance Aura
 
+    -- Priest
+    [14752] = {["buffID"] = 14752, ["class"] = "PRIEST",["additionalBuffs"] = {14818,14819,27841}}, -- Divine SPirit
+    [1243] = {["buffID"] = 1243, ["class"] = "PRIEST",["additionalBuffs"] = {1244,1245,2791,10937,10938}}, --Power Word: Fortitude
+    [976] = {["buffID"] = 976, ["class"] = "PRIEST",["additionalBuffs"] = {10957,10958}}, -- Shadow Protection
 
-    -- Concentration Aura
-    -- Devotion Aura
-    -- Retibution Aura
-    -- Shadow Resistance Aura
-    -- Frost Resistance Aura
-    -- Fire Resitance Aura
-    -- Blessing of Wisdom + Greater!
-    -- Salvation
-    -- Sense Undea
+    -- Rogue
+    [3408] = {["buffID"] = 3408, ["class"] = "ROGUE",["additionalBuffs"] = {11201}}, -- Crippling Poison
+    [5761] = {["buffID"] = 5761, ["class"] = "ROGUE",["additionalBuffs"] = {8693,11399}}, -- Mind-Numbing Poison
+    [8679] = {["buffID"] = 8679, ["class"] = "ROGUE",["additionalBuffs"] = {8686,8688,11338,11339,11340}}, -- Instant Poison
+    [2823] = {["buffID"] = 2823, ["class"] = "ROGUE", ["additionalBuffs"] = {2824,11355,11356,25351}}, -- Deadly Poison
+    [13219] = {["buffID"] = 13219, ["class"] = "ROGUE", ["additionalBuffs"] = {13218,13221,13222,13223,13224}}, -- Wound Poison
 
-    [465] = {["buffID"] = 465, ["class"] = "PALADIN"}, -- Devotion Aura
-    [317920] = {["buffID"] = 317920, ["class"] = "PALADIN"}, -- Concentration Aura
-    [32223] = {["buffID"] = 32223, ["class"] = "PALADIN"}, -- Crusader Aura
-    [433550] = {["buffID"] = 433550, ["class"] = "PALADIN"}, -- Rite of Sanctification
-    [433584] = {["buffID"] = 433584, ["class"] = "PALADIN"}, -- Rite of SAjuration
+    -- Warlock
+    [11743] = {["buffID"] = 11743, ["class"] = "WARLOCK", ["additionalBuffs"] = {2970}}, -- Detect Invisibility
+    
+    -- Warrior
 
-    [315584] = {["buffID"] = 315584, ["class"] = "ROGUE"},
-    [3408] = {["buffID"] = 3408, ["class"] = "ROGUE"},
-    [5761] = {["buffID"] = 5761, ["class"] = "ROGUE"},
-    [381637] = {["buffID"] = 381637, ["class"] = "ROGUE"},
-    [8679] = {["buffID"] = 8679, ["class"] = "ROGUE"},
-    [381664] = {["buffID"] = 381664, ["class"] = "ROGUE"},
-    [2823] = {["buffID"] = 2823, ["class"] = "ROGUE"},
+    [2458] = {["buffID"] = 2458, ["class"] = "WARRIOR"}, -- Berserker Stand
+    [2457] = {["buffID"] = 2457, ["class"] = "WARRIOR"}, -- Battle Stance
+    [71] = {["buffID"] = 71, ["class"] = "WARRIOR"}, -- Defensive Stance
 
-    [192106] = {["buffID"] = 192106, ["class"] = "SHAMAN"},
-    [383648] = {["buffID"] = 383648, ["class"] = "SHAMAN"},
-    [382021] = {["buffID"] = 382021, ["class"] = "SHAMAN", ["additionalBuffs"] = {382022}},
-    [457496] = {["buffID"] = 457496, ["class"] = "SHAMAN", ["additionalBuffs"] = {457418}},
-    [462757] = {["buffID"] = 462757, ["class"] = "SHAMAN", ["additionalBuffs"] = {462742}},
-
-    [20707] = {["buffID"] = 20707, ["class"] = "WARLOCK"},
-
-    [386164] = {["buffID"] = 386164, ["class"] = "WARRIOR"},
-    [386208] = {["buffID"] = 386208, ["class"] = "WARRIOR"},
-    [386196] = {["buffID"] = 386196, ["class"] = "WARRIOR"},
-
-    -- Raid Buffs
-    [6673] = {["buffID"] = 6673, ["class"] = "WARRIOR"},
-    [21562] = {["buffID"] = 21562, ["class"] = "PRIEST"},
-    [1459] = {["buffID"] = 1459, ["class"] = "MAGE"},
-    [462854] = {["buffID"] = 462854, ["class"] = "SHAMAN"},
-    [381748] = {["buffID"] = 381748, ["class"] = "EVOKER", ["additionalBuffs"] = {381758,381732,381741,381746,381748,381750,381749,381751,381752,381753,381754,381756,381757}},
 
 }
 
