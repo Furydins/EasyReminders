@@ -14,10 +14,10 @@ EasyReminders.Data.Duration.MONTHLY = 24
 
 EasyReminders.Data.HolidayCategories = {}
 EasyReminders.Data.HolidayCategories.MAJOR = "MAJOR"
-EasyReminders.Data.HolidayCategories.MICRO = "MICRO"
-EasyReminders.Data.HolidayCategories.BRAWL = "BRAWL"
-EasyReminders.Data.HolidayCategories.TIMEWALKING = "TIMEWALKING"
-EasyReminders.Data.HolidayCategories.SKYRIDING = "SKYRIDING"
+--EasyReminders.Data.HolidayCategories.MICRO = "MICRO"
+--EasyReminders.Data.HolidayCategories.BRAWL = "BRAWL"
+--EasyReminders.Data.HolidayCategories.TIMEWALKING = "TIMEWALKING"
+--EasyReminders.Data.HolidayCategories.SKYRIDING = "SKYRIDING"
 EasyReminders.Data.HolidayCategories.OTHER = "OTHER"
 
 EasyReminders.Data.Holidays = {
