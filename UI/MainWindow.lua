@@ -9,6 +9,7 @@ local mainFrame
 local enable
 
 
+
 local function setCloseOnEscPress(window)
    local oldCloseSpecialWindows = CloseSpecialWindows
     CloseSpecialWindows = function()
@@ -46,6 +47,8 @@ local function SelectGroup(container, event, group)
       EasyReminders.UI.HolidayTab:Create(mainFrame, container)
    elseif group == "tab7" then
       EasyReminders.UI.GroupTab:Create(mainFrame, container)
+   elseif group == "tab8" then
+      EasyReminders.UI.OthersTab:Create(mainFrame, container)
    end
 end
 
@@ -77,14 +80,26 @@ function MainWindow:CreateMainWindow()
    end)
    topGroup:AddChild(enable)
 
+   local tabs = { {text=L["Consumables"], value="tab1"}, 
+                  {text=L["Well Fed"], value="tab2"}, 
+                  {text=L["Buffs"], value="tab3"},
+                  {text=L["Gear"], value = "tab4"}, 
+                  {text=L["Shopping"], value = "tab5"}, 
+                  {text=L["Events"], value = "tab6"}, 
+                  {text=L["Groups"], value = "tab7"}
+               }
+            
+    if EasyReminders.RETAIL then
+       table.insert(tabs, {text=L["Others"], value = "tab8"})
+    end
+
     -- Create the TabGroup
     local tab = EasyReminders.AceGUI:Create("TabGroup")
     tab:SetFullHeight(true)
     tab:SetFullWidth(true)
     tab:SetLayout("Flow")
     -- Setup which tabs to show
-    tab:SetTabs({ {text=L["Consumables"], value="tab1"}, {text=L["Well Fed"], value="tab2"}, {text=L["Buffs"], value="tab3"},
-             {text=L["Gear"], value = "tab4"}, {text=L["Shopping"], value = "tab5"}, {text=L["Events"], value = "tab6"}, {text=L["Groups"], value = "tab7"} })
+    tab:SetTabs( tabs )
     -- Register callback
     tab:SetCallback("OnGroupSelected", SelectGroup)
     -- Set initial Tab (this will fire the OnGroupSelected callback)

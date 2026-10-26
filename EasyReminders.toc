@@ -46,6 +46,7 @@ EnchantCheck.lua
 GemCheck.lua
 TemporaryEnchantCheck.lua
 DurabilityCheck.lua
+MiscCheck.lua
 
 
 

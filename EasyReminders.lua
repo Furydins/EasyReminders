@@ -72,6 +72,9 @@ function EasyReminders:OnInitialize()
     EasyReminders.charDB.filterHolidays = EasyReminders.charDB.filterHolidays or {["MAJOR"] = true, ["MICRO"] = true, ["BRAWL"] = true, ["TIMEWALKING"] = true, ["SKYRIDING"] = true, ["OTHER"] = true}
     EasyReminders.charDB.shoppingNotifications = EasyReminders.charDB.shoppingNotifications or {["LOGIN"] = false, ["INSTANCE_EXIT"] = false, ["ON_USE"] = true, ["NEAR_AH"] = false}
 
+    EasyReminders.charDB.rerollKey = EasyReminders.charDB.rerollKey or false
+
+
     if EasyReminders.globalDB.enabled == nil then
         EasyReminders.globalDB.enable = true
     end
@@ -222,6 +225,7 @@ function EasyReminders:RegisterEvents()
     f:RegisterEvent("ZONE_CHANGED_INDOORS")
     f:RegisterEvent("ZONE_CHANGED_NEW_AREA")
     f:RegisterEvent("PLAYER_ENTERING_BATTLEGROUND")
+    f:RegisterEvent("CHALLENGE_MODE_COMPLETED_REWARDS")
     f:SetScript("OnEvent", EasyReminders.EventHandler)
 end
 
@@ -264,6 +268,10 @@ function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
             EasyReminders:CheckBuffs("ZONE_CHANGE")
         end
         inInstance = newInInstance
+    elseif "CHALLENGE_MODE_COMPLETED_REWARDS" == event then
+         -- payload: mapID, medal, timeMS, money, rewards (table)
+        local mapID, medal, timeMS, money, rewards = ...
+        EasyReminders.MiscCheck:CheckReroll()
     end
 end
 
