@@ -196,6 +196,9 @@ function EasyReminders:OnInitialize()
     local _, id = EasyReminders.AceConfigDialog:AddToBlizOptions("EasyReminders", "EasyReminders")
     EasyReminders.optionsPage = id or "EasyReminders"
 
+    EasyReminders.keyLevel = C_MythicPlus.GetOwnedKeystoneLevel()
+    EasyReminders.keyMap = C_MythicPlus.GetOwnedKeystoneMapID()
+
 end
 
 function EasyReminders:OpenGUI(msg)
@@ -249,6 +252,8 @@ function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
     elseif "BAG_UPDATE_DELAYED" == event then
         EasyReminders.BagCache:RefreshBags(true)
         EasyReminders:CheckBuffs("ON_USE")
+        EasyReminders.keyLevel = C_MythicPlus.GetOwnedKeystoneLevel()
+        EasyReminders.keyMap = C_MythicPlus.GetOwnedKeystoneMapID()
     elseif "UNIT_AURA" == event and "player" == arg1 then
         EasyReminders:CheckBuffs("BUFF_CHANGE")
     elseif "PLAYER_REGEN_ENABLED" == event then

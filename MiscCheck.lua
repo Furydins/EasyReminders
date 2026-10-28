@@ -8,25 +8,30 @@ function MiscCheck:CheckReroll()
   if EasyReminders.charDB.rerollKey and EasyReminders.RETAIL then
     local info
     C_Timer.After(0.15, function()
-        -- Example: use C_ChallengeMode.GetCompletionInfo() if available
-        -- (function names vary by patch; check your client's API or wowpedia/warcraft.wiki)
+
         info = C_ChallengeMode.GetChallengeCompletionInfo()
 
         if (not info or not info.mapChallengeModeID or info.mapChallengeModeID == 0) and C_MythicPlus and C_MythicPlus.RequestMapInfo then
-            -- ask the client to load map info, then try again
             C_MythicPlus.RequestMapInfo()
             C_Timer.After(0.25, function()
                 info = C_ChallengeMode.GetChallengeCompletionInfo()
             end)
         end
     end)
-    if into and info.mapChallengeModeID and info.mapChallengeModeID ~= 0 then
-        local keylevel =  C_MythicPlus.GetOwnedKeystoneLevel()
-        if keyLevel <= info.level and info.onTime then
+    local keylevel =  C_MythicPlus.GetOwnedKeystoneLevel()
+    local keyMap = C_MythicPlus.GetOwnedKeystoneMapID()
+    if info and info.mapChallengeModeID and info.mapChallengeModeID ~= 0  then
+        EasyReminders:Print("Key Check: keyLevel = " .. tostring(keylevel) .. ", info.level = " .. tostring(info.level) ..
+        ", info.onTime = " .. tostring(info.onTime) .. " , currentkeyLevel = " .. tostring(EasyReminders.keyLevel) .. 
+        ", currentmap = " .. tostring(EasyReminders.keyMap) .. " , keyMap = " .. tostring(keyMap))
+        if (keyLevel ~= EasyReminders.keyLevel or keyMap ~= EasyReminders.keyMap) and keyLevel <= info.level and info.onTime then
             MiscCheck:ShowPopup(L["Reroll Key Reminder"], L["You have completed a Mythic+ dungeon. Remember to reroll your key!"])
         end
     end
   end
+
+  EasyReminders.keyLevel = C_MythicPlus.GetOwnedKeystoneLevel()
+  EasyReminders.keyMap = C_MythicPlus.GetOwnedKeystoneMapID()
 end
 
 function MiscCheck:ShowPopup(title, message)
@@ -101,7 +106,7 @@ function MiscCheck:StorePositon()
   EasyReminders.globalDB.miscLocation[5] = offsetY
 end
 
-function EasyReminders.MiscCheck:SimulateFailedMythicPlusCompletion()
+function
   MiscCheck:CheckReroll()
 end
 
