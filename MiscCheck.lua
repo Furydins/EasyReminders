@@ -17,7 +17,7 @@ function MiscCheck:CheckReroll()
    if info and info.mapChallengeModeID and info.mapChallengeModeID ~= 0  then
       EasyReminders:Print("Key Check: keyLevel = " .. tostring(keyLevel) .. ", info.level = " .. tostring(info.level) ..
       ", info.onTime = " .. tostring(info.onTime) .. " , keyMap = " .. tostring(keyMap))
-        if keyLevel <= info.level and info.onTime then
+        if keyLevel and keyLevel <= info.level and info.onTime then
             MiscCheck:ShowPopup(L["Reroll Key Reminder"], L["You have completed a Mythic+ dungeon. Remember to reroll your key!"])
         end
    end
