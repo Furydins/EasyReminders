@@ -6,32 +6,23 @@ local frame
 
 function MiscCheck:CheckReroll()
   if EasyReminders.charDB.rerollKey and EasyReminders.RETAIL then
-    local info
-    C_Timer.After(0.15, function()
-
-        info = C_ChallengeMode.GetChallengeCompletionInfo()
-
-        if (not info or not info.mapChallengeModeID or info.mapChallengeModeID == 0) and C_MythicPlus and C_MythicPlus.RequestMapInfo then
-            C_MythicPlus.RequestMapInfo()
-            C_Timer.After(0.25, function()
-                info = C_ChallengeMode.GetChallengeCompletionInfo()
-            end)
-        end
-    end)
-    local keylevel =  C_MythicPlus.GetOwnedKeystoneLevel()
+    EasyReminders:Print("Checking for reroll key reminder...")
+    local keyLevel =  C_MythicPlus.GetOwnedKeystoneLevel()
     local keyMap = C_MythicPlus.GetOwnedKeystoneMapID()
-    if info and info.mapChallengeModeID and info.mapChallengeModeID ~= 0  then
-        EasyReminders:Print("Key Check: keyLevel = " .. tostring(keylevel) .. ", info.level = " .. tostring(info.level) ..
-        ", info.onTime = " .. tostring(info.onTime) .. " , currentkeyLevel = " .. tostring(EasyReminders.keyLevel) .. 
-        ", currentmap = " .. tostring(EasyReminders.keyMap) .. " , keyMap = " .. tostring(keyMap))
-        if (keyLevel ~= EasyReminders.keyLevel or keyMap ~= EasyReminders.keyMap) and keyLevel <= info.level and info.onTime then
+    local info = C_ChallengeMode.GetChallengeCompletionInfo()
+
+  EasyReminders:Print("Key Check: keyLevel = " .. tostring(keyLevel) .. ", info.level = " .. tostring(info.level) ..
+    ", info.onTime = " .. tostring(info.onTime) .. " , keyMap = " .. tostring(keyMap))
+
+   if info and info.mapChallengeModeID and info.mapChallengeModeID ~= 0  then
+      EasyReminders:Print("Key Check: keyLevel = " .. tostring(keyLevel) .. ", info.level = " .. tostring(info.level) ..
+      ", info.onTime = " .. tostring(info.onTime) .. " , keyMap = " .. tostring(keyMap))
+        if keyLevel <= info.level and info.onTime then
             MiscCheck:ShowPopup(L["Reroll Key Reminder"], L["You have completed a Mythic+ dungeon. Remember to reroll your key!"])
         end
-    end
+   end
   end
 
-  EasyReminders.keyLevel = C_MythicPlus.GetOwnedKeystoneLevel()
-  EasyReminders.keyMap = C_MythicPlus.GetOwnedKeystoneMapID()
 end
 
 function MiscCheck:ShowPopup(title, message)
@@ -104,10 +95,6 @@ function MiscCheck:StorePositon()
   EasyReminders.globalDB.miscLocation[3] = relativePoint
   EasyReminders.globalDB.miscLocation[4] = offsetX
   EasyReminders.globalDB.miscLocation[5] = offsetY
-end
-
-function
-  MiscCheck:CheckReroll()
 end
 
 function EasyReminders.MiscCheck:SimulateSuccessfulMythicPlusCompletion()

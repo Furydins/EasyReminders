@@ -196,8 +196,6 @@ function EasyReminders:OnInitialize()
     local _, id = EasyReminders.AceConfigDialog:AddToBlizOptions("EasyReminders", "EasyReminders")
     EasyReminders.optionsPage = id or "EasyReminders"
 
-    EasyReminders.keyLevel = C_MythicPlus.GetOwnedKeystoneLevel()
-    EasyReminders.keyMap = C_MythicPlus.GetOwnedKeystoneMapID()
 
 end
 
@@ -228,7 +226,7 @@ function EasyReminders:RegisterEvents()
     f:RegisterEvent("ZONE_CHANGED_INDOORS")
     f:RegisterEvent("ZONE_CHANGED_NEW_AREA")
     f:RegisterEvent("PLAYER_ENTERING_BATTLEGROUND")
-    f:RegisterEvent("CHALLENGE_MODE_COMPLETED_REWARDS")
+    f:RegisterEvent("CHALLENGE_MODE_COMPLETED")
     f:SetScript("OnEvent", EasyReminders.EventHandler)
 end
 
@@ -252,8 +250,6 @@ function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
     elseif "BAG_UPDATE_DELAYED" == event then
         EasyReminders.BagCache:RefreshBags(true)
         EasyReminders:CheckBuffs("ON_USE")
-        EasyReminders.keyLevel = C_MythicPlus.GetOwnedKeystoneLevel()
-        EasyReminders.keyMap = C_MythicPlus.GetOwnedKeystoneMapID()
     elseif "UNIT_AURA" == event and "player" == arg1 then
         EasyReminders:CheckBuffs("BUFF_CHANGE")
     elseif "PLAYER_REGEN_ENABLED" == event then
@@ -273,9 +269,7 @@ function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
             EasyReminders:CheckBuffs("ZONE_CHANGE")
         end
         inInstance = newInInstance
-    elseif "CHALLENGE_MODE_COMPLETED_REWARDS" == event then
-         -- payload: mapID, medal, timeMS, money, rewards (table)
-        local mapID, medal, timeMS, money, rewards = ...
+    elseif "CHALLENGE_MODE_COMPLETED" == event then
         EasyReminders.MiscCheck:CheckReroll()
     end
 end
