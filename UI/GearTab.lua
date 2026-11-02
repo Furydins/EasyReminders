@@ -11,10 +11,11 @@ local L = _G.LibStub("AceLocale-3.0"):GetLocale("EasyReminders")
 -- function that draws the widgets for the first tab
 function GearTab:Create(mainFrame, container)
 
-    EasyReminders.Filters.gear = {["MIDNIGHT"] = EasyReminders.charDB.filterConsumables.MIDNIGHT,
-                ["TWW"] = EasyReminders.charDB.filterConsumables.TWW,  
-                ["CUSTOM"] = EasyReminders.charDB.filterConsumables.CUSTOM,
-                ["OTHER"] = EasyReminders.charDB.filterConsumables.OTHER}
+    EasyReminders.Filters.gear = {["MIDNIGHT"] = EasyReminders.charDB.filterGear.MIDNIGHT,
+                ["TWW"] = EasyReminders.charDB.filterGear.TWW,  
+                ["CUSTOM"] = EasyReminders.charDB.filterGear.CUSTOM,
+                ["OTHER"] = EasyReminders.charDB.filterGear.OTHER,
+                ["FOREVER"] = EasyReminders.charDB.filterGear.FOREVER,}
 
     local addItemButton = EasyReminders.AceGUI:Create("Button")
     container:AddChild(addItemButton)
@@ -28,17 +29,39 @@ function GearTab:Create(mainFrame, container)
 
     local filterDropdown = EasyReminders.AceGUI:Create("Dropdown")
     filterDropdown:SetWidth(150)
-    filterDropdown:SetList({
-        [EasyReminders.Data.Expansions.MIDNIGHT] = L["Midnight"],
-        [EasyReminders.Data.Expansions.TWW] = L["The War Within"],
-        [EasyReminders.Data.Expansions.CUSTOM] = L["Custom"],
-        [EasyReminders.Data.Expansions.OTHER] = L["Other Items"],
-    })
     filterDropdown:SetMultiselect(true)
-    filterDropdown:SetItemValue(EasyReminders.Data.Expansions.MIDNIGHT, EasyReminders.Filters.gear.MIDNIGHT)
-    filterDropdown:SetItemValue(EasyReminders.Data.Expansions.TWW, EasyReminders.Filters.gear.TWW)
-    filterDropdown:SetItemValue(EasyReminders.Data.Expansions.CUSTOM, EasyReminders.Filters.gear.CUSTOM)
-    filterDropdown:SetItemValue(EasyReminders.Data.Expansions.OTHER, EasyReminders.Filters.gear.OTHER)
+    if EasyReminders.RETAIL then
+        filterDropdown:SetList({
+            [EasyReminders.Data.Expansions.MIDNIGHT] = L["Midnight"],
+            [EasyReminders.Data.Expansions.TWW] = L["The War Within"],
+            [EasyReminders.Data.Expansions.CUSTOM] = L["Custom"],
+            [EasyReminders.Data.Expansions.OTHER] = L["Other Items"],
+        },
+        {
+          EasyReminders.Data.Expansions.MIDNIGHT,
+          EasyReminders.Data.Expansions.TWW,
+          EasyReminders.Data.Expansions.CUSTOM,
+          EasyReminders.Data.Expansions.OTHER,
+        })
+        filterDropdown:SetItemValue(EasyReminders.Data.Expansions.MIDNIGHT, EasyReminders.Filters.gear.MIDNIGHT)
+        filterDropdown:SetItemValue(EasyReminders.Data.Expansions.TWW, EasyReminders.Filters.gear.TWW)
+        filterDropdown:SetItemValue(EasyReminders.Data.Expansions.CUSTOM, EasyReminders.Filters.gear.CUSTOM)
+        filterDropdown:SetItemValue(EasyReminders.Data.Expansions.OTHER, EasyReminders.Filters.gear.OTHER)
+    else
+        filterDropdown:SetList({
+            [EasyReminders.Data.Expansions.FOREVER] = L["Forever"],
+            [EasyReminders.Data.Expansions.CUSTOM] = L["Custom"],
+            [EasyReminders.Data.Expansions.OTHER] = L["Other Items"],
+        },
+        {
+          EasyReminders.Data.Expansions.FOREVER,
+          EasyReminders.Data.Expansions.CUSTOM,
+          EasyReminders.Data.Expansions.OTHER,
+        })
+        filterDropdown:SetItemValue(EasyReminders.Data.Expansions.FOREVER, EasyReminders.Filters.gear.FOREVER)
+        filterDropdown:SetItemValue(EasyReminders.Data.Expansions.CUSTOM, EasyReminders.Filters.gear.CUSTOM)
+        filterDropdown:SetItemValue(EasyReminders.Data.Expansions.OTHER, EasyReminders.Filters.gear.OTHER)
+    end
     container:AddChild(filterDropdown)
 
     filterDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
@@ -109,30 +132,41 @@ function GearTab:RebuildScrollBox()
     local data = EasyReminders.Data.GearSlots[i]
 
     if data.enchantable or data.gemable or data.consumable then
-      local itemIcon = C_Item.GetItemIcon({equipmentSlotIndex = data.slotID})
+      -- https://warcraft.wiki.gg/wiki/API:C_PaperDollInfo.GetInventorySlotInfo
+      local _, itemIcon, _ = C_PaperDollInfo.GetInventorySlotInfo(data.slotNameID)
+      --local itemIcon = C_Item.GetItemIcon({equipmentSlotIndex = data.slotID})
 
       local slotName = EasyReminders.AceGUI:Create("Label")
       slotName:SetText(data.slotName)
       slotName:SetFont(EasyReminders.Font, 12, "")
       slotName:SetWidth(440)
-      slotName:SetImage("itemIcon")
+      slotName:SetImage(itemIcon)
       slotName:SetImageSize(16,16)
       scrollBox:AddChild(slotName)
 
       local activeDropdown = EasyReminders.AceGUI:Create("Dropdown")
       activeDropdown:SetWidth(150)
-      activeDropdown:SetList({
-        ["Enchant"] = L["Enchant"],
-        ["Gem"] = L["Gem"],
-        ["Consumable"] = L["Consumable"],
-      })
+      if EasyReminders.RETAIL then
+        activeDropdown:SetList({
+          ["Enchant"] = L["Enchant"],
+          ["Gem"] = L["Gem"],
+          ["Consumable"] = L["Consumable"],
+        })
+      else
+        activeDropdown:SetList({
+          ["Enchant"] = L["Enchant"],
+          ["Consumable"] = L["Consumable"],
+        })
+      end
 
       EasyReminders.charDB.gear[data.slotID] = EasyReminders.charDB.gear[data.slotID] or {}
       activeDropdown:SetMultiselect(true)
       activeDropdown:SetItemDisabled("Enchant", not data.enchantable)
       activeDropdown:SetItemValue("Enchant", EasyReminders.charDB.gear[data.slotID].enchant or false)
-      activeDropdown:SetItemDisabled("Gem", not data.gemable)
-      activeDropdown:SetItemValue("Gem", EasyReminders.charDB.gear[data.slotID].gem or false)
+      if EasyReminders.RETAIL then
+        activeDropdown:SetItemDisabled("Gem", not data.gemable)
+        activeDropdown:SetItemValue("Gem", EasyReminders.charDB.gear[data.slotID].gem or false)
+      end
       activeDropdown:SetItemDisabled("Consumable", not data.consumable)
 
       activeDropdown:SetItemValue("Consumable", EasyReminders.charDB.gear[data.slotID].consumable or false)

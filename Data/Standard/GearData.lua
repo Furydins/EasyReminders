@@ -7,7 +7,6 @@ EasyReminders.Data.GearSlots = {
     [1] = {["slotID"] = 1, ["slotName"] = _G.HEADSLOT, ["slotNameID"] = "HEADSLOT", ["enchantable"] = true, ["gemable"] = true},
     [2] = {["slotID"] = 2, ["slotName"] = _G.NECKSLOT, ["slotNameID"] = "NECKSLOT", ["gemable"] = true},
     [3] = {["slotID"] = 3, ["slotName"] = _G.SHOULDERSLOT, ["slotNameID"] = "SHOULDERSLOT", ["enchantable"] = true},
-    [3] = {["slotID"] = 3, ["slotName"] = _G.SHOULDERSLOT, ["slotNameID"] = "SHOULDERSLOT", ["enchantable"] = true},
     [4] = {["slotID"] = 4, ["slotName"] = _G.SHIRTSLOT, ["slotNameID"] = "SHIRTSLOT"},
     [5] = {["slotID"] = 5, ["slotName"] = _G.CHESTSLOT, ["slotNameID"] = "CHESTSLOT", ["enchantable"] = true},
     [6] = {["slotID"] = 6, ["slotName"] = _G.WAISTSLOT, ["slotNameID"] = "WAISTSLOT", ["gemable"] = true},
