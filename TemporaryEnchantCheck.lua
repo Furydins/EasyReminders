@@ -115,11 +115,13 @@ function TemporaryEnchantCheck:CheckEnchants(missingEnchants)
                 itemIcon = EasyReminders.DataCache[itemID][3]
             end
             if data.slotID == 16 then
-                if not hasMainHandEnchant or mainHandExpiration <= (EasyReminders.charDB.gearMinTime * 60 * 1000) or not hasEnchant(mainHandEnchantID, data.buffIDs) then
+                local enchantInfo = C_PaperDollInfo.GetTemporaryEnchantmentInfo(_G.INVSLOT_MAINHAND)
+                if (not enchantInfo) or enchantInfo.remainingTimeMs <= (EasyReminders.charDB.gearMinTime * 60 * 1000) or not hasEnchant(mainHandEnchantID, data.buffIDs) then
                     missingEnchants[itemID] = itemIcon
                 end
             elseif data.slotID == 17 then
-                if not hasOffHandEnchant or offHandExpiration <= (EasyReminders.charDB.gearMinTime * 60 * 1000) or not hasEnchant(offHandEnchantID, data.buffIDs) then
+                local enchantInfo = C_PaperDollInfo.GetTemporaryEnchantmentInfo(_G.INVSLOT_OFFHAND)
+                if (not enchantInfo) or enchantInfo.remainingTimeMs <= (EasyReminders.charDB.gearMinTime * 60 * 1000) or not hasEnchant(offHandEnchantID, data.buffIDs) then
                     missingEnchants[itemID] = itemIcon      
                 end
             end
@@ -128,11 +130,13 @@ function TemporaryEnchantCheck:CheckEnchants(missingEnchants)
           local spellInfo = C_Spell.GetSpellInfo(data.spellID)
           local spellIcon = spellInfo and spellInfo.iconID or nil
            if data.slotID == 16 then          
-                if not hasMainHandEnchant or mainHandExpiration <= (EasyReminders.charDB.gearMinTime * 60 * 1000) or mainHandEnchantID ~= data.buffID then
+                local enchantInfo = C_PaperDollInfo.GetTemporaryEnchantmentInfo(_G.INVSLOT_MAINHAND)
+                if (not enchantInfo) or enchantInfo.remainingTimeMs <= (EasyReminders.charDB.gearMinTime * 60 * 1000) or mainHandEnchantID ~= data.buffID then
                   missingEnchants[data.spellID] = spellIcon
                 end
             elseif data.slotID == 17 then
-                if not hasOffHandEnchant or offHandExpiration <= (EasyReminders.charDB.gearMinTime * 60 * 1000) or offHandEnchantID ~= data.buffID then
+                local enchantInfo = C_PaperDollInfo.GetTemporaryEnchantmentInfo(_G.INVSLOT_OFFHAND)
+                if (not enchantInfo) or enchantInfo.remainingTimeMs <= (EasyReminders.charDB.gearMinTime * 60 * 1000) or offHandEnchantID ~= data.buffID then
                     missingEnchants[data.spellID] = spellIcon      
                 end
             end

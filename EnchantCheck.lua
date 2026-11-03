@@ -30,7 +30,7 @@ function EnchantCheck:CheckEnchants(missingEnchants)
 
     for index, data in pairs(EasyReminders.Data.GearSlots) do
       if data.enchantable and EasyReminders.charDB.gear[data.slotID] and EasyReminders.charDB.gear[data.slotID].enchant and not foundEnchants[data.slotID] then
-        local _, slotTexture, _ = GetInventorySlotInfo(data.slotNameID)
+        local _, slotTexture, _ = C_PaperDollInfo.GetInventorySlotInfo(data.slotNameID)
         local itemTexture = itemIconInfo[data.slotID]
         missingEnchants[data.slotName] = itemTexture or slotTexture
       end

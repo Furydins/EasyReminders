@@ -240,7 +240,7 @@ function GearDialog:Create(mainFrame)
     dialogFrame:AddChild(slot)
     slot:SetCallback("OnValueChanged", function(_,_,key)    
         slotName = key
-        slotID, _, _ = _G.GetInventorySlotInfo(key)
+        slotID, _, _ = C_PaperDollInfo.GetInventorySlotInfo(key)
     end)
 
     ---- Extra items

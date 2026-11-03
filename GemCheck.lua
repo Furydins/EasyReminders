@@ -25,7 +25,7 @@ function GemCheck:CheckGems(missingGems)
 
     for index, data in pairs(EasyReminders.Data.GearSlots) do
       if data.gemable and EasyReminders.charDB.gear[data.slotID] and EasyReminders.charDB.gear[data.slotID].gem and not foundGems[data.slotID] then
-        local _, slotTexture, _ = GetInventorySlotInfo(data.slotNameID)
+        local _, slotTexture, _ = C_PaperDollInfo.GetInventorySlotInfo(data.slotNameID)
         local itemTexture = itemIconInfo[data.slotID]
         missingGems[data.slotName] = itemTexture or slotTexture
       end
