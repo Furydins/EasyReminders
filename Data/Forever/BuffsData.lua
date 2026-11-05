@@ -32,8 +32,7 @@ EasyReminders.Data.Buffs = {
     [6117] = {["buffID"] = 6117, ["class"] = "MAGE", ["additionalBuffs"] = {22782,1422783}}, -- Mage Armor
 
     -- Paladin
-    [19977] = {["buffID"] = 19977, ["class"] = "PALADIN",["additionalBuffs"] = {19978,19979,25890}}, -- Blessing of Light
-    -- [20217] = {["buffID"] = 317920, ["class"] = "PALADIN", ["additionalBuffs"] = {25898,25916}}, -- Blessing of Kings
+    [20217] = {["buffID"] = 20217, ["class"] = "PALADIN", ["additionalBuffs"] = {25898,25916}}, -- Blessing of Kings
     [19740] = {["buffID"] = 19740, ["class"] = "PALADIN",["additionalBuffs"] = {19834,19835,19836,19837,19838,25291,25782}}, -- Blessing of Might
     [19742] = {["buffID"] = 19742, ["class"] = "PALADIN",["additionalBuffs"] = {19850,19852,19853,19854,25290,25894,25918}}, -- Blessing of Wisdom
     [19746] = {["buffID"] = 19746, ["class"] = "PALADIN"}, -- Concentration Aura
@@ -41,7 +40,6 @@ EasyReminders.Data.Buffs = {
     [19891] = {["buffID"] = 19891, ["class"] = "PALADIN",["additionalBuffs"] = {19899,19900}}, -- Fire resistance Aura
     [19888] = {["buffID"] = 19888, ["class"] = "PALADIN",["additionalBuffs"] = {19897,19898}}, -- Frost resistance Aura
     [7294] = {["buffID"] = 7294, ["class"] = "PALADIN",["additionalBuffs"] = {10298,10299,10300,10301}}, -- Retribution Aura
-    [1038] = {["buffID"] = 1038, ["class"] = "PALADIN"}, -- Salvation
     [5502] = {["buffID"] = 5502, ["class"] = "PALADIN"}, -- Sense Undead
     [19876] = {["buffID"] = 19876, ["class"] = "PALADIN",["additionalBuffs"] = {19895,19896}}, -- Shadow Resistance Aura
 
