@@ -4,8 +4,9 @@ local BagCache = EasyReminders.BagCache
 
 local bagContentsCache = {}
 
-function BagCache:RefreshBags(inventoryChange)
+function BagCache:RefreshBags()
     bagContentsCache = {}
+    EasyReminders.charDB.currentInventory = {}
       -- Loop through player bags (0 is backpack, 1-4 are additional bags, 5 reagent bag)
     for bag = 0, 5 do
         -- Check if the bag exists/is accessible
@@ -24,8 +25,7 @@ function BagCache:RefreshBags(inventoryChange)
                     end
                     
                     bagContentsCache[itemID] = stackCount
-
-                    if inventoryChange and EasyReminders.charDB.shopping[itemID] and EasyReminders.charDB.shopping[itemID] > 0 then
+                    if EasyReminders.charDB.shopping[itemID] and EasyReminders.charDB.shopping[itemID] > 0 then
                         EasyReminders.charDB.currentInventory[itemID] = stackCount
                     end
 
