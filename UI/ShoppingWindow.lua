@@ -9,6 +9,7 @@ local shownShoppingItems = {}
 local trackedItems = {}
 
 local loginPending = 2
+local onUsePending = false
 
 local currentZone = 0
 
@@ -141,6 +142,11 @@ function ShoppingWindow:UpdateNotifications(type)
     if not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
     and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
 
+        if type == "TIMER" and onUsePending then
+            _type = "ON_USE"
+            onUsePending = false
+        end
+
         -- Only check for ON_USE if one of our tracked items was used
         -- Otherwise we end up with false alarms
         if EasyReminders.charDB.shoppingNotifications.ON_USE then
@@ -210,6 +216,8 @@ function ShoppingWindow:UpdateNotifications(type)
         else
             frame.frame:Hide()
         end
+    elseif _type == "ON_USE" then
+        onUsePending = true
     end
 end
 

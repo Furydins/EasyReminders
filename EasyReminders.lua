@@ -234,7 +234,7 @@ function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
             newInInstance = false
         end
         if arg1 or arg2 then
-            EasyReminders.BagCache:RefreshBags(false)
+            EasyReminders.BagCache:RefreshBags()
             EasyReminders:CheckBuffs("LOGIN")
         elseif not newInInstance and inInstance then -- TODO: Exclude Garrison and hosue exits!
             EasyReminders:CheckBuffs("INSTANCE_EXIT")
@@ -243,7 +243,7 @@ function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
         end
         inInstance = newInInstance
     elseif "BAG_UPDATE_DELAYED" == event then
-        EasyReminders.BagCache:RefreshBags(true)
+        EasyReminders.BagCache:RefreshBags()
         EasyReminders:CheckBuffs("ON_USE")
     elseif "UNIT_AURA" == event and "player" == arg1 then
         EasyReminders:CheckBuffs("BUFF_CHANGE")
