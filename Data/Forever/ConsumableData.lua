@@ -44,10 +44,4 @@ EasyReminders.Data.Consumables = {
     [250336] = {["itemID"] = 250336, ["buffID"] = 1250932, ["expansion"] = EasyReminders.Data.Expansions.FOREVER},  
     [250351] = {["itemID"] = 250351, ["buffID"] = 1250986, ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
 
-    -- World Drops
-    [2454] = {["itemID"] = 2454, ["buffID"] = 2367, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Minor Strength
-
-    -- Scrolls
-    [3013] = {["itemID"] = 3013, ["buffID"] = 8091, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Protection
-    
 }
