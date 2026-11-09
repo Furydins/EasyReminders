@@ -205,6 +205,7 @@ function ShoppingWindow:UpdateNotifications(type)
                 group:AddChild(dismissButton)
                 dismissButton:SetCallback("OnClick", function(widget)
                     group.frame:Hide()
+                    loginPending = 0
                 end)
                 table.insert(shownShoppingItems, group)
                 shouldShow = true
@@ -225,6 +226,7 @@ function ShoppingWindow:DimissAll(shownItems)
      for i, data in pairs(shownItems) do
        data.frame:Hide()
     end
+    loginPending = 0
 end
 
 function ShoppingWindow:HideShoppingWindow()
