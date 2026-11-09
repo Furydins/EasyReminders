@@ -94,5 +94,4 @@ function ConsumableCheck:CheckBuffs(missingBuffs)
         end     
     end
   end
-  EasyReminders.BagCache:RefreshBags()
 end
