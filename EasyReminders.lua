@@ -234,7 +234,6 @@ function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
             newInInstance = false
         end
         if arg1 or arg2 then
-            EasyReminders.BagCache:RefreshBags()
             EasyReminders:CheckBuffs("LOGIN")
         elseif not newInInstance and inInstance then -- TODO: Exclude Garrison and hosue exits!
             EasyReminders:CheckBuffs("INSTANCE_EXIT")
