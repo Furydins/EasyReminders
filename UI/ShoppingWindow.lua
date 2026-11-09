@@ -142,6 +142,17 @@ function ShoppingWindow:UpdateNotifications(type)
     if not _G.InCombatLockdown() and not C_ChallengeMode.IsChallengeModeActive() 
     and not C_PvP.IsMatchActive() and not (C_Secrets and C_Secrets.ShouldAurasBeSecret()) then
 
+        -- Only check for ON_USE if one of our tracked items was used
+        -- Otherwise we end up with false alarms
+        if EasyReminders.charDB.shoppingNotifications.ON_USE then
+            if ("ON_USE" == type) and wasTrackedItemUsed() then
+                _type = "ON_USE"
+            elseif "ON_USE" == type then
+                _type = "IGNORE"
+            end
+            recordTrackedItems()
+        end
+
         if type == "TIMER" and onUsePending then
             _type = "ON_USE"
             onUsePending = false
@@ -217,7 +228,7 @@ function ShoppingWindow:UpdateNotifications(type)
         else
             frame.frame:Hide()
         end
-    elseif _type == "ON_USE" then
+    elseif _type == "ON_USE" and wasTrackedItemUsed()then
         onUsePending = true
     end
 end

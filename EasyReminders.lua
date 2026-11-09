@@ -25,6 +25,8 @@ local inInstance, instanceType
 
 local loadFrame
 
+EasyReminders.firstLogin = false
+
 function EasyReminders:OnInitialize()
 
     -- Determine version
@@ -246,9 +248,17 @@ function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
             EasyReminders:CheckBuffs("ZONE_CHANGE")
         end
         inInstance = newInInstance
+        if arg1 then
+            EasyReminders.firstLogin = true
+        end
     elseif "BAG_UPDATE_DELAYED" == event then
         EasyReminders.BagCache:RefreshBags()
-        EasyReminders:CheckBuffs("ON_USE")
+        if firstLogin then
+            EasyReminders.firstLogin = false
+            EasyReminders:CheckBuffs("LOGIN")
+        else
+            EasyReminders:CheckBuffs("ON_USE")
+        end
     elseif "UNIT_AURA" == event and "player" == arg1 then
         EasyReminders:CheckBuffs("BUFF_CHANGE")
     elseif "PLAYER_REGEN_ENABLED" == event then
