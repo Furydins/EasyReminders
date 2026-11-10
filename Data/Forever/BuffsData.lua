@@ -27,6 +27,7 @@ EasyReminders.Data.Buffs = {
     [19884] = {["buffID"] = 19884, ["class"] = "HUNTER"}, -- Track Undead
 
     -- Mage
+    [168] = {["buffID"] = 168, ["class"] = "MAGE",  ["additionalBuffs"] = {7300}}, -- Frost Armor
     [23028] = {["buffID"] = 23028, ["class"] = "MAGE"}, -- Arcane Brilliance
     [1459] = {["buffID"] = 1459, ["class"] = "MAGE", ["additionalBuffs"] = {1460,1461,10156,10157}}, -- Arcane Intellect
     [6117] = {["buffID"] = 6117, ["class"] = "MAGE", ["additionalBuffs"] = {22782,1422783}}, -- Mage Armor
