@@ -24,15 +24,15 @@ EasyReminders.Data.GearSlots = {
 }
 
 EasyReminders.Data.GearConsumables = {
-    [20758] = {["itemID"] = 20758, ["slotID"] = 16, ["buffIDs"] = {25117}}, --  Minor Wizard Oil
-    [20753] = {["itemID"] = 20753, ["slotID"] = 16, ["buffIDs"] = {25119}}, --  Lesser Wizard Oil
-    [20756] = {["itemID"] = 20756, ["slotID"] = 16, ["buffIDs"] = {25123}}, --  Brilliant Wizard Oil
-    [20752] = {["itemID"] = 20752, ["slotID"] = 16, ["buffIDs"] = {25118}}, --  Minor Mana Oil
-    [20754] = {["itemID"] = 20754, ["slotID"] = 16, ["buffIDs"] = {25120}}, --  Lesser Mana Oil
-    [20757] = {["itemID"] = 20757, ["slotID"] = 16, ["buffIDs"] = {25123}}, --  Brilliant Mana Oil
+    [20744] = {["itemID"] = 20744, ["slotID"] = 16, ["buffIDs"] = {25117}}, --  Minor Wizard Oil
+    [20746] = {["itemID"] = 20746, ["slotID"] = 16, ["buffIDs"] = {25119}}, --  Lesser Wizard Oil
+    [20749] = {["itemID"] = 20749, ["slotID"] = 16, ["buffIDs"] = {25123}}, --  Brilliant Wizard Oil
+    [20745] = {["itemID"] = 20745, ["slotID"] = 16, ["buffIDs"] = {25118}}, --  Minor Mana Oil
+    [20747] = {["itemID"] = 20747, ["slotID"] = 16, ["buffIDs"] = {25120}}, --  Lesser Mana Oil
+    [20748] = {["itemID"] = 20748, ["slotID"] = 16, ["buffIDs"] = {25123}}, --  Brilliant Mana Oil
 
-    [232610] = {["itemID"] = 232610, ["slotID"] = 17, ["buffIDs"] = {471401}}, --  Magnificent Trollshine
-    [228981] = {["itemID"] = 228981, ["slotID"] = 17, ["buffIDs"] = {463868}}, --  Conductive Shield Coating
+    [232611] = {["itemID"] = 232611, ["slotID"] = 17, ["buffIDs"] = {471401}}, --  Magnificent Trollshine
+    [228980] = {["itemID"] = 228980, ["slotID"] = 17, ["buffIDs"] = {463868}}, --  Conductive Shield Coating
 
     [2862] = {["itemID"] = 2862, ["slotID"] = 17, ["buffIDs"] = {2828}, ["otherIds"] = {287978}}, --  Rough SSharpening Stone
     [2863] = {["itemID"] = 2863, ["slotID"] = 17, ["buffIDs"] = {2829}}, --  Coarse Sharpening Stone
@@ -46,6 +46,9 @@ EasyReminders.Data.GearConsumables = {
     [3241] = {["itemID"] = 3241, ["slotID"] = 17, ["buffIDs"] = {3114},}, --  Heavy Weightstone
     [7965] = {["itemID"] = 7965, ["slotID"] = 17, ["buffIDs"] = {9903}}, --  Solid Weightstone
     [12643] = {["itemID"] = 12643, ["slotID"] = 17, ["buffIDs"] = {16622}}, --  Dense Weightstone
+
+    -- Drops
+    [275067] = {["itemID"] = 275067, ["slotID"] = 17, ["buffIDs"] = {8698}}, -- Scroll of Imbue CHillknife
 
 }
 
