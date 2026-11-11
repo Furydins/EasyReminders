@@ -174,18 +174,28 @@ function ConsumablesTab:RebuildScrollBox()
 
     local activeDropdown = EasyReminders.AceGUI:Create("Dropdown")
     activeDropdown:SetWidth(150)
-    activeDropdown:SetList({
-      ["Raid"] = L["Raid"],
-      ["Dungeon"] = L["Dungeon"],
-      ["Delve"] = L["Delve"],
-      ["Outside"] = L["Outside"],
-    })
+    if EasyReminders.RETAIL then 
+      activeDropdown:SetList({
+        ["Raid"] = L["Raid"],
+        ["Dungeon"] = L["Dungeon"],
+        ["Delve"] = L["Delve"],
+        ["Outside"] = L["Outside"],
+      })
+    else
+      activeDropdown:SetList({
+        ["Raid"] = L["Raid"],
+        ["Dungeon"] = L["Dungeon"],
+        ["Outside"] = L["Outside"],
+      })  
+    end
 
     EasyReminders.charDB.potions[data.itemID] = EasyReminders.charDB.potions[data.itemID] or {}
     activeDropdown:SetMultiselect(true)
     activeDropdown:SetItemValue("Raid", EasyReminders.charDB.potions[data.itemID].raid or false)
     activeDropdown:SetItemValue("Dungeon", EasyReminders.charDB.potions[data.itemID].dungeon or false)
-    activeDropdown:SetItemValue("Delve", EasyReminders.charDB.potions[data.itemID].delve or false)
+    if EasyReminders.RETAIL then 
+      activeDropdown:SetItemValue("Delve", EasyReminders.charDB.potions[data.itemID].delve or false)
+    end
     activeDropdown:SetItemValue("Outside", EasyReminders.charDB.potions[data.itemID].outside or false)
     scrollBox:AddChild(activeDropdown)
     activeDropdown:SetCallback("OnValueChanged", function(_,_,key, checked)
