@@ -47,7 +47,8 @@ EasyReminders.Data.Consumables = {
      -- World Drops
     -- Elixirs
     [2454] = {["itemID"] = 2454, ["buffID"] = 2367, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Minor Strength
-
+    [3382] = {["itemID"] = 3382, ["buffID"] = 3219, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Minor Trolls Blood Exlir
+    
     -- Scrolls
     [3013] = {["itemID"] = 3013, ["buffID"] = 8091, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Protection
     [1181] = {["itemID"] = 1181, ["buffID"] = 8112, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Spirit

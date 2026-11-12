@@ -47,7 +47,8 @@ function BuffTab:RebuildScrollBox()
   local entries = {}
 
   for key, data in pairs(EasyReminders.BuffCache)  do
-    if not data.class or data.class == class then
+    if (not data.class and  C_SpellBook.IsSpellInSpellBook(data.buffID)) or data.class == class then
+
       local spellInfo = C_Spell.GetSpellInfo(data.buffID)
       local buffName = (spellInfo and spellInfo.name) or L["Loading..."]
 
@@ -56,6 +57,7 @@ function BuffTab:RebuildScrollBox()
         spellInfo = spellInfo,
         buffName = buffName,
       })
+
     end
   end
 
