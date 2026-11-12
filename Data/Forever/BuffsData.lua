@@ -31,6 +31,7 @@ EasyReminders.Data.Buffs = {
     [23028] = {["buffID"] = 23028, ["class"] = "MAGE"}, -- Arcane Brilliance
     [1459] = {["buffID"] = 1459, ["class"] = "MAGE", ["additionalBuffs"] = {1460,1461,10156,10157}}, -- Arcane Intellect
     [6117] = {["buffID"] = 6117, ["class"] = "MAGE", ["additionalBuffs"] = {22782,1422783}}, -- Mage Armor
+    [604] = {["buffID"] = 604, ["class"] = "MAGE", ["additionalBuffs"] = {8450,9451,10173,10174}}, -- Dampen Magic
 
     -- Paladin
     [20217] = {["buffID"] = 20217, ["class"] = "PALADIN", ["additionalBuffs"] = {25898,25916}}, -- Blessing of Kings
@@ -65,6 +66,9 @@ EasyReminders.Data.Buffs = {
     [2457] = {["buffID"] = 2457, ["class"] = "WARRIOR"}, -- Battle Stance
     [71] = {["buffID"] = 71, ["class"] = "WARRIOR"}, -- Defensive Stance
 
+    -- Professions
+    [2383] = {["buffID"] = 2383, ["additionalBuffs"] = {8387}}, -- Find Herbs
+    [2580] = {["buffID"] = 2580, ["additionalBuffs"] = {8388}}, -- Find Minerals
 
 }
 
