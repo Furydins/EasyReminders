@@ -49,6 +49,7 @@ EasyReminders.Data.GearConsumables = {
 
     -- Drops
     [275067] = {["itemID"] = 275067, ["slotID"] = 17, ["buffIDs"] = {8698}}, -- Scroll of Imbue CHillknife
+    [274947] = {["itemID"] = 274947, ["slotID"] = 17, ["buffIDs"] = {8700}}, -- Scroll of Imbue Lesser Flame
 
 }
 
