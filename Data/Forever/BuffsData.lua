@@ -70,5 +70,8 @@ EasyReminders.Data.Buffs = {
     [2383] = {["buffID"] = 2383, ["additionalBuffs"] = {8387}}, -- Find Herbs
     [2580] = {["buffID"] = 2580, ["additionalBuffs"] = {8388}}, -- Find Minerals
 
+    -- Racials
+    [2481] = {["buffID"] = 2481}, -- Find Treasure
+
 }
 
