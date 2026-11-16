@@ -65,7 +65,8 @@ function BuffCheck:CheckBuffs(missingBuffs)
      end)
     for spellID, buffIDs in pairs(trackingList) do
       local expectedClass = EasyReminders.BuffCache[spellID].class
-        if not expectedClass or expectedClass == class then
+      local spellCooldown = C_Spell.GetSpellCooldown(spellID)
+        if (not expectedClass or expectedClass == class) and ((not spellCooldown) or (not spellCooldown.isActive))  then
             local buffMissing = true
             for i, buffID in pairs(buffIDs) do
                 if foundbuffs[buffID] and (not(foundbuffs[buffID].remainingTime) or foundbuffs[buffID].remainingTime >= (EasyReminders.charDB.buffMinTime * 60)) then

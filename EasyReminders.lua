@@ -235,9 +235,14 @@ end
 function EasyReminders.EventHandler(self, event, arg1, arg2, arg3, arg4, ...)
     if "PLAYER_ENTERING_WORLD" == event then
         local newInInstance = _G.IsInInstance()
-        local _, instanceType = _G.GetInstanceInfo()
+        local _, instanceType,_ ,_,_,_,instanceID = _G.GetInstanceInfo()
     
         if newInInstance and ("interior" == instanceType or "neighborhood" == instanceType) then
+            newInInstance = false
+        end
+        if instanceID == 1158 or instanceID == 1159 or instanceID == 1160 
+            or instanceID == 1131 or instanceID == 1152 or instanceID == 1153 or
+            instanceID == 1154 or instanceID == 1130 then -- Exclude Garrison exits
             newInInstance = false
         end
         if arg1 or arg2 then
