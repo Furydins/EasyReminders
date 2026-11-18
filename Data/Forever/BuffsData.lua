@@ -50,13 +50,6 @@ EasyReminders.Data.Buffs = {
     [1243] = {["buffID"] = 1243, ["class"] = "PRIEST",["additionalBuffs"] = {1244,1245,2791,10937,10938}}, --Power Word: Fortitude
     [976] = {["buffID"] = 976, ["class"] = "PRIEST",["additionalBuffs"] = {10957,10958}}, -- Shadow Protection
 
-    -- Rogue
-    [3408] = {["buffID"] = 3408, ["class"] = "ROGUE",["additionalBuffs"] = {11201}}, -- Crippling Poison
-    [5761] = {["buffID"] = 5761, ["class"] = "ROGUE",["additionalBuffs"] = {8693,11399}}, -- Mind-Numbing Poison
-    [8679] = {["buffID"] = 8679, ["class"] = "ROGUE",["additionalBuffs"] = {8686,8688,11338,11339,11340}}, -- Instant Poison
-    [2823] = {["buffID"] = 2823, ["class"] = "ROGUE", ["additionalBuffs"] = {2824,11355,11356,25351}}, -- Deadly Poison
-    [13219] = {["buffID"] = 13219, ["class"] = "ROGUE", ["additionalBuffs"] = {13218,13221,13222,13223,13224}}, -- Wound Poison
-
     -- Warlock
     [11743] = {["buffID"] = 11743, ["class"] = "WARLOCK", ["additionalBuffs"] = {2970}}, -- Detect Invisibility
     

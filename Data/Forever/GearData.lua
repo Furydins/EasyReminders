@@ -54,6 +54,13 @@ EasyReminders.Data.GearConsumables = {
 }
 
 EasyReminders.Data.ClassEnchants = {
+    -- Info from SpellItemEnchantment
+    -- Rogue
+    [8679] = {["buffID"] = 323, ["otherIds"] = {324,325,623,624,625}, ["spellID"] = 8679, ["slotIDs"] = {16,17}, ["class"] = "ROGUE"}, -- Instant Poison
+    [3408] = {["buffID"] = 22, ["otherIds"] = {603}, ["spellID"] = 3408, ["slotIDs"] = {16,17}, ["class"] = "ROGUE"}, -- Crippling Poison
+    [5761] = {["buffID"] = 35, ["otherIds"] = {23,643}, ["spellID"] = 5761, ["slotIDs"] = {16,17}, ["class"] = "ROGUE"}, --  Mind Numbing Poison
+    [2823] = {["buffID"] = 7, ["otherIds"] = {8,626, 627, 2630}, ["spellID"] = 2823, ["slotIDs"] = {16,17}, ["class"] = "ROGUE"}, -- Deadly Poison
+    [13219] = {["buffID"] = 703, ["otherIds"] = {704,705, 706}, ["spellID"] = 13219, ["slotIDs"] = {16,17}, ["class"] = "ROGUE"}, -- Wound Poison
 
 }
 
