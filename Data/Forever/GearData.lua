@@ -64,3 +64,7 @@ EasyReminders.Data.ClassEnchants = {
 
 }
 
+EasyReminders.Data.GearSlotsNames = {
+    [16] = L["Main Hand"],
+    [17] = L["Off Hand"],
+}

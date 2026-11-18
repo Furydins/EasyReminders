@@ -1,5 +1,8 @@
 local L = LibStub("AceLocale-3.0"):NewLocale("EasyReminders", "enUS", true)
 
+L["Main Hand"] = "Main Hand"
+L["Off Hand"] = "Off Hand"
+
 L["15 Minutes"] = "15 Minutes"
 L["Active Events"] = "Active Events"
 L["Add Buff"] = "Add Buff"
