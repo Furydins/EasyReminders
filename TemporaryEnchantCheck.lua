@@ -7,13 +7,18 @@ local TrackingList = {}
 
 --   dataCache[data.itemID] = {data.buffID, itemName, itemIcon, spellInfo, potionName, buffName, foodName}
 
-local function hasEnchant(enchantID, buffIDs)
-  for _, buffID in pairs(buffIDs) do
-    if enchantID == buffID then
-      return true
-    end
+local function contains(list, x)
+	for _, v in ipairs(list) do
+		if v == x then return true end
+	end
+	return false
+end
+
+local function matchBuff(buffToMatch, buffId, buffIds)
+  if buffToMatch == buffId then
+    return true
   end
-  return false
+  return contains(buffIds, buffToMatch)
 end
 
 function TemporaryEnchantCheck:BuildTrackingList()
@@ -62,19 +67,19 @@ function TemporaryEnchantCheck:BuildTrackingList()
 
      if EasyReminders.charDB.gearImbues[data.buffID] then
         if EasyReminders.charDB.gearImbues[data.buffID].outside then
-          TrackingList.outside[data.buffID] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = data.slotID }
+          TrackingList.outside[data.buffID] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = data.slotID, ["slotIds"] = data.slotIDs }
         end
         if EasyReminders.charDB.gearImbues[data.buffID].dungeon then
-          TrackingList.dungeon[data.buffID] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = data.slotID } 
+          TrackingList.dungeon[data.buffID] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = data.slotID, ["slotIds"] = data.slotIDs } 
         end
         if EasyReminders.charDB.gearImbues[data.buffID].raid then
-          TrackingList.raid[data.buffID] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = data.slotID }
+          TrackingList.raid[data.buffID] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = data.slotID, ["slotIds"] = data.slotIDs }
         end
         if EasyReminders.charDB.gearImbues[data.buffID].pvp then
-          TrackingList.pvp[data.buffID] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = data.slotID }
+          TrackingList.pvp[data.buffID] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = data.slotID, ["slotIds"] = data.slotIDs }
         end
         if EasyReminders.charDB.gearImbues[data.buffID].delve then
-          TrackingList.delve[data.buffID] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = data.slotID }
+          TrackingList.delve[data.buffID] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = data.slotID, ["slotIds"] = data.slotIDs }
         end
       end
     end
@@ -115,11 +120,13 @@ function TemporaryEnchantCheck:CheckEnchants(missingEnchants)
                 itemIcon = EasyReminders.DataCache[itemID][3]
             end
             if data.slotID == 16 then
-                if not hasMainHandEnchant or mainHandExpiration <= (EasyReminders.charDB.gearMinTime * 60 * 1000) or not hasEnchant(mainHandEnchantID, data.buffIDs) then
+                local enchantInfo = C_PaperDollInfo.GetTemporaryEnchantmentInfo(_G.INVSLOT_MAINHAND)
+                if (not enchantInfo) or enchantInfo.remainingTimeMs <= (EasyReminders.charDB.gearMinTime * 60 * 1000) or not contains(data.buffIDs, mainHandEnchantID) then
                     missingEnchants[itemID] = itemIcon
                 end
             elseif data.slotID == 17 then
-                if not hasOffHandEnchant or offHandExpiration <= (EasyReminders.charDB.gearMinTime * 60 * 1000) or not hasEnchant(offHandEnchantID, data.buffIDs) then
+                local enchantInfo = C_PaperDollInfo.GetTemporaryEnchantmentInfo(_G.INVSLOT_OFFHAND)
+                if (not enchantInfo) or enchantInfo.remainingTimeMs <= (EasyReminders.charDB.gearMinTime * 60 * 1000) or not contains(data.buffIDs, offHandEnchantID) then
                     missingEnchants[itemID] = itemIcon      
                 end
             end
@@ -127,12 +134,14 @@ function TemporaryEnchantCheck:CheckEnchants(missingEnchants)
       else
           local spellInfo = C_Spell.GetSpellInfo(data.spellID)
           local spellIcon = spellInfo and spellInfo.iconID or nil
-           if data.slotID == 16 then          
-                if not hasMainHandEnchant or mainHandExpiration <= (EasyReminders.charDB.gearMinTime * 60 * 1000) or mainHandEnchantID ~= data.buffID then
+           if (data.slotID and data.slotID == 16) or (data.slotIds and contains(data.slotIds, 16)) then          
+                local enchantInfo = C_PaperDollInfo.GetTemporaryEnchantmentInfo(_G.INVSLOT_MAINHAND)
+                if (not enchantInfo) or enchantInfo.remainingTimeMs <= (EasyReminders.charDB.gearMinTime * 60 * 1000) or not matchBuff(mainHandEnchantID, data.buffID, data.otherIds) then
                   missingEnchants[data.spellID] = spellIcon
                 end
-            elseif data.slotID == 17 then
-                if not hasOffHandEnchant or offHandExpiration <= (EasyReminders.charDB.gearMinTime * 60 * 1000) or offHandEnchantID ~= data.buffID then
+            elseif (data.slotID and data.slotID == 17) or (data.slotIds and contains(data.slotIds, 17)) then
+                local enchantInfo = C_PaperDollInfo.GetTemporaryEnchantmentInfo(_G.INVSLOT_OFFHAND)
+                if (not enchantInfo) or enchantInfo.remainingTimeMs <= (EasyReminders.charDB.gearMinTime * 60 * 1000) or not matchBuff(offHandEnchantID, data.buffID, data.otherIds) then
                     missingEnchants[data.spellID] = spellIcon      
                 end
             end
