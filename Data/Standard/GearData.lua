@@ -35,7 +35,11 @@ EasyReminders.Data.GearConsumables = {
 }
 
 EasyReminders.Data.ClassEnchants = {
-    [33757] = {["buffID"] = 5401, ["spellID"] = 33757, ["slotID"] = 16, ["class"] = "SHAMAN"},
-    [318038] =  {["buffID"] = 5400, ["spellID"] = 318038, ["slotID"] = 17, ["class"] = "SHAMAN"},
+    [33757] = {["buffID"] = 5401, ["spellID"] = 33757, ["slotIDs"] = { 16 }, ["class"] = "SHAMAN"},
+    [318038] =  {["buffID"] = 5400, ["spellID"] = 318038, ["slotIDs"] = { 17 }, ["class"] = "SHAMAN"},
 }
 
+EasyReminders.Data.GearSlotsNames = {
+    [16] = L["Main Hand"],
+    [17] = L["Off Hand"],
+}

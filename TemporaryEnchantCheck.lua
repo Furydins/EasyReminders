@@ -41,19 +41,19 @@ function TemporaryEnchantCheck:BuildTrackingList()
 
     if EasyReminders.charDB.gearConsumables[data.itemID] then
         if EasyReminders.charDB.gearConsumables[data.itemID].outside then
-          TrackingList.outside[data.itemID] = { ["itemIDs"] = itemIDs, ["buffIDs"] = data.buffIDs, ["slotID"] = data.slotID }
+          TrackingList.outside[data.itemID] = { ["itemID"] = data.itemID, ["itemIDs"] = itemIDs, ["buffIDs"] = data.buffIDs, ["slotID"] = data.slotID }
         end
         if EasyReminders.charDB.gearConsumables[data.itemID].dungeon then
-          TrackingList.dungeon[data.itemID] = { ["itemIDs"] = itemIDs, ["buffIDs"] = data.buffIDs, ["slotID"] = data.slotID } 
+          TrackingList.dungeon[data.itemID] = { ["itemID"] = data.itemID, ["itemIDs"] = itemIDs, ["buffIDs"] = data.buffIDs, ["slotID"] = data.slotID } 
         end
         if EasyReminders.charDB.gearConsumables[data.itemID].raid then
-          TrackingList.raid[data.itemID] = { ["itemIDs"] = itemIDs, ["buffIDs"] = data.buffIDs, ["slotID"] = data.slotID }
+          TrackingList.raid[data.itemID] = { ["itemID"] = data.itemID, ["itemIDs"] = itemIDs, ["buffIDs"] = data.buffIDs, ["slotID"] = data.slotID }
         end
         if EasyReminders.charDB.gearConsumables[data.itemID].pvp then
-          TrackingList.pvp[data.itemID] = { ["itemIDs"] = itemIDs, ["buffIDs"] = data.buffIDs, ["slotID"] = data.slotID }
+          TrackingList.pvp[data.itemID] = { ["itemID"] = data.itemID, ["itemIDs"] = itemIDs, ["buffIDs"] = data.buffIDs, ["slotID"] = data.slotID }
         end
         if EasyReminders.charDB.gearConsumables[data.itemID].delve then
-          TrackingList.delve[data.itemID] = { ["itemIDs"] = itemIDs, ["buffIDs"] = data.buffIDs, ["slotID"] = data.slotID }
+          TrackingList.delve[data.itemID] = { ["itemID"] = data.itemID, ["itemIDs"] = itemIDs, ["buffIDs"] = data.buffIDs, ["slotID"] = data.slotID }
         end
     end
   end
@@ -63,23 +63,32 @@ function TemporaryEnchantCheck:BuildTrackingList()
 
     if data.class == class then
       local spellInfo = C_Spell.GetSpellInfo(data.buffID)
-    
+      
+      for _, slotID in ipairs(data.slotIDs) do
+        local keyName = slotID .. "-" .. data.buffID
 
-     if EasyReminders.charDB.gearImbues[data.buffID] then
-        if EasyReminders.charDB.gearImbues[data.buffID].outside then
-          TrackingList.outside[data.buffID] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = data.slotID, ["slotIds"] = data.slotIDs }
+        EasyReminders.charDB.gearImbues[keyName] = EasyReminders.charDB.gearImbues[keyName] or EasyReminders.charDB.gearImbues[data.buffID]
+        -- TODO: Cleanup deprecated entries (Remove in 12.0.0)
+        if EasyReminders.charDB.gearImbues[data.buffID] then
+          EasyReminders.charDB.gearImbues[data.buffID] = nil
         end
-        if EasyReminders.charDB.gearImbues[data.buffID].dungeon then
-          TrackingList.dungeon[data.buffID] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = data.slotID, ["slotIds"] = data.slotIDs } 
-        end
-        if EasyReminders.charDB.gearImbues[data.buffID].raid then
-          TrackingList.raid[data.buffID] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = data.slotID, ["slotIds"] = data.slotIDs }
-        end
-        if EasyReminders.charDB.gearImbues[data.buffID].pvp then
-          TrackingList.pvp[data.buffID] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = data.slotID, ["slotIds"] = data.slotIDs }
-        end
-        if EasyReminders.charDB.gearImbues[data.buffID].delve then
-          TrackingList.delve[data.buffID] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = data.slotID, ["slotIds"] = data.slotIDs }
+
+        if EasyReminders.charDB.gearImbues[keyName] then
+            if EasyReminders.charDB.gearImbues[keyName].outside then
+              TrackingList.outside[keyName] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs }
+            end
+            if EasyReminders.charDB.gearImbues[keyName].dungeon then
+              TrackingList.dungeon[keyName] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs } 
+            end
+            if EasyReminders.charDB.gearImbues[keyName].raid then
+              TrackingList.raid[keyName] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs }
+            end
+            if EasyReminders.charDB.gearImbues[keyName].pvp then
+              TrackingList.pvp[keyName] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs }
+            end
+            if EasyReminders.charDB.gearImbues[keyName].delve then
+              TrackingList.delve[keyName] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs }
+            end
         end
       end
     end
@@ -99,8 +108,8 @@ function TemporaryEnchantCheck:CheckEnchants(missingEnchants)
 
      hasMainHandEnchant, mainHandExpiration, _, mainHandEnchantID, hasOffHandEnchant, offHandExpiration, _, offHandEnchantID, _, _, _, _ = _G.GetWeaponEnchantInfo()
 
-    for itemID, data in pairs(trackingList) do
-   
+    for key, data in pairs(trackingList) do
+      local itemID = data.itemID
       if data.itemIDs then
         local hasItem = false
         local baseItemID = nil
@@ -117,7 +126,8 @@ function TemporaryEnchantCheck:CheckEnchants(missingEnchants)
             if not EasyReminders.DataCache[baseItemID] or not EasyReminders.DataCache[baseItemID][3] then
                 itemIcon = C_Item.GetItemIconByID(baseItemID)
             else
-                itemIcon = EasyReminders.DataCache[itemID][3]
+                itemIcon = (EasyReminders.DataCache[itemID] and EasyReminders.DataCache[itemID][3]) or
+                C_Item.GetItemIconByID(itemID)
             end
             if data.slotID == 16 then
                 local enchantInfo = C_PaperDollInfo.GetTemporaryEnchantmentInfo(_G.INVSLOT_MAINHAND)
