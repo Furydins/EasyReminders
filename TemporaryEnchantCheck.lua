@@ -8,6 +8,7 @@ local TrackingList = {}
 --   dataCache[data.itemID] = {data.buffID, itemName, itemIcon, spellInfo, potionName, buffName, foodName}
 
 local function contains(list, x)
+  if not list then return false end
 	for _, v in ipairs(list) do
 		if v == x then return true end
 	end
