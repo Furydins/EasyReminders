@@ -8,6 +8,7 @@ local TrackingList = {}
 --   dataCache[data.itemID] = {data.buffID, itemName, itemIcon, spellInfo, potionName, buffName, foodName}
 
 local function contains(list, x)
+  if not list then return false end
 	for _, v in ipairs(list) do
 		if v == x then return true end
 	end
@@ -75,19 +76,19 @@ function TemporaryEnchantCheck:BuildTrackingList()
 
         if EasyReminders.charDB.gearImbues[keyName] then
             if EasyReminders.charDB.gearImbues[keyName].outside then
-              TrackingList.outside[keyName] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs }
+              TrackingList.outside[keyName] = { ["buffID"] = data.buffID, ["otherIds"] = data.otherIds, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs }
             end
             if EasyReminders.charDB.gearImbues[keyName].dungeon then
-              TrackingList.dungeon[keyName] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs } 
+              TrackingList.dungeon[keyName] = { ["buffID"] = data.buffID, ["otherIds"] = data.otherIds, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs } 
             end
             if EasyReminders.charDB.gearImbues[keyName].raid then
-              TrackingList.raid[keyName] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs }
+              TrackingList.raid[keyName] = { ["buffID"] = data.buffID, ["otherIds"] = data.otherIds, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs }
             end
             if EasyReminders.charDB.gearImbues[keyName].pvp then
-              TrackingList.pvp[keyName] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs }
+              TrackingList.pvp[keyName] = { ["buffID"] = data.buffID, ["otherIds"] = data.otherIds, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs }
             end
             if EasyReminders.charDB.gearImbues[keyName].delve then
-              TrackingList.delve[keyName] = { ["buffID"] = data.buffID, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs }
+              TrackingList.delve[keyName] = { ["buffID"] = data.buffID, ["otherIds"] = data.otherIds, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs }
             end
         end
       end
