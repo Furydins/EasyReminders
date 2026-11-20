@@ -76,19 +76,19 @@ function TemporaryEnchantCheck:BuildTrackingList()
 
         if EasyReminders.charDB.gearImbues[keyName] then
             if EasyReminders.charDB.gearImbues[keyName].outside then
-              TrackingList.outside[keyName] = { ["buffID"] = data.buffID, ["otherIds"] = data.otherIds, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs }
+              TrackingList.outside[keyName] = { ["buffID"] = data.buffID, ["otherIds"] = data.otherIds, ["spellID"] = data.spellID, ["slotID"] = slotID }
             end
             if EasyReminders.charDB.gearImbues[keyName].dungeon then
-              TrackingList.dungeon[keyName] = { ["buffID"] = data.buffID, ["otherIds"] = data.otherIds, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs } 
+              TrackingList.dungeon[keyName] = { ["buffID"] = data.buffID, ["otherIds"] = data.otherIds, ["spellID"] = data.spellID, ["slotID"] = slotID } 
             end
             if EasyReminders.charDB.gearImbues[keyName].raid then
-              TrackingList.raid[keyName] = { ["buffID"] = data.buffID, ["otherIds"] = data.otherIds, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs }
+              TrackingList.raid[keyName] = { ["buffID"] = data.buffID, ["otherIds"] = data.otherIds, ["spellID"] = data.spellID, ["slotID"] = slotID }
             end
             if EasyReminders.charDB.gearImbues[keyName].pvp then
-              TrackingList.pvp[keyName] = { ["buffID"] = data.buffID, ["otherIds"] = data.otherIds, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs }
+              TrackingList.pvp[keyName] = { ["buffID"] = data.buffID, ["otherIds"] = data.otherIds, ["spellID"] = data.spellID, ["slotID"] = slotID }
             end
             if EasyReminders.charDB.gearImbues[keyName].delve then
-              TrackingList.delve[keyName] = { ["buffID"] = data.buffID, ["otherIds"] = data.otherIds, ["spellID"] = data.spellID, ["slotID"] = slotID, ["slotIds"] = data.slotIDs }
+              TrackingList.delve[keyName] = { ["buffID"] = data.buffID, ["otherIds"] = data.otherIds, ["spellID"] = data.spellID, ["slotID"] = slotID }
             end
         end
       end
@@ -145,12 +145,12 @@ function TemporaryEnchantCheck:CheckEnchants(missingEnchants)
       else
           local spellInfo = C_Spell.GetSpellInfo(data.spellID)
           local spellIcon = spellInfo and spellInfo.iconID or nil
-           if (data.slotID and data.slotID == 16) or (data.slotIds and contains(data.slotIds, 16)) then          
+           if data.slotID and data.slotID == 16 then          
                 local enchantInfo = C_PaperDollInfo.GetTemporaryEnchantmentInfo(_G.INVSLOT_MAINHAND)
                 if (not enchantInfo) or enchantInfo.remainingTimeMs <= (EasyReminders.charDB.gearMinTime * 60 * 1000) or not matchBuff(mainHandEnchantID, data.buffID, data.otherIds) then
                   missingEnchants[data.spellID] = spellIcon
                 end
-            elseif (data.slotID and data.slotID == 17) or (data.slotIds and contains(data.slotIds, 17)) then
+            elseif data.slotID and data.slotID == 17 then
                 local enchantInfo = C_PaperDollInfo.GetTemporaryEnchantmentInfo(_G.INVSLOT_OFFHAND)
                 if (not enchantInfo) or enchantInfo.remainingTimeMs <= (EasyReminders.charDB.gearMinTime * 60 * 1000) or not matchBuff(offHandEnchantID, data.buffID, data.otherIds) then
                     missingEnchants[data.spellID] = spellIcon      
