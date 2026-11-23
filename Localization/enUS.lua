@@ -185,5 +185,5 @@ L["Well Fed"] = "Well Fed"
 L["When enabled will not show reminders for dungeons where legacy loot mode is enabled"] = "When enabled will not show reminders for dungeons where legacy loot mode is enabled"
 L["When enabled will not show reminders for raids where legacy loot mode is enabled"] = "When enabled will not show reminders for raids where legacy loot mode is enabled"
 L["Wrath Timewalking"] = "Wrath Timewalking"
- L["You have completed a Mythic+ dungeon. Remember to reroll your key!"] = "You have completed a Mythic+ dungeon. Remember to reroll your key!"
- 
+L["You have completed a Mythic+ dungeon. Remember to reroll your key!"] = "You have completed a Mythic+ dungeon. Remember to reroll your key!"
+
