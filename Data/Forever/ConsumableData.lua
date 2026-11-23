@@ -55,5 +55,6 @@ EasyReminders.Data.Consumables = {
     [954] = {["itemID"] = 954, ["buffID"] = 8118, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Intellect
     [275069] = {["itemID"] = 275069, ["buffID"] = 1296202, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Rat Familar
     [1180] = {["itemID"] = 1180, ["buffID"] = 8099, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Stamina
+    [3012] = {["itemID"] = 3012, ["buffID"] = 8115, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Agility
     
 }
