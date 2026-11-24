@@ -54,6 +54,18 @@ EasyReminders.Data.GearConsumables = {
     [275067] = {["itemID"] = 275067, ["slotID"] = 17, ["buffIDs"] = {8698}}, -- Scroll of Imbue CHillknife
     [274947] = {["itemID"] = 274947, ["slotID"] = 17, ["buffIDs"] = {8700}}, -- Scroll of Imbue Lesser Flame
 
+    [277489] = {["itemID"] = 277489, ["slotID"] = 17, ["buffIDs"] = {8707}}, -- Scroll of Imbue Spark
+    [277485] = {["itemID"] = 277485, ["slotID"] = 17, ["buffIDs"] = {8709}}, -- Scroll of Imbue Frost
+    [277488] = {["itemID"] = 277488, ["slotID"] = 17, ["buffIDs"] = {8710}}, -- Scroll of Imbue IceKnife
+    [277486] = {["itemID"] = 277486, ["slotID"] = 17, ["buffIDs"] = {8708}}, -- Scroll of ImbueStriking
+    [277487] = {["itemID"] = 277487, ["slotID"] = 17, ["buffIDs"] = {8707}}, -- Scroll of Imbue Baleflame
+    [277494] = {["itemID"] = 277494, ["slotID"] = 17, ["buffIDs"] = {8711}}, -- Scroll of Imbue Accuracy
+    [277496] = {["itemID"] = 277496, ["slotID"] = 17, ["buffIDs"] = {8714}}, -- Scroll of Imbue Balefrost
+    [277497] = {["itemID"] = 277497, ["slotID"] = 17, ["buffIDs"] = {8713}}, -- Scroll of Imbue Flame
+    [277496] = {["itemID"] = 277496, ["slotID"] = 17, ["buffIDs"] = {8714}}, -- Scroll of Imbue Balefrost
+    [277498] = {["itemID"] = 277498, ["slotID"] = 17, ["buffIDs"] = {8715}}, -- Scroll of Imbue Manablade
+    [277495] = {["itemID"] = 277495, ["slotID"] = 17, ["buffIDs"] = {8712}}, -- Scroll of Imbue Quickening
+
 }
 
 EasyReminders.Data.ClassEnchants = {

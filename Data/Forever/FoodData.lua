@@ -60,12 +60,12 @@ EasyReminders.Data.Food = {
     [1017] = {["itemID"] = 1017,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Seasoned Wolf Kabob
     [1082] = {["itemID"] = 1082,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Redridge Ghoulash
     [2679] = {["itemID"] = 2679,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Charred Wolf Meat
-    [185] = {["itemID"] = 185,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Cooked Crab Claw Meat
+    [2682] = {["itemID"] = 2682,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Cooked Crab Claw
 
     [2683] = {["itemID"] = 2683,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Crab Cake
     [2684] = {["itemID"] = 2684,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Coyote Steak
     [3663] = {["itemID"] = 3663,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Murlock Fin Soup
-    [2664] = {["itemID"] = 2664,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Crocolisk Gumbo
+    [3664] = {["itemID"] = 3664,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Crocolisk Gumbo
     [3665] = {["itemID"] = 3665,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, --  Curiously Tasty Omelet
    
 }

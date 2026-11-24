@@ -48,7 +48,7 @@ EasyReminders.Data.Consumables = {
     [2454] = {["itemID"] = 2454, ["buffID"] = 2367, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Minor Strength
     [3382] = {["itemID"] = 3382, ["buffID"] = 3219, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Minor Trolls Blood Exlir
 
-    [2457] = {["itemID"] = 2457 ["buffID"] = 2376, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Minor Agility
+    [2457] = {["itemID"] = 2457, ["buffID"] = 2376, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Minor Agility
     [2458] = {["itemID"] = 2458, ["buffID"] = 2378, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Minor Fortitude
     [3383] = {["itemID"] = 3383, ["buffID"] = 3166, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Wisdom
     [3388] = {["itemID"] = 3388, ["buffID"] = 3222, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Lesser troll's Blood Elixir
@@ -72,8 +72,8 @@ EasyReminders.Data.Consumables = {
     [4424] = {["itemID"] = 4424, ["buffID"] = 8114, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Spirit III
     [10306] = {["itemID"] = 10306, ["buffID"] = 12177, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Spirit IV
 
-    [954] = {["itemID"] = 954, ["buffID"] = 8118, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Intellect
-    [2209] = {["itemID"] = 2209, ["buffID"] = 8097, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Intellect II
+    [955] = {["itemID"] = 955, ["buffID"] = 8118, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Intellect
+    [2290] = {["itemID"] = 2290, ["buffID"] = 8097, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Intellect II
     [4419] = {["itemID"] = 4419, ["buffID"] = 8098, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Intellect III
     [10308] = {["itemID"] = 10308, ["buffID"] = 12176, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Intellect IV
 
@@ -88,5 +88,11 @@ EasyReminders.Data.Consumables = {
     [1477] = {["itemID"] = 1477, ["buffID"] = 8116, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Agility II
     [4425] = {["itemID"] = 4425, ["buffID"] = 8117, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Agility III
     [10309] = {["itemID"] = 10309, ["buffID"] = 12174, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Agility IV
+
+    [954] = {["itemID"] = 954, ["buffID"] = 8118, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Intellect
+    [2289] = {["itemID"] = 2289, ["buffID"] = 8119, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Intellect II
+    [4426] = {["itemID"] = 4426, ["buffID"] = 8120, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Intellect III
+    [10310] = {["itemID"] = 10310, ["buffID"] = 12189, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Intellect IV
+
     
 }
