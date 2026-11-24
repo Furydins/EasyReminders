@@ -40,6 +40,17 @@ EasyReminders.Data.Food = {
     [267341] = {["itemID"] = 267341,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},  
     [250067] = {["itemID"] = 250067, ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
     [250069] = {["itemID"] = 250069,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
+
+    [5525] = {["itemID"] = 5525,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
+    [5526] = {["itemID"] = 5526,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
+    [5527] = {["itemID"] = 5527,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
+    [6038] = {["itemID"] = 6038,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
+    [16766] = {["itemID"] = 16766,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
+    [250081] = {["itemID"] = 250081,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
+    [2663] = {["itemID"] = 2663,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
+
+    [6888] = {["itemID"] = 6888,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
+    [2681] = {["itemID"] = 2681,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
    
 }
 
