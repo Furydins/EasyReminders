@@ -55,6 +55,7 @@ EasyReminders.Data.Food = {
     [733] = {["itemID"] = 733,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
     [724] = {["itemID"] = 724,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
     [2888] = {["itemID"] = 2888,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
+<<<<<<< HEAD
 
     [787] = {["itemID"] = 787,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Slitherskin Mackerel
     [1017] = {["itemID"] = 1017,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Seasoned Wolf Kabob
@@ -67,6 +68,8 @@ EasyReminders.Data.Food = {
     [3663] = {["itemID"] = 3663,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Murlock Fin Soup
     [2664] = {["itemID"] = 2664,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Crocolisk Gumbo
     [3665] = {["itemID"] = 3665,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, --  Curiously Tasty Omelet
+=======
+>>>>>>> main
    
 }
 
