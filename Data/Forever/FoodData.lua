@@ -49,12 +49,13 @@ EasyReminders.Data.Food = {
     [250081] = {["itemID"] = 250081,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
     [2663] = {["itemID"] = 2663,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
 
-    [6888] = {["itemID"] = 6888,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
-    [2681] = {["itemID"] = 2681,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
-    [3220] = {["itemID"] = 3220,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
-    [733] = {["itemID"] = 733,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
-    [724] = {["itemID"] = 724,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
-    [2888] = {["itemID"] = 2888,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
+    [6888] = {["itemID"] = 6888,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Herb Baked Egg
+    [2681] = {["itemID"] = 2681,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Roasted Boar Meat
+    [3220] = {["itemID"] = 3220,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Blood Sausage
+    [733] = {["itemID"] = 733,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Westfall Stew
+    [724] = {["itemID"] = 724,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Goretusk Liver Pie
+    [2888] = {["itemID"] = 2888,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Beer Bated Boar Ribs
+    [6290] = {["itemID"] = 6290,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Brilliant Smallfish
 
     [787] = {["itemID"] = 787,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Slitherskin Mackerel
     [1017] = {["itemID"] = 1017,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Seasoned Wolf Kabob
