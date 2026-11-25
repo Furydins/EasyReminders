@@ -67,6 +67,19 @@ EasyReminders.Data.Food = {
     [3663] = {["itemID"] = 3663,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Murlock Fin Soup
     [3664] = {["itemID"] = 3664,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Crocolisk Gumbo
     [3665] = {["itemID"] = 3665,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, --  Curiously Tasty Omelet
+
+    
+    [3666] = {["itemID"] = 3666,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Gooey Spider Cake
+    [3726] = {["itemID"] = 3726,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Big Bear Steak
+    [3727] = {["itemID"] = 3727,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Hot Lion Chops
+    [3728] = {["itemID"] = 3728,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Tasty Lion Steak
+    [3729] = {["itemID"] = 3729,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, --  Soothing Turtle Bisque
+
+    [4457] = {["itemID"] = 4457,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Barbecued Buzzard Wing
+    [4592] = {["itemID"] = 4592,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Longjaw Mud Snapper
+    [4593] = {["itemID"] = 4593,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Bristle WHisper
+    [4594] = {["itemID"] = 4594,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Rockscale Cod
+    [5095] = {["itemID"] = 5095,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Rainbow Fin Albacore
    
 }
 

@@ -46,7 +46,7 @@ EasyReminders.Data.Consumables = {
 
     -- Elixirs
     [2454] = {["itemID"] = 2454, ["buffID"] = 2367, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Minor Strength
-    [3382] = {["itemID"] = 3382, ["buffID"] = 3219, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Minor Trolls Blood Exlir
+    [3382] = {["itemID"] = 3382, ["buffID"] = 3219, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Minor Trolls Blood Elixir
 
     [2457] = {["itemID"] = 2457, ["buffID"] = 2376, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Minor Agility
     [2458] = {["itemID"] = 2458, ["buffID"] = 2378, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Minor Fortitude
@@ -59,8 +59,20 @@ EasyReminders.Data.Consumables = {
     [3825] = {["itemID"] = 3825, ["buffID"] = 3593, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Lesser Fortitude
     [3826] = {["itemID"] = 3826, ["buffID"] = 3223, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Troll's Blood Elixir
     [5997] = {["itemID"] = 5997, ["buffID"] = 673, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Minor Defense
-    
-    
+
+    [6373] = {["itemID"] = 6373, ["buffID"] = 7844, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Fire Power
+    [8949] = {["itemID"] = 8949, ["buffID"] = 11328, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Agility
+    [8951] = {["itemID"] = 8951, ["buffID"] = 11349, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Defense
+    [9154] = {["itemID"] = 9154, ["buffID"] = 11389, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Draught of Detect Undead
+    [9155] = {["itemID"] = 9155, ["buffID"] = 11390, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Arcane Elixir
+
+    [9179] = {["itemID"] = 9179, ["buffID"] = 11396, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Greater Intellect
+    [9187] = {["itemID"] = 9187, ["buffID"] = 11334, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Greater Agility
+    [9206] = {["itemID"] = 9206, ["buffID"] = 11405, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Greater Strength
+    [9233] = {["itemID"] = 9233, ["buffID"] = 11407, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Detect Demon
+    [9264] = {["itemID"] = 9264, ["buffID"] = 11474, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Shadow Power
+
+
     -- Scrolls
     [3013] = {["itemID"] = 3013, ["buffID"] = 8091, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Protection
     [1478] = {["itemID"] = 1478, ["buffID"] = 8894, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Protection II
