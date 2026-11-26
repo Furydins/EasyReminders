@@ -96,4 +96,4 @@ EasyReminders.Data.Food = {
    
 }
 
-EasyReminders.Data.FoodIcons = {[136000] = true, [132805] = true, [133950] = true, [651601] = true, [894556] = true}
+EasyReminders.Data.FoodIcons = {[136000] = true, [132805] = true, [133950] = true, [651601] = true, [894556] = true, [133943] = true}

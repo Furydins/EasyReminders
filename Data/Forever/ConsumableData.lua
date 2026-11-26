@@ -44,6 +44,8 @@ EasyReminders.Data.Consumables = {
     [250336] = {["itemID"] = 250336, ["buffID"] = 1250932, ["expansion"] = EasyReminders.Data.Expansions.FOREVER},  
     [250351] = {["itemID"] = 250351, ["buffID"] = 1250986, ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
 
+    [20709] = {["itemID"] = 20709, ["buffID"] = 25037, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Rumsey Rum Light
+
     -- Elixirs
     [2454] = {["itemID"] = 2454, ["buffID"] = 2367, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Minor Strength
     [3382] = {["itemID"] = 3382, ["buffID"] = 3219, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Minor Trolls Blood Elixir
