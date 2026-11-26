@@ -69,8 +69,20 @@ EasyReminders.Data.Consumables = {
     [9179] = {["itemID"] = 9179, ["buffID"] = 11396, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Greater Intellect
     [9187] = {["itemID"] = 9187, ["buffID"] = 11334, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Greater Agility
     [9206] = {["itemID"] = 9206, ["buffID"] = 11405, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Greater Strength
-    [9233] = {["itemID"] = 9233, ["buffID"] = 11407, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Detect Demon
+    [9233] = {["itemID"] = 9233, ["buffID"] = 11407, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Draft of Detect Demon
     [9264] = {["itemID"] = 9264, ["buffID"] = 11474, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Shadow Power
+
+    [13445] = {["itemID"] = 13445, ["buffID"] = 11348, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Greater Defense
+    [13447] = {["itemID"] = 13447, ["buffID"] = 17535, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Greater Agility
+    [13452] = {["itemID"] = 13452, ["buffID"] = 17538, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of the Mongoose
+    [13453] = {["itemID"] = 13453, ["buffID"] = 17537, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Brute Force
+    [13454] = {["itemID"] = 13454, ["buffID"] = 17539, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Greater Arcane Elixir
+
+    [13510] = {["itemID"] = 13510, ["buffID"] = 17626, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Flask of the Titans
+    [13511] = {["itemID"] = 13511, ["buffID"] = 17627, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Flask of Distilled Wisdom
+    [13512] = {["itemID"] = 13512, ["buffID"] = 17638, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Flask of Supreme Power
+    [13513] = {["itemID"] = 13513, ["buffID"] = 17629, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Flask of Chromatic Resistance
+    [17708] = {["itemID"] = 17708, ["buffID"] = 21920, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Frost Power
 
 
     -- Scrolls
@@ -106,5 +118,6 @@ EasyReminders.Data.Consumables = {
     [4426] = {["itemID"] = 4426, ["buffID"] = 8120, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Intellect III
     [10310] = {["itemID"] = 10310, ["buffID"] = 12189, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Intellect IV
 
-    
+
+    [211527] = {["itemID"] = 211527, ["buffID"] = 429959, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Cozy Sleeping Bag
 }

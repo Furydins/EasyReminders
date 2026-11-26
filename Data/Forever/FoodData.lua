@@ -81,6 +81,18 @@ EasyReminders.Data.Food = {
     [4593] = {["itemID"] = 4593,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Bristle WHisper
     [4594] = {["itemID"] = 4594,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Rockscale Cod
     [5095] = {["itemID"] = 5095,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Rainbow Fin Albacore
+
+    [5472] = {["itemID"] = 5472,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Kaldorei Spider Kabob
+    [5474] = {["itemID"] = 5474,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Roasted Kodo meat
+    [5476] = {["itemID"] = 5476,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- BFillet of Frenzy
+    [5477] = {["itemID"] = 5477,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Strider Stew
+    [5479] = {["itemID"] = 5479,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Crispy Lizard Tail
+
+    [5470] = {["itemID"] = 5470,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Lean venison
+    [5525] = {["itemID"] = 5525,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Boiled Clams
+    [6316] = {["itemID"] = 6316,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Loch Frenzy Delight
+    [6887] = {["itemID"] = 6887,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Spotted YellowTail
+    [6890] = {["itemID"] = 6890,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Smoked Bear Meat
    
 }
 
