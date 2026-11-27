@@ -6,7 +6,8 @@ EasyReminders.Data.Consumables = {
     [274273] = {["itemID"] = 274273, ["buffID"] = 1293740, ["expansion"] = EasyReminders.Data.Expansions.FOREVER},  
     [274274] = {["itemID"] = 274274, ["buffID"] = 1293741, ["expansion"] = EasyReminders.Data.Expansions.FOREVER},  
     [274275] = {["itemID"] = 274275, ["buffID"] = 1293742, ["expansion"] = EasyReminders.Data.Expansions.FOREVER},  
-    [274276] = {["itemID"] = 274276, ["buffID"] = 1293743, ["expansion"] = EasyReminders.Data.Expansions.FOREVER},  
+    [274276] = {["itemID"] = 274276, ["buffID"] = 1293743, ["expansion"] = EasyReminders.Data.Expansions.FOREVER},
+    [13513] = {["itemID"] = 13513, ["buffID"] = 17629, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Flask of Chromatic Resistance  
 
     -- Elixirs
     [247754] = {["itemID"] = 247754, ["buffID"] = 1245244, ["expansion"] = EasyReminders.Data.Expansions.FOREVER},  
@@ -83,9 +84,12 @@ EasyReminders.Data.Consumables = {
     [13510] = {["itemID"] = 13510, ["buffID"] = 17626, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Flask of the Titans
     [13511] = {["itemID"] = 13511, ["buffID"] = 17627, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Flask of Distilled Wisdom
     [13512] = {["itemID"] = 13512, ["buffID"] = 17638, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Flask of Supreme Power
-    [13513] = {["itemID"] = 13513, ["buffID"] = 17629, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Flask of Chromatic Resistance
     [17708] = {["itemID"] = 17708, ["buffID"] = 21920, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Frost Power
 
+    [20007] = {["itemID"] = 20007, ["buffID"] = 24363, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Mageblood Elixir
+    [21546] = {["itemID"] = 21546, ["buffID"] = 1310077, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of Holy Power
+    [246948] = {["itemID"] = 246948, ["buffID"] = 13038, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Distilled Firewater
+    [250329] = {["itemID"] = 250329, ["buffID"] = 1250920, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Elixir of the Phalanx
 
     -- Scrolls
     [3013] = {["itemID"] = 3013, ["buffID"] = 8091, ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Scroll of Protection

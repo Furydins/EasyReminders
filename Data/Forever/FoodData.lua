@@ -93,6 +93,42 @@ EasyReminders.Data.Food = {
     [6316] = {["itemID"] = 6316,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Loch Frenzy Delight
     [6887] = {["itemID"] = 6887,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Spotted YellowTail
     [6890] = {["itemID"] = 6890,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Smoked Bear Meat
+
+    [8364] = {["itemID"] = 8364,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Mithril Head Trout
+    [10841] = {["itemID"] = 10841,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Goldthorn Tea
+    [12209] = {["itemID"] = 12209,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Lean Wolf Steak
+    [12210] = {["itemID"] = 12210,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Roast Raptor
+    [12212] = {["itemID"] = 12212,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Jungle Stew
+
+    [12213] = {["itemID"] = 12213,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Carrion Surprise
+    [12214] = {["itemID"] = 12214,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Myster Stew
+    [12215] = {["itemID"] = 12215,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Heavy Kodo Stew
+    [12216] = {["itemID"] = 12216,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Spiced Chilli Crab
+    [12217] = {["itemID"] = 12217,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Dragonbreath Chili
+
+    [12218] = {["itemID"] = 12218,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Monster Omelet
+    [12224] = {["itemID"] = 12224,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Crispy Bat Wing
+    [13851] = {["itemID"] = 13851,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Hot Wolf Ribs
+    [13927] = {["itemID"] = 13927,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Cooked Glossy Mightfish
+    [13928] = {["itemID"] = 13928,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Grilled Squid
+
+    [13929] = {["itemID"] = 13929,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Hot Smoked Bass
+    [13930] = {["itemID"] = 13930,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Filet of Redgill
+    [13932] = {["itemID"] = 13932,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Poached Sunscale Salmon
+    [13933] = {["itemID"] = 13933,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Lobster Stew
+    [13934] = {["itemID"] = 13934,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Mightfish Steak
+
+    [13935] = {["itemID"] = 13935,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Baked Salmon
+    [17197] = {["itemID"] = 17197,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Gingerbread Cookie
+    [17198] = {["itemID"] = 17198,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Egg Nog
+    [17222] = {["itemID"] = 17222,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Spider Sausage
+    [18045] = {["itemID"] = 18045,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Tender Wolf Steak
+
+    [18254] = {["itemID"] = 18254,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Run Tum Tuber Surprise
+    [20074] = {["itemID"] = 20074,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Heavy Crocolisk Stew
+    [20452] = {["itemID"] = 20452,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Smoked Desert Dumplings
+    [21023] = {["itemID"] = 21023,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Dirge's Kickin' Chimaerok Chops
+    [21027] = {["itemID"] = 21027,  ["expansion"] = EasyReminders.Data.Expansions.FOREVER}, -- Smoked Sagefish
    
 }
 
